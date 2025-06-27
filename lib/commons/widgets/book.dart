@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'package:e_books/commons/extentions/media_query_ext.dart';
 import 'package:e_books/commons/widgets/buttons.dart';
+import 'package:e_books/commons/widgets/images.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
+import 'package:e_books/core/config/constants/data_type.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-enum BookDetailType { star, progress }
 
 class Book {
   static Widget book({
@@ -40,8 +40,12 @@ class Book {
               height: context.width * .4,
               margin: margin,
               decoration: BoxDecoration(
-                color: AppColors.greenMain,
+                // color: AppColors.greenMain,
                 borderRadius: BorderRadius.circular(8), //
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: AppImage.network(url: 'url'),
               ),
             ),
             // Spacing.horizontal(16),
@@ -103,9 +107,13 @@ class Book {
                   height: context.width * .3,
                   // margin: margin,
                   decoration: BoxDecoration(
-                    color: AppColors.greenMain,
+                    // color: AppColors.greenMain,
                     borderRadius: BorderRadius.circular(8), //
                   ), //
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: AppImage.network(url: 'url'),
+                  ),
                 ),
                 Spacing.horizontal(16),
                 Column(
@@ -175,9 +183,13 @@ class Book {
                   height: context.width * .4,
                   // margin: margin,
                   decoration: BoxDecoration(
-                    color: AppColors.greenMain,
+                    // color: AppColors.greenMain,
                     borderRadius: BorderRadius.circular(8), //
                   ), //
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: AppImage.network(url: 'url'),
+                  ),
                 ),
                 Spacing.horizontal(16),
                 Column(

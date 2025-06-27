@@ -1,0 +1,1 @@
+enum BookDetailType { star, progress }

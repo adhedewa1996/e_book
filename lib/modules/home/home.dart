@@ -1,7 +1,9 @@
 import 'package:e_books/commons/extentions/media_query_ext.dart';
-import 'package:e_books/commons/widgets/book.dart';
+import 'package:e_books/commons/widgets/images.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/commons/widgets/textfield.dart';
+import 'package:e_books/core/config/assets/app_images.dart';
+import 'package:e_books/core/config/constants/data_type.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/modules/books/continue_reading.dart';
 import 'package:e_books/modules/books/list_book.dart';
@@ -20,13 +22,14 @@ class Home extends StatelessWidget {
         centerTitle: true,
         title: Text('HOME', style: context.titleLarge), //
         leading: Icon(
-          Icons.bubble_chart_rounded,
+          Icons.menu_outlined,
+          size: 32,
           color: AppColors.blueMain, //
         ),
         actions: [
-          Icon(
-            Icons.bubble_chart_rounded,
-            color: AppColors.blueMain, //
+          ClipRRect(
+            borderRadius: BorderRadiusGeometry.circular(100),
+            child: AppImage.assets(name: AppImages.userProfile, width: 40),
           ),
           Spacing.horizontal(16),
         ],
