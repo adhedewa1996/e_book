@@ -1,0 +1,15 @@
+{
+    "dart.lineLength": 200,
+    "editor.formatOnSave": true,
+    "dart.previewFlutterUiGuides": true,
+    "dart.previewFlutterUiGuidesCustomTracking": true,
+    // "cmake.configureOnOpen": false,
+    // "dart.flutterSdkPath": "/Users/yoseph/Developer/flutter",
+    // "dart.sdkPath": "/usr/local/Cellar/dart@2.16/2.16.2/libexec",
+    // "dart.sdkPaths": [
+    //     "/usr/local/Cellar/dart@2.16/2.16.2/libexec"
+    // ],
+    "search.useIgnoreFiles": true,
+    "search.useGlobalIgnoreFiles": false,
+    "search.useParentIgnoreFiles": false
+}
