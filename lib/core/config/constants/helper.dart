@@ -11,13 +11,20 @@ class Helper {
 
   static String randomVerticalImage() {
     return [
-      AppVectors.waveSmall1, AppVectors.waveSmall2, AppVectors.waveSmall3, AppVectors.waveSmall4, //
+      AppVectors.waveSmall1,
+      AppVectors.waveSmall2,
+      AppVectors.waveSmall3,
+      AppVectors.waveSmall4, //
     ][Random().nextInt(4)]; //
   }
 
   static Color randomColor() {
     final List<Color> color = [
-      AppColors.blueInfo, AppColors.blueMain, AppColors.redDanger, AppColors.greenMain, AppColors.greenSecondary, //
+      AppColors.blueInfo,
+      AppColors.blueMain,
+      AppColors.redDanger,
+      AppColors.greenMain,
+      AppColors.greenSecondary, //
     ];
     return color[Random().nextInt(color.length - 1)];
   }

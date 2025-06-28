@@ -3,7 +3,13 @@ import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTextField extends StatelessWidget {
-  const AppTextField({super.key, required this.context, required this.hint, required this.controller, this.suffixIcon});
+  const AppTextField({
+    super.key,
+    required this.context,
+    required this.hint,
+    required this.controller,
+    this.suffixIcon,
+  });
 
   final BuildContext context;
   final String hint;
@@ -18,7 +24,10 @@ class AppTextField extends StatelessWidget {
         Spacing.vertical(8),
         Container(
           height: 45,
-          decoration: BoxDecoration(color: AppColors.whiteMain, borderRadius: BorderRadius.circular(10)),
+          decoration: BoxDecoration(
+            color: AppColors.whiteMain,
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: TextFormField(
             cursorHeight: 0,
             focusNode: FocusNode(),
@@ -41,7 +50,10 @@ class AppTextField extends StatelessWidget {
                   ),
                 ),
               ),
-              suffixIconConstraints: BoxConstraints(maxWidth: 100, minWidth: 45),
+              suffixIconConstraints: BoxConstraints(
+                maxWidth: 100,
+                minWidth: 45,
+              ),
             ).applyDefaults(Theme.of(context).inputDecorationTheme),
             // validator: (value) {
             //   if (isRequired) {

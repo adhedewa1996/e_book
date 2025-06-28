@@ -25,6 +25,8 @@ dependencies:
   intl:
   get_it:
   dio:
+  dartz:
+  logger:
   cached_network_image: ^3.3.1
   shimmer: ^3.0.0
   flutter_screenutil:

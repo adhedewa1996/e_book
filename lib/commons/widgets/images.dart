@@ -46,19 +46,40 @@ class AppImage {
 
   static Widget randomImageCover(BuildContext context) {
     return Container(
-      child: AppImage.svg(name: Helper.randomHorizontalImage(), fit: BoxFit.fill, width: context.width, height: context.height),
+      child: AppImage.svg(
+        name: Helper.randomHorizontalImage(),
+        fit: BoxFit.fill,
+        width: context.width,
+        height: context.height,
+      ),
     );
   }
 
   static Widget randomImageCoverVertical(BuildContext context) {
     return Container(
-      child: AppImage.svg(name: Helper.randomVerticalImage(), fit: BoxFit.fill, width: context.width, height: context.height),
+      child: AppImage.svg(
+        name: Helper.randomVerticalImage(),
+        fit: BoxFit.fill,
+        width: context.width,
+        height: context.height,
+      ),
     );
   }
 }
 
 class AppImageCache extends StatefulWidget {
-  const AppImageCache(this.url, {super.key, this.fit, this.height, this.width, this.gaplessPlayback, this.callback, this.color, this.defaultErrorImage, this.isError});
+  const AppImageCache(
+    this.url, {
+    super.key,
+    this.fit,
+    this.height,
+    this.width,
+    this.gaplessPlayback,
+    this.callback,
+    this.color,
+    this.defaultErrorImage,
+    this.isError,
+  });
 
   final String url;
   final BoxFit? fit;

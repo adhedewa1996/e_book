@@ -17,15 +17,43 @@ class AppTheme {
     ),
     textTheme: TextTheme(
       // BOLD
-      titleLarge: GoogleFonts.poppins(fontSize: 24.sp, fontWeight: FontWeight.bold, color: AppColors.textBlack),
-      titleMedium: GoogleFonts.poppins(fontSize: 16.sp, fontWeight: FontWeight.bold, color: AppColors.textBlack),
-      titleSmall: GoogleFonts.poppins(fontSize: 12.sp, fontWeight: FontWeight.bold, color: AppColors.textBlack),
+      titleLarge: GoogleFonts.poppins(
+        fontSize: 24.sp,
+        fontWeight: FontWeight.bold,
+        color: AppColors.textBlack,
+      ),
+      titleMedium: GoogleFonts.poppins(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.bold,
+        color: AppColors.textBlack,
+      ),
+      titleSmall: GoogleFonts.poppins(
+        fontSize: 12.sp,
+        fontWeight: FontWeight.bold,
+        color: AppColors.textBlack,
+      ),
       // SEMI BOLD
-      bodyLarge: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w600, color: AppColors.textBlack),
-      bodyMedium: GoogleFonts.poppins(fontSize: 12.sp, fontWeight: FontWeight.w600, color: AppColors.textBlack),
+      bodyLarge: GoogleFonts.poppins(
+        fontSize: 14.sp,
+        fontWeight: FontWeight.w600,
+        color: AppColors.textBlack,
+      ),
+      bodyMedium: GoogleFonts.poppins(
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w600,
+        color: AppColors.textBlack,
+      ),
       // MEDIUM
-      labelLarge: GoogleFonts.poppins(fontSize: 12.sp, fontWeight: FontWeight.w400, color: AppColors.textBlack),
-      labelMedium: GoogleFonts.poppins(fontSize: 11.sp, fontWeight: FontWeight.w400, color: AppColors.textBlack),
+      labelLarge: GoogleFonts.poppins(
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w400,
+        color: AppColors.textBlack,
+      ),
+      labelMedium: GoogleFonts.poppins(
+        fontSize: 11.sp,
+        fontWeight: FontWeight.w400,
+        color: AppColors.textBlack,
+      ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -35,13 +63,26 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     ),
-    colorScheme: ColorScheme.fromSwatch().copyWith(primary: AppColors.blueMain, secondary: AppColors.blueSeconday, brightness: Brightness.light, surface: AppColors.whiteMain),
+    colorScheme: ColorScheme.fromSwatch().copyWith(
+      primary: AppColors.blueMain,
+      secondary: AppColors.blueSeconday,
+      brightness: Brightness.light,
+      surface: AppColors.whiteMain,
+    ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Colors.transparent,
       contentPadding: const EdgeInsets.all(12),
-      hintStyle: GoogleFonts.poppins(fontSize: 12.sp, fontWeight: FontWeight.w400, color: AppColors.greenMain),
-      labelStyle: GoogleFonts.poppins(fontSize: 12.sp, fontWeight: FontWeight.w400, color: AppColors.textBlack),
+      hintStyle: GoogleFonts.poppins(
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w400,
+        color: AppColors.greenMain,
+      ),
+      labelStyle: GoogleFonts.poppins(
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w400,
+        color: AppColors.textBlack,
+      ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide(color: AppColors.greyTeritary),
@@ -64,7 +105,11 @@ class AppTheme {
         filled: true,
         fillColor: Colors.transparent,
         contentPadding: const EdgeInsets.all(12),
-        hintStyle: GoogleFonts.poppins(fontSize: 12.sp, fontWeight: FontWeight.w400, color: AppColors.textBlack),
+        hintStyle: GoogleFonts.poppins(
+          fontSize: 12.sp,
+          fontWeight: FontWeight.w400,
+          color: AppColors.textBlack,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),
           borderSide: BorderSide(color: AppColors.redDanger),

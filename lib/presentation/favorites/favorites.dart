@@ -4,7 +4,7 @@ import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/core/config/assets/app_images.dart';
 import 'package:e_books/core/config/constants/helper.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
-import 'package:e_books/modules/books/list_book.dart';
+import 'package:e_books/presentation/home/getx/books/list_book.dart';
 import 'package:flutter/material.dart';
 
 class Favorites extends StatelessWidget {
@@ -41,7 +41,10 @@ class Favorites extends StatelessWidget {
             ListBook(
               header: Column(
                 children: [
-                  Text('Your Favorite are here!', style: context.titleMedium), //
+                  Text(
+                    'Your Favorite are here!',
+                    style: context.titleMedium,
+                  ), //
                   Spacing.vertical(16),
                   Container(
                     height: 200,

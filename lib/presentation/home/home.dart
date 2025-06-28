@@ -5,10 +5,12 @@ import 'package:e_books/commons/widgets/textfield.dart';
 import 'package:e_books/core/config/assets/app_images.dart';
 import 'package:e_books/core/config/constants/data_type.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
-import 'package:e_books/modules/books/continue_reading.dart';
-import 'package:e_books/modules/books/list_book.dart';
-import 'package:e_books/modules/books/slider_book.dart';
+import 'package:e_books/presentation/home/getx/books/continue_reading.dart';
+import 'package:e_books/presentation/home/getx/books/list_book.dart';
+import 'package:e_books/presentation/home/getx/books/slider_book.dart';
+import 'package:e_books/presentation/home/getx/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key, this.controller});
@@ -34,34 +36,33 @@ class Home extends StatelessWidget {
           Spacing.horizontal(16),
         ],
       ),
-      body: Container(
-        width: context.width,
-        height: context.height,
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        color: AppColors.whiteMain,
-        child: ListView(
-          controller: controller,
-          shrinkWrap: true,
-          children: [
-            Spacing.vertical(32),
-            header(context),
-            Spacing.vertical(32),
-            ContinueReading(),
-            Spacing.vertical(32),
-            SliderBook(),
-            Spacing.vertical(32),
-            ListBook(
-              bookDetailType: BookDetailType.star,
-              header: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Best Sellers', style: context.titleMedium),
-                  Text('All', style: context.labelLarge), //
-                ], //
-              ),
-            ), //
-            Spacing.vertical(context.height * .15),
-          ], //
+      body: RefreshIndicator(
+        onRefresh: () async {
+          Get.find<HomeController>().getData();
+        },
+        child: Container(
+          width: Get.width,
+          height: Get.height,
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          color: AppColors.whiteMain,
+          child: ListView(
+            controller: controller,
+            shrinkWrap: true,
+            children: [
+              Spacing.vertical(32),
+              header(context),
+              Spacing.vertical(32),
+              ContinueReading(),
+              Spacing.vertical(32),
+              SliderBook(),
+              Spacing.vertical(32),
+              ListBook(
+                bookDetailType: BookDetailType.star,
+                header: Text('Best Sellers', style: context.titleMedium),
+              ), //
+              Spacing.vertical(Get.height * .15),
+            ], //
+          ),
         ),
       ),
     );
@@ -69,7 +70,7 @@ class Home extends StatelessWidget {
 
   Widget header(BuildContext context) {
     return SizedBox(
-      width: context.width,
+      width: Get.width,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

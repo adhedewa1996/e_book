@@ -17,7 +17,8 @@ class AppVectors {
 
   static const iconCalendarMonth = '$basePath/icon_calendar_month.$extension';
   static const iconCalendarPlus = '$basePath/icon_calendar_plus.$extension';
-  static const iconCalendarPlusTransparent = '$basePath/icon_calendar_transparent.$extension';
+  static const iconCalendarPlusTransparent =
+      '$basePath/icon_calendar_transparent.$extension';
 
   static const iconCancel = '$basePath/icon_cancel.$extension';
   static const iconSuccess = '$basePath/icon_success.$extension';

@@ -1,7 +1,11 @@
-import 'package:e_books/modules/dashboard/dashboard.dart';
-import 'package:e_books/modules/detail_book/detail_book.dart';
-import 'package:e_books/modules/favorites/favorites.dart';
-import 'package:e_books/modules/home/home.dart';
+import 'package:e_books/presentation/dashboard/dashboard.dart';
+import 'package:e_books/presentation/detail_book/detail_book.dart';
+import 'package:e_books/presentation/detail_book/getx/detail_book_binding.dart';
+import 'package:e_books/presentation/favorites/favorites.dart';
+import 'package:e_books/presentation/home/getx/home_binding.dart';
+import 'package:e_books/presentation/home/home.dart';
+import 'package:e_books/presentation/reading_mode/reading_mode.dart';
+import 'package:e_books/presentation/search/search.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -28,17 +32,31 @@ GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: Routes.detailBook,
+      path: '/detail-book/:id',
       builder: (BuildContext context, GoRouterState state) {
+        final id = state.pathParameters['id'] ?? '';
+        DetailBookBinding(id: id).dependencies();
         return DetailBook();
       },
     ),
+    GoRoute(
+      path: Routes.readingMode,
+      builder: (BuildContext context, GoRouterState state) {
+        return ReadingMode();
+      },
+    ),
+    GoRoute(
+      path: Routes.search,
+      builder: (BuildContext context, GoRouterState state) {
+        return Search();
+      },
+    ),
   ],
-  // redirect: (context, state) {
-  //   final path = state.uri.path;
-  //   if (path == Routes.home) {
-  //     // HomeBinding().dependencies();
-  //   }
-  //   return path;
-  // },
+  redirect: (context, state) {
+    final path = state.uri.path;
+    if (path == Routes.dashboard) {
+      HomeBinding().dependencies();
+    }
+    return path;
+  },
 );

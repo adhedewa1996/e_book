@@ -1,113 +1,137 @@
-// {
-//     "version": "0.2.0",
-//     "configurations": [
-//         {
-//             "name": "[Debug] Development",
-//             "request": "launch",
-//             "type": "dart",
-//             "args": [
-//                 "--flavor",
-//                 "Development",
-//                 "FLAVOR=Development",
-//                 "--no-enable-impeller",
-//             ],
-//             "flutterMode": "debug",
-//         },
-//         {
-//             "name": "[Profile] Development",
-//             "request": "launch",
-//             "type": "dart",
-//             "args": [
-//                 "--flavor",
-//                 "Development",
-//                 "FLAVOR=Development",
-//                 "--no-enable-impeller",
-//             ],
-//             "flutterMode": "profile",
-//         },
-//         {
-//             "name": "[Release] Development",
-//             "request": "launch",
-//             "type": "dart",
-//             "args": [
-//                 "--flavor",
-//                 "Development",
-//                 "FLAVOR=Development",
-//                 "--no-enable-impeller",
-//             ],
-//             "flutterMode": "release",
-//         },
-//         {
-//             "name": "[Debug] Staging",
-//             "request": "launch",
-//             "type": "dart",
-//             "args": [
-//                 "--flavor",
-//                 "Staging",
-//                 "FLAVOR=Staging",
-//                 "--no-enable-impeller",
-//             ],
-//             "flutterMode": "debug",
-//         },
-//         {
-//             "name": "[Profile] Staging",
-//             "request": "launch",
-//             "type": "dart",
-//             "args": [
-//                 "--flavor",
-//                 "Staging",
-//                 "FLAVOR=Staging",
-//                 "--no-enable-impeller",
-//             ],
-//             "flutterMode": "profile",
-//         },
-//         {
-//             "name": "[Release] Staging",
-//             "request": "launch",
-//             "type": "dart",
-//             "args": [
-//                 "--flavor",
-//                 "Staging",
-//                 "FLAVOR=Staging",
-//                 "--no-enable-impeller",
-//             ],
-//             "flutterMode": "release",
-//         },
-//         {
-//             "name": "[Debug] Production",
-//             "request": "launch",
-//             "type": "dart",
-//             "args": [
-//                 "--flavor",
-//                 "Production",
-//                 "FLAVOR=Production",
-//                 "--no-enable-impeller",
-//             ],
-//             "flutterMode": "debug",
-//         },
-//         {
-//             "name": "[Profile] Production",
-//             "request": "launch",
-//             "type": "dart",
-//             "args": [
-//                 "--flavor",
-//                 "Production",
-//                 "FLAVOR=Production",
-//                 "--no-enable-impeller",
-//             ],
-//             "flutterMode": "profile",
-//         },
-//         {
-//             "name": "[Release] Production",
-//             "request": "launch",
-//             "type": "dart",
-//             "args": [
-//                 "--flavor",
-//                 "Production",
-//                 "FLAVOR=Production",
-//                 "--no-enable-impeller",
-//             ],
-//             "flutterMode": "release",
-//         }
-//     ]
-// }
+{
+    "version": "0.2.0",
+    "configurations": [
+        // {
+        //     "name": "[Debug] Development",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "args": [
+        //         "--flavor",
+        //         "Development",
+        //         "FLAVOR=Development",
+        //         "--no-enable-impeller",
+        //     ],
+        //     "flutterMode": "debug",
+        // },
+        // {
+        //     "name": "[Profile] Development",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "args": [
+        //         "--flavor",
+        //         "Development",
+        //         "FLAVOR=Development",
+        //         "--no-enable-impeller",
+        //     ],
+        //     "flutterMode": "profile",
+        // },
+        // {
+        //     "name": "[Release] Development",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "args": [
+        //         "--flavor",
+        //         "Development",
+        //         "FLAVOR=Development",
+        //         "--no-enable-impeller",
+        //     ],
+        //     "flutterMode": "release",
+        // },
+        // {
+        //     "name": "[Debug] Staging",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "args": [
+        //         "--flavor",
+        //         "Staging",
+        //         "FLAVOR=Staging",
+        //         "--no-enable-impeller",
+        //     ],
+        //     "flutterMode": "debug",
+        // },
+        // {
+        //     "name": "[Profile] Staging",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "args": [
+        //         "--flavor",
+        //         "Staging",
+        //         "FLAVOR=Staging",
+        //         "--no-enable-impeller",
+        //     ],
+        //     "flutterMode": "profile",
+        // },
+        // {
+        //     "name": "[Release] Staging",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "args": [
+        //         "--flavor",
+        //         "Staging",
+        //         "FLAVOR=Staging",
+        //         "--no-enable-impeller",
+        //     ],
+        //     "flutterMode": "release",
+        // },
+        // {
+        //     "name": "[Debug] Production",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "args": [
+        //         "--flavor",
+        //         "Production",
+        //         "FLAVOR=Production",
+        //         "--no-enable-impeller",
+        //     ],
+        //     "flutterMode": "debug",
+        // },
+        // {
+        //     "name": "[Profile] Production",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "args": [
+        //         "--flavor",
+        //         "Production",
+        //         "FLAVOR=Production",
+        //         "--no-enable-impeller",
+        //     ],
+        //     "flutterMode": "profile",
+        // },
+        // {
+        //     "name": "[Release] Production",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "args": [
+        //         "--flavor",
+        //         "Production",
+        //         "FLAVOR=Production",
+        //         "--no-enable-impeller",
+        //     ],
+        //     "flutterMode": "release",
+        // }
+        {
+            "name": "[Development] Production",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                // "--flavor",
+                // "Production",
+                // "FLAVOR=Production",
+                // "--no-enable-impeller",
+            ],
+            "flutterMode": "debug",
+        },
+        {
+            "name": "[Release] Production",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                // "--flavor",
+                // "Production",
+                // "FLAVOR=Production",
+                // "--no-enable-impeller",
+            ],
+            "flutterMode": "release",
+        }
+    ]
+}
