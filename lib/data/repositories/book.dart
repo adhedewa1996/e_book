@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:e_books/core/dependency_injection/services_locator.dart';
 import 'package:e_books/data/model/detail_book/detail_book.dart';
 import 'package:e_books/data/model/get_book/result.dart';
+import 'package:e_books/data/model/search.dart';
 import 'package:e_books/data/sources/book.dart';
 import 'package:e_books/domain/entities/book.dart';
 import 'package:e_books/domain/repositories/book.dart';
@@ -9,7 +10,7 @@ import 'package:e_books/domain/repositories/book.dart';
 class BookRepositoryImpl extends BookRepository {
   @override
   Future<Either> detailBook({required String id}) async {
-    final returnedData = await sl<BookServices>().detailBook(id);
+    final returnedData = await sl<BookServices>().detailBook(id: id);
 
     return returnedData.fold(
       (error) {
@@ -23,23 +24,52 @@ class BookRepositoryImpl extends BookRepository {
   }
 
   @override
-  Future<Either> getBooks() async {
-    final returnedData = await sl<BookServices>().getBooks();
+  Future<Either> getBooks({required String page}) async {
+    final returnedData = await sl<BookServices>().getBooks(page: page);
 
     return returnedData.fold(
       (error) {
         return Left(error);
       },
       (data) {
+        bool isValid = false;
+        Uri uri;
+        if (data['next'] == null) {
+          isValid = false;
+          uri = Uri.parse('page=0');
+        } else {
+          uri = Uri.parse(data['next']);
+          isValid = true;
+        }
         final list = List.from(data['results']).map((e) => Result.fromMap(e).toEntity()).toList();
-        return Right(list);
+        final bookAndPage = BookAndPageEntity(bookEntity: list, page: isValid ? (uri.queryParameters['page'] ?? '0') : '0');
+        return Right(bookAndPage);
       },
     );
   }
 
   @override
-  Future<Either> search() {
-    // TODO: implement search
-    throw UnimplementedError();
+  Future<Either> search({required SearchModel search}) async {
+    final returnedData = await sl<BookServices>().search(search: search);
+
+    return returnedData.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        bool isValid = false;
+        Uri uri;
+        if (data['next'] == null) {
+          isValid = false;
+          uri = Uri.parse('page=0');
+        } else {
+          uri = Uri.parse(data['next']);
+          isValid = true;
+        }
+        final list = List.from(data['results']).map((e) => Result.fromMap(e).toEntity()).toList();
+        final bookAndPage = BookAndPageEntity(bookEntity: list, page: isValid ? (uri.queryParameters['page'] ?? '0') : '0');
+        return Right(bookAndPage);
+      },
+    );
   }
 }

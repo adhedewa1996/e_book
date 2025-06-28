@@ -59,12 +59,12 @@ class Book {
                 children: [
                   SizedBox(
                     width: Get.width * .4,
-                    child: Text(bookEntity.title ?? '', style: context.labelLarge, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    child: Text(bookEntity.title ?? '', style: context.labelMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
                   ),
                   Spacing.vertical(4),
                   SizedBox(
                     width: Get.width * .4,
-                    child: Text(bookEntity.author ?? '', style: context.labelLarge, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    child: Text(bookEntity.author ?? '', style: context.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
                   ),
                   Spacing.vertical(8),
                   readprogress(progress: Random().nextInt(100), width: Get.width * .45),
@@ -122,12 +122,12 @@ class Book {
               children: [
                 SizedBox(
                   width: Get.width * .55,
-                  child: Text(bookEntity.title ?? '', style: context.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
+                  child: Text(bookEntity.title ?? '', style: context.labelMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
                 ),
                 Spacing.vertical(4),
                 SizedBox(
                   width: Get.width * .55,
-                  child: Text(bookEntity.author ?? '', style: context.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
+                  child: Text(bookEntity.author ?? '', style: context.titleSmall, maxLines: 2, overflow: TextOverflow.ellipsis),
                 ),
                 Spacing.vertical(8),
                 bookDetailType == BookDetailType.star ? iconstar(stars: Random().nextInt(5)) : readprogress(progress: Random().nextInt(100), width: Get.width * .35),
@@ -187,12 +187,12 @@ class Book {
                   children: [
                     SizedBox(
                       width: Get.width * .5,
-                      child: Text(bookEntity.title ?? '', style: context.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
+                      child: Text(bookEntity.title ?? '', style: context.labelMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
                     ),
                     Spacing.vertical(4),
                     SizedBox(
                       width: Get.width * .5,
-                      child: Text(bookEntity.author ?? '', style: context.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
+                      child: Text(bookEntity.author ?? '', style: context.titleSmall, maxLines: 2, overflow: TextOverflow.ellipsis),
                     ),
                     Spacing.vertical(16),
                     readprogress(progress: Random().nextInt(100), width: Get.width * .35),

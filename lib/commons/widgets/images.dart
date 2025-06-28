@@ -44,13 +44,13 @@ class AppImage {
     );
   }
 
-  static Widget randomImageCover(BuildContext context) {
+  static Widget randomImageCover({required BuildContext context, double? width, double? height}) {
     return Container(
       child: AppImage.svg(
         name: Helper.randomHorizontalImage(),
         fit: BoxFit.fill,
-        width: context.width,
-        height: context.height,
+        width: width ?? context.width,
+        height: height ?? context.height, //
       ),
     );
   }
@@ -61,7 +61,7 @@ class AppImage {
         name: Helper.randomVerticalImage(),
         fit: BoxFit.fill,
         width: context.width,
-        height: context.height,
+        height: context.height, //
       ),
     );
   }
@@ -78,7 +78,7 @@ class AppImageCache extends StatefulWidget {
     this.callback,
     this.color,
     this.defaultErrorImage,
-    this.isError,
+    this.isError, //
   });
 
   final String url;
@@ -89,7 +89,7 @@ class AppImageCache extends StatefulWidget {
   final Function(bool)? callback;
   final Color? color;
   final String? defaultErrorImage;
-  final Function(bool)? isError;
+  final Function(bool)? isError; //
 
   @override
   State<AppImageCache> createState() => _AppImageCacheState();
@@ -112,13 +112,13 @@ class _AppImageCacheState extends State<AppImageCache> {
       height: widget.height ?? context.width,
       color: widget.color,
       placeholder: (context, url) {
-        return AppImage.randomImageCover(context);
+        return AppImage.randomImageCover(context: context);
       },
       errorListener: (value) {
         widget.isError?.call(true);
       },
       errorWidget: (context, url, error) {
-        return AppImage.randomImageCover(context);
+        return AppImage.randomImageCover(context: context);
       },
       filterQuality: FilterQuality.medium,
     );

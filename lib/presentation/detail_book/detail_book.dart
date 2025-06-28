@@ -4,9 +4,11 @@ import 'package:e_books/commons/widgets/buttons.dart';
 import 'package:e_books/commons/widgets/images.dart';
 import 'package:e_books/commons/widgets/shimmers.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
+import 'package:e_books/commons/widgets/state_check.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/domain/entities/book.dart';
 import 'package:e_books/presentation/detail_book/getx/detail_book_controller.dart';
+import 'package:e_books/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
@@ -30,14 +32,48 @@ class DetailBook extends GetView<DetailBooksController> {
           onPopInvokedWithResult: (didPop, result) {
             Get.delete<DetailBooksController>();
           },
-          child: Container(
-            width: Get.width,
-            height: Get.height,
-            color: Colors.white,
-            child: detailBook(context), //
+          child: Stack(
+            children: [
+              Container(
+                width: Get.width,
+                height: Get.height,
+                color: Colors.white,
+                child: detailBook(context), //
+              ),
+              Positioned(
+                top: 48,
+                left: 32,
+                child: Container(
+                  width: 56,
+                  height: 56,
+                  margin: const EdgeInsets.only(right: 12, bottom: 32),
+                  decoration: BoxDecoration(
+                    color: AppColors.whiteMain,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.greyNonActive,
+                        blurRadius: 5,
+                        offset: Offset(5, 5), //
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(64), //
+                  ),
+                  child: IconButton(
+                    onPressed: () {
+                      context.pop();
+                      Get.delete<DetailBooksController>();
+                    },
+                    icon: Icon(
+                      Icons.close_rounded,
+                      size: 28, //
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        bottomNavigationBar: bottomNav(context),
+        bottomNavigationBar: controller.status.isSuccess ? bottomNav(context) : null,
       ),
     );
   }
@@ -47,11 +83,12 @@ class DetailBook extends GetView<DetailBooksController> {
       (state) {
         final book = state as BookEntity;
         return ListView(
+          physics: ClampingScrollPhysics(),
           padding: EdgeInsets.zero,
           children: [
             Stack(
               children: [
-                AppImage.randomImageCover(context),
+                AppImage.randomImageCover(context: context),
                 Container(
                   width: Get.width,
                   height: Get.height, //
@@ -60,7 +97,7 @@ class DetailBook extends GetView<DetailBooksController> {
                 Container(
                   width: Get.width,
                   height: Get.height, //
-                  color: Colors.black.withValues(alpha: 0.1),
+                  color: AppColors.whiteMain.withValues(alpha: .6), //
                 ),
                 Column(
                   children: [
@@ -80,46 +117,22 @@ class DetailBook extends GetView<DetailBooksController> {
           AppShimmers.image(height: 60, width: Get.width - 32),
           Spacing.vertical(16),
           AppShimmers.image(height: Get.width - 32, width: Get.width - 32),
-          // Transform.translate(
-          //   offset: Offset(32, (Get.height * .1)),
-          //   child: AppShimmers.image(
-          //     height: 32,
-          //     width: 32,
-          //     color: AppColors.blueSeconday,
-          //     //
-          //   ),
-          // ),
-          // Transform.translate(
-          //   offset: Offset(32, (Get.height * .465)),
-          //   child: AppShimmers.image(
-          //     height: 60,
-          //     width: Get.width - 64,
-          //     color: AppColors.blueSeconday,
-          //     //
-          //   ),
-          // ),
-          // Transform.translate(
-          //   offset: Offset(Get.width / 4, (Get.height * .125)),
-          //   child: AppShimmers.image(
-          //     height: Get.height * .3,
-          //     width: Get.width / 2,
-          //     color: AppColors.blueSeconday,
-          //     //
-          //   ),
-          // ),
-          // Transform.translate(
-          //   offset: Offset(32, (Get.height * .575)),
-          //   child: AppShimmers.image(
-          //     height: Get.height * .3,
-          //     width: Get.width - 64,
-          //     color: AppColors.blueSeconday,
-          //     //
-          //   ),
-          // ),
         ],
       ),
-      onError: (error) => Text('INI ERROR $error'),
-      onEmpty: Text('INI EMPTY'),
+      onError: (error) => SizedBox(
+        width: Get.width,
+        height: Get.height,
+        child: Center(
+          child: Center(child: StateCheck.error(mainAxisAlignment: MainAxisAlignment.center)), //
+        ),
+      ),
+      onEmpty: SizedBox(
+        width: Get.width,
+        height: Get.height,
+        child: Center(
+          child: Center(child: StateCheck.empty(mainAxisAlignment: MainAxisAlignment.center)), //
+        ),
+      ),
     );
   }
 
@@ -176,7 +189,6 @@ class DetailBook extends GetView<DetailBooksController> {
                 onPressed: () {},
                 icon: Icon(
                   Icons.play_circle_filled_rounded,
-                  color: AppColors.greenMain,
                   size: 28, //
                 ),
               ),
@@ -202,7 +214,9 @@ class DetailBook extends GetView<DetailBooksController> {
                     Spacing.horizontal(8),
                     Expanded(
                       child: AppButton.primary(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.push(Routes.readingMode);
+                        },
                         title: 'Start Reading!',
                         context: context, //
                       ),
@@ -227,22 +241,16 @@ class DetailBook extends GetView<DetailBooksController> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IconButton(
-            onPressed: () {
-              context.pop();
-              Get.delete<DetailBooksController>();
-            },
-            icon: Icon(Icons.arrow_back_ios_rounded), //
-          ),
           Column(
             children: [
               SizedBox(
-                width: Get.width * .7,
+                width: Get.width * .8,
                 child: Column(
                   children: [
-                    Text(bookEntity.title ?? '', style: context.titleMedium, textAlign: TextAlign.center),
+                    Spacing.vertical(48),
+                    Text(bookEntity.title ?? '', style: context.labelMedium?.copyWith(height: 2), textAlign: TextAlign.center),
                     Spacing.vertical(12),
-                    Text(bookEntity.author ?? '', style: context.bodyLarge, textAlign: TextAlign.center),
+                    Text(bookEntity.author ?? '', style: context.titleSmall, textAlign: TextAlign.center),
                     Spacing.vertical(16),
                   ],
                 ),
@@ -261,7 +269,7 @@ class DetailBook extends GetView<DetailBooksController> {
               ),
             ],
           ),
-          SizedBox(width: Get.width * .125),
+          // SizedBox(width: Get.width * .125),
         ],
       ),
     );
@@ -291,7 +299,7 @@ class DetailBook extends GetView<DetailBooksController> {
           Spacing.vertical(16),
           Text(
             bookEntity.summary ?? '',
-            style: context.labelLarge?.copyWith(height: 2),
+            style: context.labelMedium?.copyWith(height: 2),
             textAlign: TextAlign.justify, //
           ),
         ],
@@ -323,17 +331,17 @@ class DetailBook extends GetView<DetailBooksController> {
             child: Row(
               children: [
                 Icon(Icons.star_rounded, color: AppColors.greenMain, size: 16),
-                Text('4', style: context.labelLarge?.toBlack), //
+                Text('4', style: context.labelMedium?.toBlack), //
               ],
             ),
           ),
           box(
             color: AppColors.blueInfo.withValues(alpha: 0.1),
-            child: Text('Fantasy', style: context.labelLarge?.toBlack), //
+            child: Text('Fantasy', style: context.labelMedium?.toBlack), //
           ),
           box(
             color: AppColors.greenMain.withValues(alpha: 0.1),
-            child: Text('${bookEntity.downloadCount ?? 0} Downloads', style: context.labelLarge?.toBlack), //
+            child: Text('${bookEntity.downloadCount ?? 0} Downloads', style: context.labelMedium?.toBlack), //
           ),
         ],
       ),
@@ -342,8 +350,8 @@ class DetailBook extends GetView<DetailBooksController> {
 
   Widget box({Color? color, required Widget child}) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(16)),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(8)),
       child: child,
     );
   }

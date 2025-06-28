@@ -5,6 +5,7 @@ abstract class Routes {
   static const favorites = _Paths.favorites;
   static const detailBook = _Paths.detailBook;
   static const search = _Paths.search;
+  static const searchResult = _Paths.searchResult;
   static const readingMode = _Paths.readingMode;
 }
 
@@ -15,5 +16,6 @@ abstract class _Paths {
   static const favorites = '/favorites';
   static const detailBook = '/detail-book';
   static const search = '/search';
+  static const searchResult = '/search-result';
   static const readingMode = '/readingMode';
 }

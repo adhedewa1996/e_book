@@ -19,7 +19,7 @@ class Favorites extends StatelessWidget {
         leading: Icon(
           Icons.menu_outlined,
           size: 32,
-          color: AppColors.blueMain, //
+          color: Colors.black, //
         ),
         actions: [
           ClipRRect(
@@ -41,13 +41,10 @@ class Favorites extends StatelessWidget {
             ListBook(
               header: Column(
                 children: [
-                  Text(
-                    'Your Favorite are here!',
-                    style: context.titleMedium,
-                  ), //
+                  Text('Your Favorite are here!', style: context.bodyLarge), //
                   Spacing.vertical(16),
                   Container(
-                    height: 200,
+                    constraints: BoxConstraints(maxHeight: 225),
                     width: context.width, //
                     margin: EdgeInsets.symmetric(horizontal: 8),
                     decoration: BoxDecoration(
@@ -69,7 +66,7 @@ class Favorites extends StatelessWidget {
                           child: Center(
                             child: Text(
                               Helper.randomQuote(),
-                              style: context.titleMedium?.toWhite, //
+                              style: context.bodyLarge?.toWhite, //
                               textAlign: TextAlign.center,
                             ), //
                           ), //,

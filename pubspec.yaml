@@ -33,6 +33,7 @@ dependencies:
   hexcolor: ^3.0.1
   flutter_svg: ^2.0.10+1
   google_fonts: 6.1.0
+  # kiosk_mode: 
 
 dev_dependencies:
   flutter_test:

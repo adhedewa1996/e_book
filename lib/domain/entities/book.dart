@@ -1,6 +1,13 @@
 import 'package:e_books/data/model/detail_book/detail_book.dart';
 import 'package:e_books/data/model/get_book/result.dart';
 
+class BookAndPageEntity {
+  final List<BookEntity> bookEntity;
+  final String page;
+
+  BookAndPageEntity({required this.bookEntity, required this.page});
+}
+
 class BookEntity {
   final int? id;
   final String? title;
@@ -26,9 +33,9 @@ extension BookHelper on Result {
     return BookEntity(
       id: id,
       title: title,
-      author: authors?.first.name,
-      summary: summaries?.first,
-      cover: formats?.imageJpeg,
+      author: authors!.isEmpty ? '~' : authors?.first.name ?? '~',
+      summary: summaries!.isEmpty ? '~' : summaries?.first ?? '~',
+      cover: formats?.imageJpeg ?? '',
       isLiked: false,
       downloadCount: downloadCount, //
     );

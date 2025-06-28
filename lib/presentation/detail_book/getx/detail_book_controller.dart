@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 
 class DetailBooksController extends GetxController with StateMixin<dynamic> {
   final String id;
-
   DetailBooksController({required this.id});
+
   @override
   void onInit() {
     getData(id: id);

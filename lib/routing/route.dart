@@ -1,3 +1,4 @@
+import 'package:e_books/data/model/search.dart';
 import 'package:e_books/presentation/dashboard/dashboard.dart';
 import 'package:e_books/presentation/detail_book/detail_book.dart';
 import 'package:e_books/presentation/detail_book/getx/detail_book_binding.dart';
@@ -5,7 +6,9 @@ import 'package:e_books/presentation/favorites/favorites.dart';
 import 'package:e_books/presentation/home/getx/home_binding.dart';
 import 'package:e_books/presentation/home/home.dart';
 import 'package:e_books/presentation/reading_mode/reading_mode.dart';
+import 'package:e_books/presentation/search/getx/search_binding.dart';
 import 'package:e_books/presentation/search/search.dart';
+import 'package:e_books/presentation/search/search_result.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -49,6 +52,16 @@ GoRouter router = GoRouter(
       path: Routes.search,
       builder: (BuildContext context, GoRouterState state) {
         return Search();
+      },
+    ),
+    GoRoute(
+      path: '/search-result/:page/:keyword',
+      builder: (BuildContext context, GoRouterState state) {
+        final page = state.pathParameters['page'] ?? '';
+        final keyword = state.pathParameters['keyword'] ?? '';
+        final search = SearchModel(page: page, keyword: keyword);
+        SearchBinding(search: search).dependencies();
+        return SearchResult(search: search);
       },
     ),
   ],

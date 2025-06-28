@@ -4,6 +4,7 @@ import 'package:e_books/data/sources/book.dart';
 import 'package:e_books/domain/repositories/book.dart';
 import 'package:e_books/domain/usecases/get_books.dart';
 import 'package:e_books/domain/usecases/get_detail_book.dart';
+import 'package:e_books/domain/usecases/search_books.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -22,5 +23,6 @@ class DependencyInjection {
     // USECASES
     sl.registerSingleton<GetBooksUseCase>(GetBooksUseCase());
     sl.registerSingleton<GetDetailBookUseCase>(GetDetailBookUseCase());
+    sl.registerSingleton<SearchBooksUseCase>(SearchBooksUseCase());
   }
 }

@@ -4,7 +4,6 @@ import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/presentation/favorites/favorites.dart';
 import 'package:e_books/presentation/home/home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -15,44 +14,21 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
-  bool isScrolled = true;
 
   void setIndex(int value) {
     _currentIndex = value;
     setState(() {});
   }
 
-  void setSsScrolled(bool value) {
-    isScrolled = value;
-    setState(() {});
-  }
-
-  ScrollController? controller;
-
   @override
   void initState() {
-    controller = ScrollController();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NotificationListener<ScrollNotification>(
-        onNotification: (ScrollNotification notification) {
-          if (notification is UserScrollNotification) {
-            if (notification.direction == ScrollDirection.idle) {
-              // setSsScrolled(true);
-            } else {
-              if (isScrolled) {
-                // setSsScrolled(false);
-              }
-            }
-          }
-          return false;
-        },
-        child: [Home(controller: controller), Favorites()][_currentIndex], //,
-      ),
+      body: [Home(), Favorites()][_currentIndex],
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
         decoration: BoxDecoration(
@@ -95,65 +71,28 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
-      // bottomNavigationBar: isScrolled
-      //     ? TranslateAnimation(
-      //         offset: (Get.height * .1),
-      //         duration: const Duration(seconds: 1),
-      //         child: Container(
-      //           padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-      //           decoration: BoxDecoration(
-      //             color: AppColors.whiteMain,
-      //             boxShadow: [
-      //               BoxShadow(
-      //                 color: AppColors.greyNonActive,
-      //                 blurRadius: 5,
-      //                 offset: Offset(5, 5), //
-      //               ),
-      //             ],
-      //             borderRadius: BorderRadius.circular(64), //
-      //           ),
-      //           margin: const EdgeInsets.all(32),
-      //           child: Row(
-      //             children: [
-      //               Spacing.horizontal(8),
-      //               Expanded(
-      //                 child: AppButton.primary(
-      //                   onPressed: () {
-      //                     setIndex(0);
-      //                   },
-      //                   isdisable: _currentIndex != 0,
-      //                   title: 'Home',
-      //                   context: context, //
-      //                 ),
-      //               ),
-      //               Spacing.horizontal(8),
-      //               Expanded(
-      //                 child: AppButton.primary(
-      //                   onPressed: () {
-      //                     setIndex(1);
-      //                   },
-      //                   isdisable: _currentIndex != 1,
-      //                   title: 'Favorite',
-      //                   context: context, //
-      //                 ),
-      //               ),
-      //               Spacing.horizontal(8),
-      //               Expanded(
-      //                 child: AppButton.primary(
-      //                   onPressed: () {
-      //                     // setIndex(0);
-      //                   },
-      //                   isdisable: true,
-      //                   title: 'Profile',
-      //                   context: context, //
-      //                 ),
-      //               ),
-      //               Spacing.horizontal(8),
-      //             ],
-      //           ),
-      //         ),
-      //       )
-      //     : SizedBox(),
+      // floatingActionButton: Container(
+      //   width: 56,
+      //   height: 56,
+      //   margin: EdgeInsets.only(right: 8),
+      //   decoration: BoxDecoration(
+      //     color: AppColors.whiteMain,
+      //     boxShadow: [
+      //       BoxShadow(
+      //         color: AppColors.greyNonActive,
+      //         blurRadius: 5,
+      //         offset: Offset(5, 5), //
+      //       ),
+      //     ],
+      //     borderRadius: BorderRadius.circular(100), //
+      //   ),
+      //   child: IconButton(
+      //     onPressed: () {
+      //       Get.find<HomeController>().scrollController?.animateTo(0, duration: Duration(seconds: 2), curve: Curves.easeIn).then((a) {});
+      //     },
+      //     icon: Icon(Icons.keyboard_arrow_up_rounded), //
+      //   ),
+      // ),
       backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
       extendBody: true,

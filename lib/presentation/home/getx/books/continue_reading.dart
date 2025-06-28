@@ -1,7 +1,7 @@
 import 'package:e_books/commons/extentions/media_query_ext.dart';
 import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/shimmers.dart';
-import 'package:e_books/domain/entities/book.dart';
+import 'package:e_books/commons/widgets/state_check.dart';
 import 'package:e_books/presentation/home/getx/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,7 +18,7 @@ class ContinueReading extends GetView<HomeController> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Text('Continue Reading', style: context.titleMedium),
+            child: Text('Continue Reading', style: context.bodyLarge),
           ),
           firstbook(context),
         ],
@@ -29,7 +29,7 @@ class ContinueReading extends GetView<HomeController> {
   Widget firstbook(BuildContext context) {
     return controller.obx(
       (state) {
-        final data = state as List<BookEntity>;
+        final data = controller.listBooks;
         final book = data[data.length - 2]; // take second last as sample
         return Book.continueReading(
           bookEntity: book,
@@ -41,8 +41,11 @@ class ContinueReading extends GetView<HomeController> {
         );
       },
       onLoading: AppShimmers.image(height: Get.height * .2, width: Get.width),
-      onError: (error) => Text('INI ERROR $error'),
-      onEmpty: Text('INI EMPTY'),
+      onError: (error) => StateCheck.error(error: error),
+      onEmpty: SizedBox(
+        width: Get.width,
+        child: StateCheck.empty(), //
+      ),
     );
   }
 }

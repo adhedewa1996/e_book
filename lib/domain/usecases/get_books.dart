@@ -8,6 +8,6 @@ class GetBooksUseCase extends UseCase<Either, dynamic> {
   // ignore: strict_raw_type, type_annotate_public_apis
   Future<Either> call({params}) async {
     // ignore: unnecessary_await_in_return
-    return await sl<BookRepository>().getBooks();
+    return await sl<BookRepository>().getBooks(page: params);
   }
 }

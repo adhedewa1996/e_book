@@ -2,7 +2,7 @@ import 'package:e_books/commons/extentions/media_query_ext.dart';
 import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/shimmers.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
-import 'package:e_books/domain/entities/book.dart';
+import 'package:e_books/commons/widgets/state_check.dart';
 import 'package:e_books/presentation/home/getx/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +17,7 @@ class SliderBook extends GetView<HomeController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Your Bookshelf', style: context.titleMedium),
+          Text('Your Bookshelf', style: context.bodyLarge),
           Spacing.vertical(16),
           bookslider(),
         ],
@@ -28,10 +28,10 @@ class SliderBook extends GetView<HomeController> {
   Widget bookslider() {
     return controller.obx(
       (state) {
-        final data = state as List<BookEntity>;
+        final data = controller.listBooks;
         return SizedBox(
           width: Get.width,
-          height: Get.width * .75,
+          height: Get.width * .775,
           child: ListView.separated(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
@@ -61,8 +61,11 @@ class SliderBook extends GetView<HomeController> {
           AppShimmers.image(height: Get.height * .275, width: (Get.width / 2) - 32), //
         ],
       ),
-      onError: (error) => Text('INI ERROR $error'),
-      onEmpty: Text('INI EMPTY'),
+      onError: (error) => StateCheck.error(error: error),
+      onEmpty: SizedBox(
+        width: Get.width,
+        child: StateCheck.empty(), //
+      ),
     );
   }
 }

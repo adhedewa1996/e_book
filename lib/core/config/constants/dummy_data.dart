@@ -81,4 +81,17 @@ class DummyData {
       ),
     ],
   );
+
+  static List<String> popularBookTopics = [
+    "Fantasy",
+    "Adventure",
+    "Romantic",
+    "Drama",
+    "Mystery",
+    "Science",
+    "Fiction",
+    "Historical",
+    "Crime",
+    "Business", //
+  ];
 }
