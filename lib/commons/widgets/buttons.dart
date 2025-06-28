@@ -3,13 +3,7 @@ import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppButton {
-  static Widget common({
-    required Function() onPressed,
-    required String title,
-    required BuildContext context,
-    double? height,
-    double? width,
-  }) {
+  static Widget common({required Function() onPressed, required String title, required BuildContext context, double? height, double? width}) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -41,15 +35,9 @@ class AppButton {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: isdisable
-            ? AppColors.greyBackground
-            : AppColors.blueMain,
-        surfaceTintColor: isdisable
-            ? AppColors.greyNonActive
-            : AppColors.blueMain,
-        foregroundColor: isdisable
-            ? AppColors.greyNonActive
-            : AppColors.blueMain,
+        backgroundColor: isdisable ? AppColors.greyBackground : AppColors.blueMain,
+        surfaceTintColor: isdisable ? AppColors.greyNonActive : AppColors.blueMain,
+        foregroundColor: isdisable ? AppColors.greyNonActive : AppColors.blueMain,
         minimumSize: Size(width ?? 80, height ?? 40),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
       ),
@@ -65,12 +53,7 @@ class AppButton {
             //       Spacing.horizontal(8),
             //     ],
             //   ),
-            Text(
-              title,
-              style: context.labelLarge?.copyWith(
-                color: isdisable ? AppColors.blueMain : AppColors.whiteMain,
-              ),
-            ),
+            Text(title, style: context.labelMedium?.copyWith(color: isdisable ? AppColors.blueMain : AppColors.whiteMain)),
           ],
         ),
       ),

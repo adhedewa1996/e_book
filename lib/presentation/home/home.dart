@@ -27,7 +27,11 @@ class Home extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             toolbarHeight: 100,
-            title: FlexibleSpaceBar(title: header(context)),
+            title: FlexibleSpaceBar(
+              centerTitle: false,
+              titlePadding: EdgeInsets.zero,
+              title: header(context), //
+            ),
             actions: [
               ClipRRect(
                 borderRadius: BorderRadiusGeometry.circular(100),

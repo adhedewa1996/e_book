@@ -23,5 +23,6 @@ class DetailBooksController extends GetxController with StateMixin<dynamic> {
         change(data, status: RxStatus.success());
       },
     );
+    update();
   }
 }

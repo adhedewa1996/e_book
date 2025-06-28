@@ -18,63 +18,67 @@ class DetailBook extends GetView<DetailBooksController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Scaffold(
-        appBar: null,
-        resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.transparent,
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        body: PopScope(
-          canPop: true,
-          onPopInvokedWithResult: (didPop, result) {
-            Get.delete<DetailBooksController>();
-          },
-          child: Stack(
-            children: [
-              Container(
-                width: Get.width,
-                height: Get.height,
-                color: Colors.white,
-                child: detailBook(context), //
-              ),
-              Positioned(
-                top: 48,
-                left: 32,
-                child: Container(
-                  width: 56,
-                  height: 56,
-                  margin: const EdgeInsets.only(right: 12, bottom: 32),
-                  decoration: BoxDecoration(
-                    color: AppColors.whiteMain,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.greyNonActive,
-                        blurRadius: 5,
-                        offset: Offset(5, 5), //
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(64), //
+    return GetBuilder<DetailBooksController>(
+      builder: (controller) {
+        return SafeArea(
+          top: false,
+          bottom: false,
+          child: Scaffold(
+            appBar: null,
+            resizeToAvoidBottomInset: true,
+            backgroundColor: Colors.transparent,
+            extendBodyBehindAppBar: true,
+            extendBody: true,
+            body: PopScope(
+              canPop: true,
+              onPopInvokedWithResult: (didPop, result) {
+                Get.delete<DetailBooksController>();
+              },
+              child: Stack(
+                children: [
+                  Container(
+                    width: Get.width,
+                    height: Get.height,
+                    color: Colors.white,
+                    child: detailBook(context), //
                   ),
-                  child: IconButton(
-                    onPressed: () {
-                      context.pop();
-                      Get.delete<DetailBooksController>();
-                    },
-                    icon: Icon(
-                      Icons.close_rounded,
-                      size: 28, //
+                  Positioned(
+                    top: 48,
+                    left: 32,
+                    child: Container(
+                      width: 56,
+                      height: 56,
+                      margin: const EdgeInsets.only(right: 12, bottom: 32),
+                      decoration: BoxDecoration(
+                        color: AppColors.whiteMain,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.greyNonActive,
+                            blurRadius: 5,
+                            offset: Offset(5, 5), //
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(64), //
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          context.pop();
+                          Get.delete<DetailBooksController>();
+                        },
+                        icon: Icon(
+                          Icons.close_rounded,
+                          size: 28, //
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
+            bottomNavigationBar: controller.status.isSuccess ? bottomNav(context) : null,
           ),
-        ),
-        bottomNavigationBar: controller.status.isSuccess ? bottomNav(context) : null,
-      ),
+        );
+      },
     );
   }
 
@@ -148,7 +152,7 @@ class DetailBook extends GetView<DetailBooksController> {
               width: 60,
               height: 60,
               padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-              margin: const EdgeInsets.only(left: 32, bottom: 32, right: 12),
+              margin: const EdgeInsets.only(left: 18, bottom: 32, right: 12),
               decoration: BoxDecoration(
                 color: AppColors.whiteMain,
                 boxShadow: [
@@ -197,7 +201,7 @@ class DetailBook extends GetView<DetailBooksController> {
               child: Container(
                 height: 60,
                 padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                margin: const EdgeInsets.only(right: 32, bottom: 32),
+                margin: const EdgeInsets.only(right: 18, bottom: 32),
                 decoration: BoxDecoration(
                   color: AppColors.whiteMain,
                   boxShadow: [
@@ -217,7 +221,7 @@ class DetailBook extends GetView<DetailBooksController> {
                         onPressed: () {
                           context.push(Routes.readingMode);
                         },
-                        title: 'Start Reading!',
+                        title: 'START READING',
                         context: context, //
                       ),
                     ),

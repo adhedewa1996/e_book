@@ -60,8 +60,8 @@ class Search extends StatelessWidget {
         context.push('${Routes.searchResult}/1/$title');
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        margin: EdgeInsets.only(bottom: 12, right: 12),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        margin: EdgeInsets.only(bottom: 16, right: 12),
         decoration: BoxDecoration(
           color: AppColors.whiteMain,
           boxShadow: [
@@ -73,7 +73,7 @@ class Search extends StatelessWidget {
           ],
           borderRadius: BorderRadius.circular(8), //
         ),
-        child: Text(title, style: context.labelMedium),
+        child: Text(title, style: context.labelLarge),
       ),
     );
   }

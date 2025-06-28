@@ -5,6 +5,7 @@ import 'package:e_books/presentation/detail_book/getx/detail_book_binding.dart';
 import 'package:e_books/presentation/favorites/favorites.dart';
 import 'package:e_books/presentation/home/getx/home_binding.dart';
 import 'package:e_books/presentation/home/home.dart';
+import 'package:e_books/presentation/reading_mode/getx/reading_mode_binding.dart';
 import 'package:e_books/presentation/reading_mode/reading_mode.dart';
 import 'package:e_books/presentation/search/getx/search_binding.dart';
 import 'package:e_books/presentation/search/search.dart';
@@ -69,6 +70,9 @@ GoRouter router = GoRouter(
     final path = state.uri.path;
     if (path == Routes.dashboard) {
       HomeBinding().dependencies();
+    }
+    if (path == Routes.readingMode) {
+      ReadingModeBinding().dependencies();
     }
     return path;
   },

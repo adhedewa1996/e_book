@@ -14,13 +14,14 @@ class Favorites extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+        // centerTitle: true,
         title: Text('FAVORITE', style: context.titleLarge), //
-        leading: Icon(
-          Icons.menu_outlined,
-          size: 32,
-          color: Colors.black, //
-        ),
+        titleSpacing: 16,
+        // leading: Icon(
+        //   Icons.menu_outlined,
+        //   size: 32,
+        //   color: Colors.black, //
+        // ),
         actions: [
           ClipRRect(
             borderRadius: BorderRadiusGeometry.circular(100),

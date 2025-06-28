@@ -5,258 +5,257 @@ import 'package:e_books/core/config/assets/app_images.dart';
 import 'package:e_books/core/config/constants/dummy_data.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/domain/entities/story.dart';
+import 'package:e_books/presentation/reading_mode/getx/reading_mode_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-class ReadingMode extends StatefulWidget {
+class ReadingMode extends GetView<ReadingModeController> {
   const ReadingMode({super.key});
 
   @override
-  State<ReadingMode> createState() => _ReadingModeState();
-}
-
-class _ReadingModeState extends State<ReadingMode> {
-  final ScrollController _scrollController = ScrollController();
-  double _offset = 0.0;
-  double bookHeight = 0;
-  double readPosition = 0;
-  double progress = 0;
-  double perinch = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_setOffset);
-  }
-
-  void _setOffset() {
-    setState(() {
-      _offset = _scrollController.offset;
-      bookHeight = _scrollController.position.maxScrollExtent;
-      if (_scrollController.position.pixels > 0) {
-        readPosition = _scrollController.position.pixels;
-      }
-      progress = (readPosition / bookHeight).clamp(0.0, 1.0);
-      perinch = bookHeight / Get.width;
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: Get.width,
-        height: Get.height,
-        color: AppColors.whiteMain,
-        //
-        child: Stack(
-          children: [
-            IntrinsicHeight(
-              child: OverflowBox(
-                maxWidth: Get.width,
-                maxHeight: Get.height,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: -_offset * 0.5,
-                      child: Column(
+    return GetBuilder<ReadingModeController>(
+      builder: (controller) {
+        return PopScope(
+          canPop: true,
+          onPopInvokedWithResult: (didPop, result) {
+            Get.delete<ReadingModeController>();
+          },
+          child: Scaffold(
+            body: Container(
+              width: Get.width,
+              height: Get.height,
+              color: AppColors.whiteMain,
+              //
+              child: Stack(
+                children: [
+                  IntrinsicHeight(
+                    child: OverflowBox(
+                      maxWidth: Get.width,
+                      maxHeight: Get.height,
+                      child: Stack(
                         children: [
-                          SizedBox(
+                          Obx(() {
+                            return Positioned(
+                              top: -controller.offset * 0.5,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    width: Get.width,
+                                    child: AppImage.assets(
+                                      name: AppImages.medievalBackground,
+                                      fit: BoxFit.fitWidth, //
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: Get.width,
+                                    child: AppImage.assets(
+                                      name: AppImages.medievalBackground,
+                                      fit: BoxFit.fitWidth, //
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                          Container(
                             width: Get.width,
-                            child: AppImage.assets(
-                              name: AppImages.medievalBackground,
-                              fit: BoxFit.fitWidth, //
-                            ),
-                          ),
-                          SizedBox(
-                            width: Get.width,
-                            child: AppImage.assets(
-                              name: AppImages.medievalBackground,
-                              fit: BoxFit.fitWidth, //
+                            height: Get.height,
+                            // color: AppColors.whiteMain.withValues(alpha: .95), //
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.white.withValues(alpha: 0.2), // bottom - fully transparent
+                                  Colors.white.withValues(alpha: 0.3), // bottom - fully transparent
+                                  Colors.white, // top - fully opaque
+                                  Colors.white, // top - fully opaque
+                                  Colors.white, // top - fully opaque
+                                  Colors.white, // top - fully opaque
+                                  Colors.white, // top - fully opaque
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Container(
+                  ),
+                  story(storyEntity: DummyData.story, context: context),
+                  Positioned(
+                    top: 0,
+                    child: Container(
+                      height: 100, // or any height you want
                       width: Get.width,
-                      height: Get.height,
-                      color: AppColors.whiteMain.withValues(alpha: .9), //
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.white, // top - fully opaque
+                            Colors.white, // top - fully opaque
+                            Colors.white, // top - fully opaque
+                            Colors.white, // top - fully opaque
+                            Colors.white.withValues(alpha: 0.8), // bottom - fully transparent
+                            Colors.white.withValues(alpha: 0.6), // bottom - fully transparent
+                            Colors.white.withValues(alpha: 0.4), // bottom - fully transparent
+                            Colors.white.withValues(alpha: 0.2), // bottom - fully transparent
+                            Colors.white.withValues(alpha: 0.0), // bottom - fully transparent
+                          ],
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            story(storyEntity: DummyData.story),
-            Positioned(
-              top: 0,
-              child: Container(
-                height: 100, // or any height you want
-                width: Get.width,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.white, // top - fully opaque
-                      Colors.white, // top - fully opaque
-                      Colors.white, // top - fully opaque
-                      Colors.white.withValues(alpha: 0.5), // bottom - fully transparent
-                      Colors.white.withValues(alpha: 0.2), // bottom - fully transparent
-                      Colors.white.withValues(alpha: 0.0), // bottom - fully transparent
-                    ],
                   ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                height: 100, // or any height you want
-                width: Get.width,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.white.withValues(alpha: 0.0), // bottom - fully transparent
-                      Colors.white.withValues(alpha: 0.2), // bottom - fully transparent
-                      Colors.white.withValues(alpha: 0.5), // bottom - fully transparent
-                      Colors.white, // top - fully opaque
-                      Colors.white, // top - fully opaque
-                      Colors.white, // top - fully opaque
-                    ],
+                  Positioned(
+                    bottom: 0,
+                    child: Container(
+                      height: 100, // or any height you want
+                      width: Get.width,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.white.withValues(alpha: 0.0), // bottom - fully transparent
+                            Colors.white.withValues(alpha: 0.3), // bottom - fully transparent
+                            Colors.white.withValues(alpha: 0.7), // bottom - fully transparent
+                            Colors.white, // top - fully opaque
+                            Colors.white, // top - fully opaque
+                            Colors.white, // top - fully opaque
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: Get.width,
-                height: 6,
-                margin: EdgeInsets.only(bottom: 32, left: 100, right: 100),
-                decoration: BoxDecoration(
-                  color: AppColors.greyTeritary,
-                  borderRadius: BorderRadius.circular(100), //
-                ),
-              ),
-            ),
-            if (progress > 0.01)
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  width: (progress * (Get.width - 200)),
-                  height: 6,
-                  margin: EdgeInsets.only(bottom: 32, left: 100, right: 100),
-                  decoration: BoxDecoration(
-                    color: AppColors.blueMain,
-                    borderRadius: BorderRadius.circular(100), //
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      width: Get.width,
+                      height: 6,
+                      margin: EdgeInsets.only(bottom: 32, left: 100, right: 100),
+                      decoration: BoxDecoration(
+                        color: AppColors.greyTeritary,
+                        borderRadius: BorderRadius.circular(100), //
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                width: 56,
-                height: 56,
-                margin: EdgeInsets.only(left: 32, top: 48),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteMain,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.greyNonActive,
-                      blurRadius: 5,
-                      offset: Offset(5, 5), //
+                  Obx(() {
+                    if (controller.progress > 0.01) {
+                      return Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          width: (controller.progress * (Get.width - 200)),
+                          height: 6,
+                          margin: EdgeInsets.only(bottom: 32, left: 100, right: 100),
+                          decoration: BoxDecoration(
+                            color: AppColors.blueMain,
+                            borderRadius: BorderRadius.circular(100), //
+                          ),
+                        ),
+                      );
+                    }
+                    return SizedBox();
+                  }),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      width: 56,
+                      height: 56,
+                      margin: EdgeInsets.only(left: 32, top: 48),
+                      decoration: BoxDecoration(
+                        color: AppColors.whiteMain,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.greyNonActive,
+                            blurRadius: 5,
+                            offset: Offset(5, 5), //
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(100), //
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          Get.delete<ReadingModeController>();
+                          context.pop();
+                        },
+                        icon: Icon(Icons.close_rounded), //
+                      ),
                     ),
-                  ],
-                  borderRadius: BorderRadius.circular(100), //
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  icon: Icon(Icons.close_rounded), //
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Container(
-                width: 56,
-                height: 56,
-                margin: EdgeInsets.only(right: 32, bottom: 48),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteMain,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.greyNonActive,
-                      blurRadius: 5,
-                      offset: Offset(5, 5), //
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      width: 56,
+                      height: 56,
+                      margin: EdgeInsets.only(right: 32, bottom: 48),
+                      decoration: BoxDecoration(
+                        color: AppColors.whiteMain,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.greyNonActive,
+                            blurRadius: 5,
+                            offset: Offset(5, 5), //
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(100), //
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          controller.scrollController?.animateTo(0, duration: Duration(seconds: 2), curve: Curves.easeIn).then((a) {
+                            controller.progress.value = 0;
+                          });
+                        },
+                        icon: Icon(Icons.keyboard_arrow_up_rounded), //
+                      ),
                     ),
-                  ],
-                  borderRadius: BorderRadius.circular(100), //
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    _scrollController.animateTo(0, duration: Duration(seconds: 2), curve: Curves.easeIn).then((a) {
-                      progress = 0;
-                      setState(() {});
-                    });
-                  },
-                  icon: Icon(Icons.keyboard_arrow_up_rounded), //
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Container(
-                width: 56,
-                height: 56,
-                margin: EdgeInsets.only(right: 32, bottom: 120),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteMain,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.greyNonActive,
-                      blurRadius: 5,
-                      offset: Offset(5, 5), //
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      width: 56,
+                      height: 56,
+                      margin: EdgeInsets.only(right: 32, bottom: 120),
+                      decoration: BoxDecoration(
+                        color: AppColors.whiteMain,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.greyNonActive,
+                            blurRadius: 5,
+                            offset: Offset(5, 5), //
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(100), //
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          // context.pop();
+                        },
+                        icon: Icon(Icons.play_circle_filled_rounded, size: 32), //
+                      ),
                     ),
-                  ],
-                  borderRadius: BorderRadius.circular(100), //
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    // context.pop();
-                  },
-                  icon: Icon(Icons.play_circle_filled_rounded, size: 32), //
-                ),
-              ),
-            ),
-          ],
-        ), //
-      ), //
+                  ),
+                ],
+              ), //
+            ), //
+          ),
+        );
+      },
     );
   }
 
-  Widget story({required StoryEntity storyEntity}) {
+  Widget story({required StoryEntity storyEntity, required BuildContext context}) {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         if (notification is ScrollUpdateNotification) {
-          _setOffset();
+          controller.setOffset();
         }
         return true;
       },
       child: ListView(
         padding: EdgeInsets.symmetric(horizontal: 32, vertical: 64),
-        controller: _scrollController,
+        controller: controller.scrollController,
         children: [
           Spacing.vertical(48),
           Text(
