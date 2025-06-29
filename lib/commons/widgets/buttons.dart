@@ -35,9 +35,9 @@ class AppButton {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: isdisable ? AppColors.greyBackground : AppColors.blueMain,
-        surfaceTintColor: isdisable ? AppColors.greyNonActive : AppColors.blueMain,
-        foregroundColor: isdisable ? AppColors.greyNonActive : AppColors.blueMain,
+        backgroundColor: isdisable ? AppColors.greyBackground : AppColors.darkMain,
+        surfaceTintColor: isdisable ? AppColors.greyNonActive : AppColors.darkMain,
+        foregroundColor: isdisable ? AppColors.greyNonActive : AppColors.darkMain,
         minimumSize: Size(width ?? 80, height ?? 40),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
       ),
@@ -53,7 +53,7 @@ class AppButton {
             //       Spacing.horizontal(8),
             //     ],
             //   ),
-            Text(title, style: context.labelMedium?.copyWith(color: isdisable ? AppColors.blueMain : AppColors.whiteMain)),
+            Text(title, style: context.labelMedium?.copyWith(color: isdisable ? AppColors.darkMain : AppColors.whiteMain)),
           ],
         ),
       ),

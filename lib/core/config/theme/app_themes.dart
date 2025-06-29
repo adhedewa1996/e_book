@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 class AppTheme {
   AppTheme._();
   static final lightTheme = ThemeData(
-    primaryColor: AppColors.blueMain,
+    primaryColor: AppColors.darkMain,
     brightness: Brightness.light,
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.whiteMain,
@@ -29,13 +29,13 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.blueMain,
+        backgroundColor: AppColors.darkMain,
         elevation: 0,
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     ),
-    colorScheme: ColorScheme.fromSwatch().copyWith(primary: AppColors.blueMain, secondary: AppColors.blueSeconday, brightness: Brightness.light, surface: AppColors.whiteMain),
+    colorScheme: ColorScheme.fromSwatch().copyWith(primary: AppColors.darkMain, secondary: AppColors.blueSeconday, brightness: Brightness.light, surface: AppColors.whiteMain),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Colors.transparent,
@@ -84,7 +84,7 @@ class AppTheme {
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       elevation: 0,
       backgroundColor: Colors.transparent, //
-      selectedItemColor: AppColors.blueMain,
+      selectedItemColor: AppColors.darkMain,
       unselectedItemColor: AppColors.greyNonActive,
       landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
       type: BottomNavigationBarType.fixed,

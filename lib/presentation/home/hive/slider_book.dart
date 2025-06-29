@@ -14,8 +14,9 @@ class SliderBook extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: Get.width,
+      padding: EdgeInsets.symmetric(horizontal: 16),
       child: list(), //
     );
   }

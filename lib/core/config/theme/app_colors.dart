@@ -8,6 +8,7 @@ class AppColors {
 
   // THEME LIGHT
   static Color whiteMain = HexColor('#FFFFFF');
+  static Color darkMain = HexColor('#000000');
 
   static Color blueMain = HexColor('#0363B1');
   static Color blueSeconday = HexColor('#CDE5F8');

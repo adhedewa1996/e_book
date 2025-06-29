@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_books/core/config/constants/helper.dart';
+import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -19,7 +20,11 @@ class AppImage {
     double? width,
     double? height, //
   }) {
-    return AppImageCache(url, width: width, height: height);
+    return AppImageCache(
+      url,
+      width: width,
+      height: height, //
+    );
   }
 
   static Widget svg({
@@ -110,7 +115,7 @@ class _AppImageCacheState extends State<AppImageCache> {
       fit: widget.fit ?? BoxFit.fill,
       width: widget.width ?? context.width,
       height: widget.height ?? context.width,
-      color: widget.color,
+      color: AppColors.darkMain,
       placeholder: (context, url) {
         return AppImage.randomImageCover(context: context);
       },
@@ -121,6 +126,7 @@ class _AppImageCacheState extends State<AppImageCache> {
         return AppImage.randomImageCover(context: context);
       },
       filterQuality: FilterQuality.medium,
+      colorBlendMode: BlendMode.color,
     );
   }
 }

@@ -6,9 +6,11 @@ import 'package:e_books/commons/widgets/shimmers.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/commons/widgets/state_check.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
+import 'package:e_books/core/dependency_injection/services_locator.dart';
+import 'package:e_books/data/sources/recently_read.dart';
 import 'package:e_books/domain/entities/book.dart';
 import 'package:e_books/presentation/detail_book/getx/detail_book_controller.dart';
-import 'package:e_books/presentation/favorites/bookmark_favorite.dart';
+import 'package:e_books/presentation/favorites/hive/bookmark_favorite.dart';
 import 'package:e_books/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -55,8 +57,8 @@ class DetailBook extends GetView<DetailBooksController> {
                         boxShadow: [
                           BoxShadow(
                             color: AppColors.greyNonActive,
-                            blurRadius: 5,
-                            offset: Offset(5, 5), //
+                            blurRadius: 2,
+                            offset: Offset(2, 2), //
                           ),
                         ],
                         borderRadius: BorderRadius.circular(64), //
@@ -93,20 +95,21 @@ class DetailBook extends GetView<DetailBooksController> {
           children: [
             Stack(
               children: [
+                Container(
+                  width: Get.width,
+                  height: Get.height, //
+                  color: AppColors.darkMain,
+                ),
                 AppImage.randomImageCover(context: context),
                 Container(
                   width: Get.width,
                   height: Get.height, //
-                  color: AppColors.greyBackground.withValues(alpha: 0.6),
-                ),
-                Container(
-                  width: Get.width,
-                  height: Get.height, //
-                  color: AppColors.whiteMain.withValues(alpha: .6), //
+                  color: AppColors.darkMain.withValues(alpha: 0.5),
                 ),
                 Column(
                   children: [
-                    cover(context, book), summaries(context, book), //
+                    cover(context, book),
+                    summaries(context, book), //
                   ],
                 ),
               ],
@@ -144,39 +147,12 @@ class DetailBook extends GetView<DetailBooksController> {
   Widget bottomNav(BuildContext context, BookEntity? book) {
     return TranslateAnimation(
       offset: (Get.height * .1),
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 3),
       child: Container(
         color: Colors.transparent,
         child: Row(
           children: [
             iconFavorite(item: book!),
-            // Container(
-            //   width: 60,
-            //   height: 60,
-            //   padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-            //   margin: const EdgeInsets.only(left: 18, bottom: 32, right: 12),
-            //   decoration: BoxDecoration(
-            //     color: AppColors.whiteMain,
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: AppColors.greyNonActive,
-            //         blurRadius: 5,
-            //         offset: Offset(5, 5), //
-            //       ),
-            //     ],
-            //     borderRadius: BorderRadius.circular(64), //
-            //   ),
-            //   child: IconButton(
-            //     onPressed: () async {
-            //       await sl<FavoriteServices>().add(book!);
-            //     },
-            //     icon: Icon(
-            //       Icons.favorite_outline,
-            //       color: AppColors.redDanger, //
-            //       size: 24, //
-            //     ),
-            //   ),
-            // ),
             Container(
               width: 60,
               height: 60,
@@ -223,7 +199,12 @@ class DetailBook extends GetView<DetailBooksController> {
                     Expanded(
                       child: AppButton.primary(
                         onPressed: () {
-                          context.push(Routes.readingMode);
+                          try {
+                            context.push(Routes.readingMode);
+                            sl<RecentlyReadServices>().put(book);
+                          } catch (e) {
+                            print('error $e');
+                          }
                         },
                         title: 'START READING',
                         context: context, //
@@ -256,23 +237,30 @@ class DetailBook extends GetView<DetailBooksController> {
                 child: Column(
                   children: [
                     Spacing.vertical(48),
-                    Text(bookEntity.title ?? '', style: context.labelMedium?.copyWith(height: 2), textAlign: TextAlign.center),
+                    Text(bookEntity.title ?? '', style: context.labelMedium?.copyWith(height: 2).toWhite, textAlign: TextAlign.center),
                     Spacing.vertical(12),
-                    Text(bookEntity.author ?? '', style: context.titleSmall, textAlign: TextAlign.center),
+                    Text(bookEntity.author ?? '', style: context.titleSmall?.toWhite, textAlign: TextAlign.center),
                     Spacing.vertical(16),
                   ],
                 ),
               ),
-              Container(
-                width: Get.width * .4,
-                height: Get.width * .6,
-                decoration: BoxDecoration(
-                  color: AppColors.whiteMain, //
-                  borderRadius: BorderRadius.circular(8), //
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: AppImage.network(url: bookEntity.cover ?? ''),
+              TranslateAnimation(
+                duration: Duration(seconds: 2),
+                offset: 100,
+                child: OpacityAnimation(
+                  duration: Duration(seconds: 2),
+                  child: Container(
+                    width: Get.width * .4,
+                    height: Get.width * .6,
+                    decoration: BoxDecoration(
+                      color: AppColors.whiteMain, //
+                      borderRadius: BorderRadius.circular(8), //
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: AppImage.network(url: bookEntity.cover ?? ''),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -284,33 +272,37 @@ class DetailBook extends GetView<DetailBooksController> {
   }
 
   Widget summaries(BuildContext context, BookEntity bookEntity) {
-    return Container(
-      width: Get.width,
-      color: AppColors.whiteMain, //
-      padding: EdgeInsets.only(
-        // top: Get.height * .08,
-        right: 32,
-        left: 32,
-        bottom: Get.height * .2, //
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Transform.translate(
-            offset: Offset(0, -30),
-            child: infocard(
-              context,
-              bookEntity, //
+    return TranslateAnimation(
+      duration: Duration(seconds: 2),
+      offset: Get.height * .3,
+      child: Container(
+        width: Get.width,
+        color: AppColors.whiteMain, //
+        padding: EdgeInsets.only(
+          // top: Get.height * .08,
+          right: 32,
+          left: 32,
+          bottom: Get.height * .2, //
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Transform.translate(
+              offset: Offset(0, -30),
+              child: infocard(
+                context,
+                bookEntity, //
+              ),
             ),
-          ),
-          Text('Summaries', style: context.titleMedium),
-          Spacing.vertical(16),
-          Text(
-            bookEntity.summary ?? '',
-            style: context.labelMedium?.copyWith(height: 2),
-            textAlign: TextAlign.justify, //
-          ),
-        ],
+            Text('Summaries', style: context.titleMedium),
+            Spacing.vertical(16),
+            Text(
+              bookEntity.summary ?? '',
+              style: context.labelMedium?.copyWith(height: 2),
+              textAlign: TextAlign.justify, //
+            ),
+          ],
+        ),
       ),
     );
   }

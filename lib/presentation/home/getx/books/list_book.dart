@@ -1,3 +1,4 @@
+import 'package:e_books/commons/widgets/animated.dart';
 import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/shimmers.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
@@ -19,8 +20,9 @@ class ListBook extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: Get.width,
+      padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -46,15 +48,21 @@ class ListBook extends GetView<HomeController> {
                 itemCount: data.length,
                 itemBuilder: (context, index) {
                   final item = data[index];
-                  return Book.smallbook(
-                    bookEntity: item,
-                    context: context,
-                    bookDetailType: bookDetailType,
-                    margin: EdgeInsets.only(bottom: 16), //
+                  return TranslateAnimation(
+                    duration: Duration(milliseconds: 1000 + (index * 10)),
+                    offsetDirection: Axis.horizontal,
+                    offset: Get.width * .4,
+                    child: Book.smallbook(
+                      bookEntity: item,
+                      context: context,
+                      bookDetailType: bookDetailType,
+                      showDownloads: true,
+                      margin: EdgeInsets.only(bottom: 16), //
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return Spacing.vertical(16);
+                  return Spacing.vertical(28);
                 },
               ),
               //
@@ -82,7 +90,12 @@ class ListBook extends GetView<HomeController> {
           AppShimmers.image(height: Get.height * .15, width: Get.width), //
         ],
       ),
-      onError: (error) => StateCheck.error(error: error),
+      onError: (error) => Column(
+        children: [
+          Center(child: StateCheck.error(error: error)),
+          Spacing.vertical(Get.height * .2),
+        ],
+      ),
       onEmpty: StateCheck.empty(),
     );
   }

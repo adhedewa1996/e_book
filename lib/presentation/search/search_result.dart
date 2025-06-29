@@ -1,3 +1,5 @@
+import 'package:e_books/commons/extentions/media_query_ext.dart';
+import 'package:e_books/core/config/constants/data_type.dart';
 import 'package:e_books/data/model/search.dart';
 import 'package:e_books/presentation/search/getx/book/list_search_books.dart';
 import 'package:e_books/presentation/search/getx/search_controller.dart';
@@ -24,17 +26,22 @@ class SearchResult extends StatelessWidget {
           },
           child: Scaffold(
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  context.pop();
-                  Get.delete<SearchBookController>();
-                },
-                icon: Icon(
-                  Icons.close_outlined,
-                  size: 32,
-                  color: Colors.black, //
+              centerTitle: true,
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: IconButton(
+                  onPressed: () {
+                    context.pop();
+                    Get.delete<SearchBookController>();
+                  },
+                  icon: Icon(
+                    Icons.close_outlined,
+                    size: 32,
+                    color: Colors.black, //
+                  ),
                 ),
               ),
+              title: Text("Search Result", style: context.titleMedium),
             ),
             body: NotificationListener<ScrollNotification>(
               onNotification: (ScrollNotification notification) {
@@ -49,7 +56,14 @@ class SearchResult extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   shrinkWrap: true,
                   children: [
-                    ListSearchBook(header: Text('Search Result "${search.keyword}"')),
+                    ListSearchBook(
+                      bookDetailType: BookDetailType.star,
+                      header: Text(
+                        '"${search.keyword}"', //
+                        textAlign: TextAlign.center,
+                        style: context.labelLarge,
+                      ), //
+                    ),
                     //
                   ], //
                 ),

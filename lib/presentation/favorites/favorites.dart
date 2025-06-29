@@ -1,4 +1,5 @@
 import 'package:e_books/commons/extentions/media_query_ext.dart';
+import 'package:e_books/commons/widgets/animated.dart';
 import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/buttons.dart';
 import 'package:e_books/commons/widgets/images.dart';
@@ -25,12 +26,18 @@ class Favorites extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FAVORITE', style: context.titleLarge), //
+        title: Text('MY BOOKSHELF', style: context.titleMedium), //
         titleSpacing: 16,
         actions: [
+          Icon(Icons.notifications_rounded, color: AppColors.darkMain, size: 36),
+          Spacing.horizontal(8),
           ClipRRect(
             borderRadius: BorderRadiusGeometry.circular(100),
-            child: AppImage.assets(name: AppImages.userProfile, width: 40),
+            child: AppImage.assets(
+              name: AppImages.userProfile,
+              width: 42,
+              height: 42, //
+            ),
           ),
           Spacing.horizontal(16),
         ],
@@ -43,42 +50,46 @@ class Favorites extends StatelessWidget {
         child: ListView(
           shrinkWrap: true,
           children: [
-            Spacing.vertical(16),
-            Container(
-              constraints: BoxConstraints(maxHeight: 225),
-              width: Get.width, //
-              margin: EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                color: Helper.randomColor(),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.greyNonActive,
-                    blurRadius: 5,
-                    offset: Offset(5, 5), //
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(8), //
-              ),
-              child: Stack(
-                children: [
-                  AppImage.randomImageCoverVertical(context),
-                  Container(
-                    padding: EdgeInsets.all(24),
-                    child: Center(
-                      child: Text(
-                        Helper.randomQuote(),
-                        style: context.bodyLarge?.toWhite, //
-                        textAlign: TextAlign.center,
-                      ), //
-                    ), //,
-                  ),
-                ],
-              ),
-            ),
-            Spacing.vertical(16),
-            list(),
-            Spacing.vertical(Get.height * .15),
+            Spacing.vertical(16), quote(context), Spacing.vertical(16), list(), Spacing.vertical(Get.height * .15), //
           ], //
+        ),
+      ),
+    );
+  }
+
+  Widget quote(BuildContext context) {
+    return TranslateAnimation(
+      duration: Duration(seconds: 2),
+      offset: -(Get.height * .4),
+      child: Container(
+        constraints: BoxConstraints(maxHeight: 225),
+        width: Get.width, //
+        margin: EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+          color: Helper.randomColor(),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.greyNonActive,
+              blurRadius: 5,
+              offset: Offset(5, 5), //
+            ),
+          ],
+          borderRadius: BorderRadius.circular(8), //
+        ),
+        child: Stack(
+          children: [
+            AppImage.randomImageCoverVertical(context),
+            Container(
+              padding: EdgeInsets.all(24),
+              child: Center(
+                child: Text(
+                  Helper.randomQuote(),
+                  style: context.bodyLarge?.toWhite, //
+                  textAlign: TextAlign.center,
+                ), //
+              ), //,
+            ),
+          ],
         ),
       ),
     );
@@ -123,11 +134,16 @@ class Favorites extends StatelessWidget {
                 itemCount: books.length,
                 itemBuilder: (context, index) {
                   final item = books[index];
-                  return Book.smallbook(
-                    bookEntity: item,
-                    context: context,
-                    bookDetailType: BookDetailType.progress,
-                    margin: EdgeInsets.only(bottom: 16), //
+                  return TranslateAnimation(
+                    duration: Duration(milliseconds: 1000 + (index * 200)),
+                    offsetDirection: Axis.horizontal,
+                    offset: Get.width * .4,
+                    child: Book.smallbook(
+                      bookEntity: item,
+                      context: context,
+                      bookDetailType: BookDetailType.progress,
+                      margin: EdgeInsets.only(bottom: 16), //
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) {

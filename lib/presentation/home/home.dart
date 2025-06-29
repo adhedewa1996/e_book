@@ -5,10 +5,10 @@ import 'package:e_books/commons/widgets/textfield.dart';
 import 'package:e_books/core/config/assets/app_images.dart';
 import 'package:e_books/core/config/constants/data_type.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
-import 'package:e_books/presentation/home/getx/books/continue_reading.dart';
+import 'package:e_books/presentation/home/hive/continue_reading.dart';
 import 'package:e_books/presentation/home/getx/books/list_book.dart';
-import 'package:e_books/presentation/home/getx/books/slider_book.dart';
 import 'package:e_books/presentation/home/getx/home_controller.dart';
+import 'package:e_books/presentation/home/getx/books/top_book.dart';
 import 'package:e_books/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,19 +26,24 @@ class Home extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
-            toolbarHeight: 100,
-            title: FlexibleSpaceBar(
-              centerTitle: false,
-              titlePadding: EdgeInsets.zero,
-              title: header(context), //
+            // title: FlexibleSpaceBar(
+            //   centerTitle: false,
+            //   titlePadding: EdgeInsets.zero,
+            //   title: header(context), //
+            // ),
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Icon(Icons.apps_rounded, color: AppColors.darkMain, size: 36),
             ),
             actions: [
+              Icon(Icons.notifications_rounded, color: AppColors.darkMain, size: 36),
+              Spacing.horizontal(8),
               ClipRRect(
                 borderRadius: BorderRadiusGeometry.circular(100),
                 child: AppImage.assets(
                   name: AppImages.userProfile,
-                  width: 60,
-                  height: 60, //
+                  width: 42,
+                  height: 42, //
                 ),
               ),
               Spacing.horizontal(16),
@@ -58,27 +63,31 @@ class Home extends StatelessWidget {
               child: Container(
                 width: Get.width,
                 height: Get.height,
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: 8),
                 color: AppColors.whiteMain,
                 child: ListView(
                   controller: controller.scrollController,
                   physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        context.push(Routes.search);
-                      },
-                      child: AppTextField(
-                        context: context,
-                        hint: 'Search',
-                        enabled: false,
-                        controller: TextEditingController(), //
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: GestureDetector(
+                        onTap: () {
+                          context.push(Routes.search);
+                        },
+                        child: AppTextField(
+                          context: context,
+                          hint: 'Search',
+                          enabled: false,
+                          controller: TextEditingController(), //
+                        ),
                       ),
                     ),
                     Spacing.vertical(16),
+                    TopBook(),
+                    Spacing.vertical(16),
                     ContinueReading(),
-                    SliderBook(),
                     Spacing.vertical(32),
                     ListBook(
                       bookDetailType: BookDetailType.star,

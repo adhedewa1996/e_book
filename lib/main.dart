@@ -6,7 +6,6 @@ import 'package:e_books/routing/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,8 +15,6 @@ Future<void> main() async {
   await ScreenUtil.ensureScreenSize(); // INIT SCREEN UTILS
 
   DependencyInjection.init(); // DEPENDENCY INJECTION
-
-  await Hive.initFlutter();
 
   await sl<HiveServices>().init();
 

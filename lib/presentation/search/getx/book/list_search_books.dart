@@ -1,3 +1,4 @@
+import 'package:e_books/commons/widgets/animated.dart';
 import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/shimmers.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
@@ -21,7 +22,9 @@ class ListSearchBook extends GetView<SearchBookController> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Get.width,
-      child: Column(children: [header, Spacing.vertical(16), books()]), //
+      child: Column(
+        children: [header, Spacing.vertical(16), books()], //
+      ), //
     );
   }
 
@@ -29,8 +32,9 @@ class ListSearchBook extends GetView<SearchBookController> {
     return controller.obx(
       (state) {
         final data = controller.listBooks;
-        return SizedBox(
+        return Container(
           width: Get.width,
+          margin: EdgeInsets.symmetric(horizontal: 8),
           child: ListView(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
@@ -41,15 +45,21 @@ class ListSearchBook extends GetView<SearchBookController> {
                 itemCount: data.length,
                 itemBuilder: (context, index) {
                   final item = data[index];
-                  return Book.smallbook(
-                    bookEntity: item,
-                    context: context,
-                    bookDetailType: bookDetailType,
-                    margin: EdgeInsets.only(bottom: 16), //
+                  return TranslateAnimation(
+                    duration: Duration(milliseconds: 1000 + (index * 10)),
+                    offsetDirection: Axis.horizontal,
+                    offset: Get.width * .4,
+                    child: Book.smallbook(
+                      bookEntity: item,
+                      context: context,
+                      bookDetailType: bookDetailType,
+                      showDownloads: true,
+                      margin: EdgeInsets.only(bottom: 16), //
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return Spacing.vertical(16);
+                  return Spacing.vertical(28);
                 },
               ),
               if (controller.isNoMore.value) StateCheck.noLoadMore(),

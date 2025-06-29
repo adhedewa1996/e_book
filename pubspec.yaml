@@ -36,6 +36,7 @@ dependencies:
   google_fonts: 6.1.0
   path_provider: ^2.1.5
   freezed_annotation: ^2.1.0
+  animated_text_kit:
   # kiosk_mode: 
 
 dev_dependencies:

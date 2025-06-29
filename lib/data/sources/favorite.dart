@@ -13,7 +13,6 @@ abstract class FavoriteServices {
 class FavoriteServicesImpl extends FavoriteServices {
   @override
   Future<void> register() async {
-    Hive.registerAdapter(BookEntityAdapter());
     await Hive.openBox<BookEntity>('favorite');
   }
 

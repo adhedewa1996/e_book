@@ -21,7 +21,7 @@ class Helper {
   static Color randomColor() {
     final List<Color> color = [
       AppColors.blueInfo,
-      AppColors.blueMain,
+      AppColors.darkMain,
       AppColors.redDanger,
       AppColors.greenMain,
       AppColors.greenSecondary, //

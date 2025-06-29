@@ -150,7 +150,7 @@ class ReadingMode extends GetView<ReadingModeController> {
                           height: 6,
                           margin: EdgeInsets.only(bottom: 32, left: 100, right: 100),
                           decoration: BoxDecoration(
-                            color: AppColors.blueMain,
+                            color: AppColors.darkMain,
                             borderRadius: BorderRadius.circular(100), //
                           ),
                         ),
