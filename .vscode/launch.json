@@ -118,6 +118,7 @@
                 // "Production",
                 // "FLAVOR=Production",
                 // "--no-enable-impeller",
+                "--no-enable-impeller",
             ],
             "flutterMode": "debug",
         },
@@ -130,6 +131,7 @@
                 // "Production",
                 // "FLAVOR=Production",
                 // "--no-enable-impeller",
+                "--no-enable-impeller",
             ],
             "flutterMode": "release",
         }

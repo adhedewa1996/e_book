@@ -1,4 +1,5 @@
 import 'package:e_books/commons/extentions/media_query_ext.dart';
+import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -27,17 +28,18 @@ class AppButton {
     required Function() onPressed,
     bool isdisable = false,
     required String title,
-    String? icon,
+    Widget? icon,
     required BuildContext context,
     double? height,
+    Color? color,
     double? width, //
   }) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: isdisable ? AppColors.greyBackground : AppColors.darkMain,
-        surfaceTintColor: isdisable ? AppColors.greyNonActive : AppColors.darkMain,
-        foregroundColor: isdisable ? AppColors.greyNonActive : AppColors.darkMain,
+        backgroundColor: isdisable ? AppColors.greyBackground : color ?? AppColors.darkMain,
+        surfaceTintColor: isdisable ? AppColors.greyNonActive : color ?? AppColors.darkMain,
+        foregroundColor: isdisable ? AppColors.greyNonActive : color ?? AppColors.darkMain,
         minimumSize: Size(width ?? 80, height ?? 40),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
       ),
@@ -46,14 +48,14 @@ class AppButton {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // if (icon != null)
-            //   Row(
-            //     children: [
-            //       AppImage.svg(name: icon, width: 9, height: 9),
-            //       Spacing.horizontal(8),
-            //     ],
-            //   ),
-            Text(title, style: context.labelMedium?.copyWith(color: isdisable ? AppColors.darkMain : AppColors.whiteMain)),
+            if (icon != null)
+              Row(
+                children: [
+                  icon,
+                  Spacing.horizontal(8), //
+                ],
+              ),
+            Text(title, style: context.labelLarge?.copyWith(color: isdisable ? AppColors.darkMain : AppColors.whiteMain)),
           ],
         ),
       ),

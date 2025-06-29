@@ -20,15 +20,18 @@ class ListBook extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: Get.width,
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          header, Spacing.vertical(16), books(), //
-        ],
-      ), //
+    return TranslateAnimation(
+      duration: Duration(seconds: 2),
+      child: Container(
+        width: Get.width,
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            header, Spacing.vertical(16), books(), //
+          ],
+        ), //
+      ),
     );
   }
 
@@ -36,7 +39,8 @@ class ListBook extends GetView<HomeController> {
     return controller.obx(
       (state) {
         final data = controller.listBooks;
-        return SizedBox(
+        return Container(
+          padding: EdgeInsets.only(top: 24),
           width: Get.width,
           child: ListView(
             shrinkWrap: true,

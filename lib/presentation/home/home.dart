@@ -26,11 +26,6 @@ class Home extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
-            // title: FlexibleSpaceBar(
-            //   centerTitle: false,
-            //   titlePadding: EdgeInsets.zero,
-            //   title: header(context), //
-            // ),
             leading: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Icon(Icons.apps_rounded, color: AppColors.darkMain, size: 36),
@@ -84,9 +79,9 @@ class Home extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Spacing.vertical(16),
+                    Spacing.vertical(8),
                     TopBook(),
-                    Spacing.vertical(16),
+                    Spacing.vertical(8),
                     ContinueReading(),
                     Spacing.vertical(32),
                     ListBook(

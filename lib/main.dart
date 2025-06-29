@@ -40,11 +40,20 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         title: 'E-BOOKS',
         debugShowCheckedModeBanner: false,
-        home: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          color: AppColors.greenMain,
-          theme: AppTheme.lightTheme,
-          routerConfig: router, //
+        home: Stack(
+          children: [
+            MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              color: AppColors.greenMain,
+              theme: AppTheme.lightTheme,
+              routerConfig: router, //
+            ),
+            Container(
+              width: 500,
+              height: 100,
+              color: AppColors.redDanger, //
+            ),
+          ],
         ),
       ),
     );

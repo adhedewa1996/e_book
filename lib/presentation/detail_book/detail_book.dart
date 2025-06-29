@@ -1,5 +1,10 @@
+import 'dart:math';
+
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:e_books/commons/extentions/media_query_ext.dart';
+import 'package:e_books/commons/extentions/string_ext.dart';
 import 'package:e_books/commons/widgets/animated.dart';
+import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/buttons.dart';
 import 'package:e_books/commons/widgets/images.dart';
 import 'package:e_books/commons/widgets/shimmers.dart';
@@ -104,7 +109,7 @@ class DetailBook extends GetView<DetailBooksController> {
                 Container(
                   width: Get.width,
                   height: Get.height, //
-                  color: AppColors.darkMain.withValues(alpha: 0.5),
+                  color: AppColors.darkMain.withValues(alpha: 0.75),
                 ),
                 Column(
                   children: [
@@ -153,30 +158,6 @@ class DetailBook extends GetView<DetailBooksController> {
         child: Row(
           children: [
             iconFavorite(item: book!),
-            Container(
-              width: 60,
-              height: 60,
-              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-              margin: const EdgeInsets.only(right: 12, bottom: 32),
-              decoration: BoxDecoration(
-                color: AppColors.whiteMain,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.greyNonActive,
-                    blurRadius: 5,
-                    offset: Offset(5, 5), //
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(64), //
-              ),
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.play_circle_filled_rounded,
-                  size: 28, //
-                ),
-              ),
-            ),
             Flexible(
               child: Container(
                 height: 60,
@@ -225,7 +206,7 @@ class DetailBook extends GetView<DetailBooksController> {
     return Container(
       width: Get.width,
       // height: Get.width * 1.175,
-      padding: EdgeInsets.symmetric(vertical: Get.height * .085),
+      padding: EdgeInsets.symmetric(vertical: 60),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,22 +217,41 @@ class DetailBook extends GetView<DetailBooksController> {
                 width: Get.width * .8,
                 child: Column(
                   children: [
-                    Spacing.vertical(48),
-                    Text(bookEntity.title ?? '', style: context.labelMedium?.copyWith(height: 2).toWhite, textAlign: TextAlign.center),
+                    Spacing.vertical(60),
+                    AnimatedTextKit(
+                      isRepeatingAnimation: false,
+                      animatedTexts: [
+                        TyperAnimatedText(
+                          bookEntity.title ?? '',
+                          textStyle: context.labelMedium?.copyWith(height: 2).toWhite, //
+                          textAlign: TextAlign.center,
+                        ), //
+                      ],
+                    ),
                     Spacing.vertical(12),
-                    Text(bookEntity.author ?? '', style: context.titleSmall?.toWhite, textAlign: TextAlign.center),
+                    AnimatedTextKit(
+                      isRepeatingAnimation: false,
+                      animatedTexts: [
+                        TyperAnimatedText(
+                          bookEntity.author ?? '',
+                          textStyle: context.titleSmall?.toWhite, //
+                          textAlign: TextAlign.center,
+                        ), //
+                      ],
+                    ),
                     Spacing.vertical(16),
                   ],
                 ),
               ),
+              Spacing.vertical(8),
               TranslateAnimation(
                 duration: Duration(seconds: 2),
                 offset: 100,
                 child: OpacityAnimation(
                   duration: Duration(seconds: 2),
                   child: Container(
-                    width: Get.width * .4,
-                    height: Get.width * .6,
+                    width: Get.width * .35,
+                    height: Get.width * .5,
                     decoration: BoxDecoration(
                       color: AppColors.whiteMain, //
                       borderRadius: BorderRadius.circular(8), //
@@ -263,9 +263,22 @@ class DetailBook extends GetView<DetailBooksController> {
                   ),
                 ),
               ),
+              Spacing.vertical(32),
+              TranslateAnimation(
+                duration: Duration(seconds: 2),
+                offset: Get.height * .5,
+                child: OpacityAnimation(
+                  duration: Duration(seconds: 2),
+                  child: ReadProgress(
+                    progress: Random().nextInt(100),
+                    width: Get.width * .6, //
+                    color: AppColors.greenMain,
+                    backgroundColor: AppColors.whiteMain,
+                  ),
+                ),
+              ),
             ],
           ),
-          // SizedBox(width: Get.width * .125),
         ],
       ),
     );
@@ -277,7 +290,10 @@ class DetailBook extends GetView<DetailBooksController> {
       offset: Get.height * .3,
       child: Container(
         width: Get.width,
-        color: AppColors.whiteMain, //
+        decoration: BoxDecoration(
+          color: AppColors.whiteMain, //
+          borderRadius: BorderRadius.circular(16),
+        ),
         padding: EdgeInsets.only(
           // top: Get.height * .08,
           right: 32,
@@ -294,12 +310,41 @@ class DetailBook extends GetView<DetailBooksController> {
                 bookEntity, //
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                box(
+                  color: AppColors.greyNonActive.withValues(alpha: 0.3),
+                  child: Row(
+                    children: [
+                      Icon(Icons.star_rounded, color: AppColors.greenMain, size: 16),
+                      Text('4', style: context.labelMedium?.toBlack), //
+                    ],
+                  ),
+                ),
+                box(
+                  color: AppColors.blueInfo.withValues(alpha: 0.1),
+                  child: Text('Fantasy', style: context.labelMedium?.toBlack), //
+                ),
+                box(
+                  color: AppColors.greenMain.withValues(alpha: 0.1),
+                  child: Text('${(bookEntity.downloadCount ?? 0).countSimplify()} Downloads', style: context.labelMedium?.toBlack), //
+                ),
+              ],
+            ),
+            Spacing.vertical(16),
             Text('Summaries', style: context.titleMedium),
             Spacing.vertical(16),
-            Text(
-              bookEntity.summary ?? '',
-              style: context.labelMedium?.copyWith(height: 2),
-              textAlign: TextAlign.justify, //
+            AnimatedTextKit(
+              isRepeatingAnimation: false,
+              animatedTexts: [
+                TyperAnimatedText(
+                  bookEntity.summary ?? '',
+                  textStyle: context.labelMedium?.copyWith(height: 2),
+                  textAlign: TextAlign.justify, //
+                  speed: const Duration(milliseconds: 4),
+                ), //
+              ],
             ),
           ],
         ),
@@ -309,43 +354,44 @@ class DetailBook extends GetView<DetailBooksController> {
 
   Widget infocard(BuildContext context, BookEntity bookEntity) {
     return Container(
-      width: Get.width,
       height: 60,
+      margin: const EdgeInsets.symmetric(horizontal: 32),
       decoration: BoxDecoration(
         color: AppColors.whiteMain,
         boxShadow: [
           BoxShadow(
             color: AppColors.greyNonActive,
-            blurRadius: 0.25,
-            offset: Offset(0.25, 0.25), //
+            blurRadius: 5,
+            offset: Offset(5, 5), //
           ),
         ],
-        borderRadius: BorderRadius.circular(12),
-        //
-      ), //
+        borderRadius: BorderRadius.circular(64), //
+      ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          box(
-            color: AppColors.greyNonActive.withValues(alpha: 0.3),
-            child: Row(
-              children: [
-                Icon(Icons.star_rounded, color: AppColors.greenMain, size: 16),
-                Text('4', style: context.labelMedium?.toBlack), //
-              ],
+          Spacing.horizontal(8),
+          Expanded(
+            child: AppButton.primary(
+              onPressed: () {},
+              title: 'LISTEN AUDIO BOOK',
+              context: context, //
+              icon: Icon(Icons.audiotrack_rounded, color: AppColors.whiteMain),
             ),
           ),
-          box(
-            color: AppColors.blueInfo.withValues(alpha: 0.1),
-            child: Text('Fantasy', style: context.labelMedium?.toBlack), //
-          ),
-          box(
-            color: AppColors.greenMain.withValues(alpha: 0.1),
-            child: Text('${bookEntity.downloadCount ?? 0} Downloads', style: context.labelMedium?.toBlack), //
-          ),
+          Spacing.horizontal(8),
         ],
       ),
     );
+    // return Padding(
+    //   padding: const EdgeInsets.symmetric(horizontal: 32),
+    //   child: AppButton.primary(
+    //     onPressed: () {},
+    //     title: 'LISTEN AUDIO BOOK',
+    //     context: context, //
+    //     icon: Icon(Icons.audiotrack_rounded, color: AppColors.whiteMain),
+    //     color: AppColors.greenMain,
+    //   ),
+    // );
   }
 
   Widget box({Color? color, required Widget child}) {

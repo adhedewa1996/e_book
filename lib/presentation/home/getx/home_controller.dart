@@ -26,6 +26,10 @@ class HomeController extends GetxController with StateMixin<dynamic> {
     update();
   }
 
+  void backTopTop() {
+    scrollController?.animateTo(0, duration: Duration(seconds: 2), curve: Curves.linear);
+  }
+
   Future<void> handleLoadmore() async {
     if (isNoMore.value) return;
     if (isCalled.value || isLoadmore.value) return;

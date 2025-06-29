@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:e_books/commons/extentions/media_query_ext.dart';
 import 'package:e_books/commons/extentions/string_ext.dart';
 import 'package:e_books/commons/widgets/animated.dart';
@@ -69,7 +70,7 @@ class Book {
                     child: Text(bookEntity.author ?? '', style: context.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
                   ),
                   Spacing.vertical(8),
-                  readprogress(progress: Random().nextInt(100), width: Get.width * .45),
+                  ReadProgress(progress: Random().nextInt(100), width: Get.width * .45),
                 ],
               ),
             ),
@@ -135,7 +136,7 @@ class Book {
                       child: Text(bookEntity.author ?? '', style: context.titleSmall, maxLines: 2, overflow: TextOverflow.ellipsis),
                     ),
                     Spacing.vertical(8),
-                    bookDetailType == BookDetailType.star ? iconstar(stars: Random().nextInt(5)) : readprogress(progress: Random().nextInt(100), width: Get.width * .35),
+                    bookDetailType == BookDetailType.star ? iconstar(stars: Random().nextInt(5)) : ReadProgress(progress: Random().nextInt(100), width: Get.width * .5),
                   ],
                 ),
               ],
@@ -237,7 +238,7 @@ class Book {
                       child: Text(bookEntity.author ?? '', style: context.titleSmall, maxLines: 2, overflow: TextOverflow.ellipsis),
                     ),
                     Spacing.vertical(16),
-                    readprogress(progress: Random().nextInt(100), width: Get.width * .45),
+                    ReadProgress(progress: Random().nextInt(100), width: Get.width * .45),
                     Spacing.vertical(16),
                   ],
                 ),
@@ -259,8 +260,8 @@ class Book {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Top E-Book Reading', style: context.titleLarge),
-          Spacing.vertical(16),
-          Text('This top E-Book for you. we have many type for you needed.', style: context.labelLarge),
+          Spacing.vertical(8),
+          tagline(context),
           Spacing.vertical(16),
           Row(
             children: [
@@ -319,46 +320,105 @@ class Book {
     );
   }
 
-  static Widget readprogress({int? progress, required double width}) {
-    return Container(
-      width: width,
-      height: 6,
-      decoration: BoxDecoration(
-        color: AppColors.greyNonActive,
-        borderRadius: BorderRadius.circular(8), //
-      ),
-      child: Stack(
-        children: [
-          Container(
-            width: width * ((progress ?? 0) / 100),
-            height: 10,
-            decoration: BoxDecoration(
-              color: AppColors.darkMain,
-              borderRadius: BorderRadius.circular(8), //
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  static Widget iconstar({int? stars}) {
+  static Widget iconstar({
+    int? stars, //
+    mainAxisAlignment = MainAxisAlignment.start,
+  }) {
     return SizedBox(
       child: Stack(
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-
+            mainAxisAlignment: mainAxisAlignment,
             children: [
               for (int i = 0; i < 5; i++) Icon(Icons.star, color: AppColors.greyNonActive, size: 20), //
             ],
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-
+            mainAxisAlignment: mainAxisAlignment,
             children: [
               for (int i = 0; i < (stars ?? 0); i++) Icon(Icons.star, color: AppColors.greenMain, size: 20), //
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget tagline(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(minHeight: 40),
+      child: AnimatedTextKit(
+        isRepeatingAnimation: true,
+        pause: Duration(seconds: 3),
+        animatedTexts: [
+          TyperAnimatedText('This top E-Book for you. we have many type for you needed.', textStyle: context.labelMedium), //
+          TyperAnimatedText('Explore the best eBooks made for your interests and needs.', textStyle: context.labelMedium), //
+          TyperAnimatedText('Discover top-rated eBooks tailored to your reading goals.', textStyle: context.labelMedium), //
+          TyperAnimatedText('Premium eBooks. Multiple categories. Just what you’re looking for.', textStyle: context.labelMedium), //
+          TyperAnimatedText("Find your next favorite read. We've got eBooks in every flavor", textStyle: context.labelMedium), //
+        ],
+      ),
+    );
+  }
+}
+
+class ReadProgress extends StatefulWidget {
+  const ReadProgress({
+    super.key,
+    required this.width,
+    this.progress,
+    this.color,
+    this.backgroundColor, //
+  });
+
+  final double width;
+  final int? progress;
+  final Color? color;
+  final Color? backgroundColor;
+
+  @override
+  State<ReadProgress> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<ReadProgress> {
+  int initWitdh = 0;
+
+  @override
+  void initState() {
+    setWidth();
+    super.initState();
+  }
+
+  Future<void> setWidth() async {
+    await Future.delayed(Duration(seconds: 1));
+    initWitdh = widget.progress ?? 0;
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: Duration(seconds: 5),
+      curve: Curves.fastOutSlowIn,
+      width: widget.width,
+      height: 6,
+      decoration: BoxDecoration(
+        color: widget.backgroundColor ?? AppColors.greyNonActive,
+        borderRadius: BorderRadius.circular(8), //
+      ),
+      child: Stack(
+        children: [
+          AnimatedContainer(
+            duration: Duration(seconds: 5),
+            curve: Curves.fastOutSlowIn,
+            width: widget.width * ((initWitdh) / 100),
+            height: 10,
+            decoration: BoxDecoration(
+              color: widget.color ?? AppColors.darkMain,
+              borderRadius: BorderRadius.circular(8), //
+            ),
           ),
         ],
       ),

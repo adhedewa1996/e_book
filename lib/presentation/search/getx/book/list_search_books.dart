@@ -40,6 +40,7 @@ class ListSearchBook extends GetView<SearchBookController> {
             physics: NeverScrollableScrollPhysics(),
             children: [
               ListView.separated(
+                padding: EdgeInsets.only(top: 24),
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: data.length,

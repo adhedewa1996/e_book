@@ -41,7 +41,7 @@ class ContinueReading extends GetView<HomeController> {
           return SizedBox();
         }
         return Container(
-          constraints: BoxConstraints(maxHeight: Get.height * .235),
+          constraints: BoxConstraints(maxHeight: Get.height * .245),
           decoration: BoxDecoration(
             color: Helper.randomColor(),
             // color: AppColors.greenMain,
