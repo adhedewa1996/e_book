@@ -70,6 +70,7 @@ GoRouter router = GoRouter(
     final path = state.uri.path;
     if (path == Routes.dashboard) {
       HomeBinding().dependencies();
+      // FavoriteBinding().dependencies();
     }
     if (path == Routes.readingMode) {
       ReadingModeBinding().dependencies();

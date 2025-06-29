@@ -16,11 +16,11 @@ class BookServicesImpl extends BookServices {
   @override
   Future<Either> getBooks({required String page}) async {
     try {
-      final response = await sl<AppClient>().get('/books/?page=$page');
+      final response = await sl<AppClient>().get('/books?page=$page');
       debugPrint(response.data.toString());
       return Right(response.data);
     } on DioException catch (e) {
-      return Left(e.response!.data['message']);
+      return Left(e.response?.data['message'] ?? 'Error');
     }
   }
 
@@ -31,18 +31,18 @@ class BookServicesImpl extends BookServices {
       debugPrint(response.data.toString());
       return Right(response.data);
     } on DioException catch (e) {
-      return Left(e.response!.data['message']);
+      return Left(e.response?.data['message'] ?? 'Error');
     }
   }
 
   @override
   Future<Either> search({required SearchModel search}) async {
     try {
-      final response = await sl<AppClient>().get('/books/?page=${search.page}&search=${search.keyword}');
+      final response = await sl<AppClient>().get('/books?page=${search.page}&search=${search.keyword}');
       debugPrint(response.data.toString());
       return Right(response.data);
     } on DioException catch (e) {
-      return Left(e.response!.data['message']);
+      return Left(e.response?.data['message'] ?? 'Error');
     }
   }
 }

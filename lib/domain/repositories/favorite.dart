@@ -1,11 +1,9 @@
-import 'package:dartz/dartz.dart';
 import 'package:e_books/domain/entities/book.dart';
-import 'package:hive/hive.dart' show Box;
+import 'package:hive_flutter/hive_flutter.dart';
 
 // ignore: one_member_abstracts
 abstract class FavoriteRepository {
-  Future<Box<BookEntity>> register();
-  Future<Either> getbooks({required BookEntity bookEntity});
-  Future<Either> addToFavorite({required BookEntity bookEntity});
-  Future<Either> removeToFavorite({required BookEntity bookEntity});
+  Future<void> add(BookEntity book);
+  Future<void> remove(BookEntity book);
+  Box<BookEntity> getBooks();
 }

@@ -16,6 +16,7 @@ dependencies:
   # LOCAL STORAGE
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  hive_generator:
   
   # GETX
   get:
@@ -34,14 +35,16 @@ dependencies:
   flutter_svg: ^2.0.10+1
   google_fonts: 6.1.0
   path_provider: ^2.1.5
+  freezed_annotation: ^2.1.0
   # kiosk_mode: 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  hive_generator:
   freezed: ^2.5.2
   flutter_lints: ^5.0.0
+  build_runner: ^2.1.0
+  json_serializable: 
   
 flutter:
   assets:

@@ -1,20 +1,24 @@
 import 'package:e_books/data/model/detail_book/detail_book.dart';
 import 'package:e_books/data/model/get_book/result.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-class BookAndPageEntity {
-  final List<BookEntity> bookEntity;
-  final String page;
+part 'book.g.dart';
 
-  BookAndPageEntity({required this.bookEntity, required this.page});
-}
-
-class BookEntity {
+@HiveType(typeId: 0)
+class BookEntity extends HiveObject {
+  @HiveField(0)
   final int? id;
+  @HiveField(1)
   final String? title;
+  @HiveField(2)
   final String? author;
+  @HiveField(3)
   final String? summary;
+  @HiveField(4)
   final String? cover;
+  @HiveField(5)
   final bool isLiked;
+  @HiveField(6)
   final int? downloadCount;
 
   BookEntity({
@@ -26,6 +30,13 @@ class BookEntity {
     required this.isLiked,
     required this.downloadCount, //
   });
+}
+
+class BookAndPageEntity {
+  final List<BookEntity> bookEntity;
+  final String page;
+
+  BookAndPageEntity({required this.bookEntity, required this.page});
 }
 
 extension BookHelper on Result {

@@ -1,27 +1,32 @@
 import 'package:e_books/commons/extentions/media_query_ext.dart';
+import 'package:e_books/commons/widgets/book.dart';
+import 'package:e_books/commons/widgets/buttons.dart';
 import 'package:e_books/commons/widgets/images.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
+import 'package:e_books/commons/widgets/state_check.dart';
 import 'package:e_books/core/config/assets/app_images.dart';
+import 'package:e_books/core/config/constants/data_type.dart';
 import 'package:e_books/core/config/constants/helper.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
-import 'package:e_books/presentation/home/getx/books/list_book.dart';
+import 'package:e_books/data/repositories/favorite.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Favorites extends StatelessWidget {
-  const Favorites({super.key});
+  const Favorites({
+    super.key, //
+    this.callback,
+  });
+
+  final Function()? callback;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // centerTitle: true,
         title: Text('FAVORITE', style: context.titleLarge), //
         titleSpacing: 16,
-        // leading: Icon(
-        //   Icons.menu_outlined,
-        //   size: 32,
-        //   color: Colors.black, //
-        // ),
         actions: [
           ClipRRect(
             borderRadius: BorderRadiusGeometry.circular(100),
@@ -31,57 +36,108 @@ class Favorites extends StatelessWidget {
         ],
       ),
       body: Container(
-        width: context.width,
-        height: context.height,
+        width: Get.width,
+        height: Get.height,
         padding: EdgeInsets.symmetric(horizontal: 16),
         color: AppColors.whiteMain,
         child: ListView(
           shrinkWrap: true,
           children: [
             Spacing.vertical(16),
-            ListBook(
-              header: Column(
-                children: [
-                  Text('Your Favorite are here!', style: context.bodyLarge), //
-                  Spacing.vertical(16),
-                  Container(
-                    constraints: BoxConstraints(maxHeight: 225),
-                    width: context.width, //
-                    margin: EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                      color: Helper.randomColor(),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.greyNonActive,
-                          blurRadius: 5,
-                          offset: Offset(5, 5), //
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(8), //
-                    ),
-                    child: Stack(
-                      children: [
-                        AppImage.randomImageCoverVertical(context),
-                        Container(
-                          padding: EdgeInsets.all(24),
-                          child: Center(
-                            child: Text(
-                              Helper.randomQuote(),
-                              style: context.bodyLarge?.toWhite, //
-                              textAlign: TextAlign.center,
-                            ), //
-                          ), //,
-                        ),
-                      ],
-                    ),
+            Container(
+              constraints: BoxConstraints(maxHeight: 225),
+              width: Get.width, //
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              decoration: BoxDecoration(
+                color: Helper.randomColor(),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.greyNonActive,
+                    blurRadius: 5,
+                    offset: Offset(5, 5), //
                   ),
-                ], //
+                ],
+                borderRadius: BorderRadius.circular(8), //
               ),
-            ), //
-            Spacing.vertical(context.height * .15),
+              child: Stack(
+                children: [
+                  AppImage.randomImageCoverVertical(context),
+                  Container(
+                    padding: EdgeInsets.all(24),
+                    child: Center(
+                      child: Text(
+                        Helper.randomQuote(),
+                        style: context.bodyLarge?.toWhite, //
+                        textAlign: TextAlign.center,
+                      ), //
+                    ), //,
+                  ),
+                ],
+              ),
+            ),
+            Spacing.vertical(16),
+            list(),
+            Spacing.vertical(Get.height * .15),
           ], //
         ),
       ),
+    );
+  }
+
+  Widget list() {
+    return ValueListenableBuilder(
+      valueListenable: FavoriteRepositoryImpl().getBooks().listenable(),
+      builder: (context, value, child) {
+        var books = value.values.toList();
+        if (books.isEmpty) {
+          return Column(
+            children: [
+              StateCheck.empty(),
+              Transform.translate(
+                offset: Offset(0, -48),
+                child: SizedBox(
+                  width: Get.width * .5,
+                  child: AppButton.primary(
+                    onPressed: () {
+                      // setIndex(1);
+                      callback?.call();
+                    },
+                    isdisable: false,
+                    title: 'Add to Bookshelf',
+                    context: context, //
+                  ),
+                ),
+              ),
+            ],
+          );
+        }
+        return SizedBox(
+          width: Get.width,
+          child: ListView(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: books.length,
+                itemBuilder: (context, index) {
+                  final item = books[index];
+                  return Book.smallbook(
+                    bookEntity: item,
+                    context: context,
+                    bookDetailType: BookDetailType.progress,
+                    margin: EdgeInsets.only(bottom: 16), //
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Spacing.vertical(16);
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

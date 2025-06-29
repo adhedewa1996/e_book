@@ -8,6 +8,7 @@ import 'package:e_books/commons/widgets/state_check.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/domain/entities/book.dart';
 import 'package:e_books/presentation/detail_book/getx/detail_book_controller.dart';
+import 'package:e_books/presentation/favorites/bookmark_favorite.dart';
 import 'package:e_books/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -75,7 +76,7 @@ class DetailBook extends GetView<DetailBooksController> {
                 ],
               ),
             ),
-            bottomNavigationBar: controller.status.isSuccess ? bottomNav(context) : null,
+            bottomNavigationBar: controller.status.isSuccess ? bottomNav(context, controller.book) : null,
           ),
         );
       },
@@ -140,7 +141,7 @@ class DetailBook extends GetView<DetailBooksController> {
     );
   }
 
-  Widget bottomNav(BuildContext context) {
+  Widget bottomNav(BuildContext context, BookEntity? book) {
     return TranslateAnimation(
       offset: (Get.height * .1),
       duration: const Duration(seconds: 1),
@@ -148,31 +149,34 @@ class DetailBook extends GetView<DetailBooksController> {
         color: Colors.transparent,
         child: Row(
           children: [
-            Container(
-              width: 60,
-              height: 60,
-              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-              margin: const EdgeInsets.only(left: 18, bottom: 32, right: 12),
-              decoration: BoxDecoration(
-                color: AppColors.whiteMain,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.greyNonActive,
-                    blurRadius: 5,
-                    offset: Offset(5, 5), //
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(64), //
-              ),
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.favorite_outline,
-                  color: AppColors.redDanger, //
-                  size: 24, //
-                ),
-              ),
-            ),
+            iconFavorite(item: book!),
+            // Container(
+            //   width: 60,
+            //   height: 60,
+            //   padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+            //   margin: const EdgeInsets.only(left: 18, bottom: 32, right: 12),
+            //   decoration: BoxDecoration(
+            //     color: AppColors.whiteMain,
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: AppColors.greyNonActive,
+            //         blurRadius: 5,
+            //         offset: Offset(5, 5), //
+            //       ),
+            //     ],
+            //     borderRadius: BorderRadius.circular(64), //
+            //   ),
+            //   child: IconButton(
+            //     onPressed: () async {
+            //       await sl<FavoriteServices>().add(book!);
+            //     },
+            //     icon: Icon(
+            //       Icons.favorite_outline,
+            //       color: AppColors.redDanger, //
+            //       size: 24, //
+            //     ),
+            //   ),
+            // ),
             Container(
               width: 60,
               height: 60,

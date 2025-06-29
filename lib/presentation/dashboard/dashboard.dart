@@ -28,7 +28,14 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: [Home(), Favorites()][_currentIndex],
+      body: [
+        Home(),
+        Favorites(
+          callback: () {
+            setIndex(0);
+          },
+        ),
+      ][_currentIndex],
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
         decoration: BoxDecoration(
@@ -63,7 +70,7 @@ class _DashboardState extends State<Dashboard> {
                   setIndex(1);
                 },
                 isdisable: _currentIndex != 1,
-                title: 'Favorite',
+                title: 'My Bookshelf',
                 context: context, //
               ),
             ),
@@ -71,28 +78,6 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
-      // floatingActionButton: Container(
-      //   width: 56,
-      //   height: 56,
-      //   margin: EdgeInsets.only(right: 8),
-      //   decoration: BoxDecoration(
-      //     color: AppColors.whiteMain,
-      //     boxShadow: [
-      //       BoxShadow(
-      //         color: AppColors.greyNonActive,
-      //         blurRadius: 5,
-      //         offset: Offset(5, 5), //
-      //       ),
-      //     ],
-      //     borderRadius: BorderRadius.circular(100), //
-      //   ),
-      //   child: IconButton(
-      //     onPressed: () {
-      //       Get.find<HomeController>().scrollController?.animateTo(0, duration: Duration(seconds: 2), curve: Curves.easeIn).then((a) {});
-      //     },
-      //     icon: Icon(Icons.keyboard_arrow_up_rounded), //
-      //   ),
-      // ),
       backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
       extendBody: true,

@@ -21,7 +21,12 @@ class ListBook extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Get.width,
-      child: Column(children: [header, Spacing.vertical(16), books()]), //
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          header, Spacing.vertical(16), books(), //
+        ],
+      ), //
     );
   }
 

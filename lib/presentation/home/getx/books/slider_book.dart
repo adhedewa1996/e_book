@@ -3,9 +3,11 @@ import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/shimmers.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/commons/widgets/state_check.dart';
+import 'package:e_books/data/repositories/favorite.dart';
 import 'package:e_books/presentation/home/getx/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class SliderBook extends GetView<HomeController> {
   const SliderBook({super.key});
@@ -14,14 +16,51 @@ class SliderBook extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Get.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Your Bookshelf', style: context.bodyLarge),
-          Spacing.vertical(16),
-          bookslider(),
-        ],
-      ), //
+      child: list(), //
+    );
+  }
+
+  Widget list() {
+    return ValueListenableBuilder(
+      valueListenable: FavoriteRepositoryImpl().getBooks().listenable(),
+      builder: (context, value, child) {
+        var books = value.values.toList();
+        if (books.isEmpty) {
+          return SizedBox();
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Spacing.vertical(32),
+            Text('My Bookshelf', style: context.bodyLarge),
+            Spacing.vertical(16),
+            SizedBox(
+              width: Get.width,
+              height: Get.width * .775,
+              child: ListView.separated(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: books.length,
+                itemBuilder: (context, index) {
+                  final item = books[index];
+                  return Book.book(
+                    bookEntity: item,
+                    context: context,
+                    margin: EdgeInsets.only(
+                      // right: 16,
+                      bottom: 16,
+                      top: 16, //
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Spacing.horizontal(16);
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

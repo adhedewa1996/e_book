@@ -1,29 +1,26 @@
-import 'package:dartz/dartz.dart';
 import 'package:e_books/domain/entities/book.dart';
 import 'package:e_books/domain/repositories/favorite.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class FavoriteRepositoryImpl extends FavoriteRepository {
+class FavoriteRepositoryImpl implements FavoriteRepository {
+  FavoriteRepositoryImpl();
+
   @override
-  Future<Either> addToFavorite({required BookEntity bookEntity}) {
-    // TODO: implement addToFavorite
-    throw UnimplementedError();
+  Box<BookEntity> getBooks() {
+    Box<BookEntity> favorite = Hive.box('favorite');
+    return favorite;
   }
 
   @override
-  Future<Either> getbooks({required BookEntity bookEntity}) {
-    // TODO: implement getbooks
-    throw UnimplementedError();
+  Future<void> remove(BookEntity book) async {
+    Box<BookEntity> favorite = Hive.box('favorite');
+    final index = favorite.values.toList().indexWhere((element) => book.id == element.id);
+    await favorite.deleteAt(index);
   }
 
   @override
-  Future<Either> removeToFavorite({required BookEntity bookEntity}) {
-    // TODO: implement removeToFavorite
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Box<BookEntity>> register() async {
-    return await Hive.openBox<BookEntity>('favorite');
+  Future<void> add(BookEntity book) async {
+    Box<BookEntity> favorite = Hive.box('favorite');
+    await favorite.add(book);
   }
 }

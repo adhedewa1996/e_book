@@ -78,12 +78,11 @@ class Home extends StatelessWidget {
                     ),
                     Spacing.vertical(16),
                     ContinueReading(),
-                    Spacing.vertical(32),
                     SliderBook(),
                     Spacing.vertical(32),
                     ListBook(
                       bookDetailType: BookDetailType.star,
-                      header: Text('Best Sellers', style: context.bodyLarge),
+                      header: Text('Recommended Books', style: context.bodyLarge),
                     ),
                   ], //
                 ),

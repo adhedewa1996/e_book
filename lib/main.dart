@@ -1,10 +1,12 @@
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/core/config/theme/app_themes.dart';
 import 'package:e_books/core/dependency_injection/services_locator.dart';
+import 'package:e_books/data/sources/hive.dart';
 import 'package:e_books/routing/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +17,10 @@ Future<void> main() async {
 
   DependencyInjection.init(); // DEPENDENCY INJECTION
 
+  await Hive.initFlutter();
+
+  await sl<HiveServices>().init();
+
   runApp(ScreenUtils()); // RUN APP
 }
 
@@ -23,12 +29,7 @@ class ScreenUtils extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(393, 852),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      child: MyApp(),
-    );
+    return ScreenUtilInit(designSize: const Size(393, 852), minTextAdapt: true, splitScreenMode: true, child: MyApp());
   }
 }
 
