@@ -1,8 +1,11 @@
 import 'package:e_books/data/model/search.dart';
+import 'package:e_books/domain/entities/book.dart';
+import 'package:e_books/presentation/audio_book_mode/getx/audio_book_binding.dart';
 import 'package:e_books/presentation/dashboard/dashboard.dart';
 import 'package:e_books/presentation/detail_book/detail_book.dart';
 import 'package:e_books/presentation/detail_book/getx/detail_book_binding.dart';
 import 'package:e_books/presentation/favorites/favorites.dart';
+import 'package:e_books/presentation/favorites/getx/favorite_binding.dart';
 import 'package:e_books/presentation/home/getx/home_binding.dart';
 import 'package:e_books/presentation/home/home.dart';
 import 'package:e_books/presentation/reading_mode/getx/reading_mode_binding.dart';
@@ -46,7 +49,8 @@ GoRouter router = GoRouter(
     GoRoute(
       path: Routes.readingMode,
       builder: (BuildContext context, GoRouterState state) {
-        return ReadingMode();
+        final book = state.extra as BookEntity;
+        return ReadingMode(bookEntity: book);
       },
     ),
     GoRoute(
@@ -68,9 +72,10 @@ GoRouter router = GoRouter(
   ],
   redirect: (context, state) {
     final path = state.uri.path;
+    AudioBookBinding().dependencies();
     if (path == Routes.dashboard) {
       HomeBinding().dependencies();
-      // FavoriteBinding().dependencies();
+      FavoriteBinding().dependencies();
     }
     if (path == Routes.readingMode) {
       ReadingModeBinding().dependencies();

@@ -16,69 +16,69 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class Book {
-  static Widget book({
-    required BookEntity bookEntity,
-    required BuildContext context,
-    EdgeInsetsGeometry? margin, //
-  }) {
-    return GestureDetector(
-      onTap: () {
-        context.push('${Routes.detailBook}/${bookEntity.id}');
-      },
-      child: Container(
-        width: Get.width * .45,
-        margin: margin,
-        decoration: BoxDecoration(
-          color: AppColors.whiteMain,
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.greyNonActive,
-              blurRadius: 5,
-              offset: Offset(5, 5), //
-            ),
-          ],
-          borderRadius: BorderRadius.circular(8), //
-        ),
-        child: Column(
-          children: [
-            Container(
-              width: Get.width * .325,
-              height: Get.width * .4,
-              margin: margin,
-              decoration: BoxDecoration(
-                // color: AppColors.greenMain,
-                borderRadius: BorderRadius.circular(8), //
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: AppImage.network(url: bookEntity.cover ?? ''),
-              ),
-            ),
-            // Spacing.horizontal(16),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: Get.width * .4,
-                    child: Text(bookEntity.title ?? '', style: context.labelMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
-                  ),
-                  Spacing.vertical(4),
-                  SizedBox(
-                    width: Get.width * .4,
-                    child: Text(bookEntity.author ?? '', style: context.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
-                  ),
-                  Spacing.vertical(8),
-                  ReadProgress(progress: Random().nextInt(100), width: Get.width * .45),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // static Widget book({
+  //   required BookEntity bookEntity,
+  //   required BuildContext context,
+  //   EdgeInsetsGeometry? margin, //
+  // }) {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       context.push('${Routes.detailBook}/${bookEntity.id}');
+  //     },
+  //     child: Container(
+  //       width: Get.width * .45,
+  //       margin: margin,
+  //       decoration: BoxDecoration(
+  //         color: AppColors.whiteMain,
+  //         boxShadow: [
+  //           BoxShadow(
+  //             color: AppColors.greyNonActive,
+  //             blurRadius: 5,
+  //             offset: Offset(5, 5), //
+  //           ),
+  //         ],
+  //         borderRadius: BorderRadius.circular(8), //
+  //       ),
+  //       child: Column(
+  //         children: [
+  //           Container(
+  //             width: Get.width * .325,
+  //             height: Get.width * .4,
+  //             margin: margin,
+  //             decoration: BoxDecoration(
+  //               // color: AppColors.greenMain,
+  //               borderRadius: BorderRadius.circular(8), //
+  //             ),
+  //             child: ClipRRect(
+  //               borderRadius: BorderRadius.circular(8),
+  //               child: AppImage.network(url: bookEntity.cover ?? ''),
+  //             ),
+  //           ),
+  //           // Spacing.horizontal(16),
+  //           Container(
+  //             margin: EdgeInsets.symmetric(horizontal: 20),
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 SizedBox(
+  //                   width: Get.width * .4,
+  //                   child: Text(bookEntity.title ?? '', style: context.labelMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
+  //                 ),
+  //                 Spacing.vertical(4),
+  //                 SizedBox(
+  //                   width: Get.width * .4,
+  //                   child: Text(bookEntity.author ?? '', style: context.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+  //                 ),
+  //                 Spacing.vertical(8),
+  //                 ReadProgress(progress: Random().nextInt(100), width: Get.width * .45),
+  //               ],
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   static Widget smallbook({
     required BuildContext context,
@@ -109,18 +109,13 @@ class Book {
             margin: EdgeInsets.only(right: 8),
             child: Row(
               children: [
-                Container(
+                Book.coverbook(
+                  cover: bookEntity.cover ?? '',
                   width: Get.width * .225,
                   height: Get.width * .3,
-                  // margin: margin,
-                  decoration: BoxDecoration(
-                    // color: AppColors.greenMain,
-                    borderRadius: BorderRadius.circular(8), //
-                  ), //
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: AppImage.network(url: bookEntity.cover ?? ''),
-                  ),
+                  gap: 6,
+                  borderRadius: 8,
+                  gapBorderRadius: 6, //
                 ),
                 Spacing.horizontal(16),
                 Column(
@@ -196,8 +191,7 @@ class Book {
   }) {
     return GestureDetector(
       onTap: () {
-        context.push(Routes.readingMode);
-        // sl<RecentlyReadServices>().put(book);
+        context.push(Routes.readingMode, extra: bookEntity);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -211,18 +205,13 @@ class Book {
           children: [
             Row(
               children: [
-                Container(
+                Book.coverbook(
+                  cover: bookEntity.cover ?? '',
                   width: Get.width * .175,
                   height: Get.width * .25,
-                  // margin: margin,
-                  decoration: BoxDecoration(
-                    // color: AppColors.greenMain,
-                    borderRadius: BorderRadius.circular(8), //
-                  ), //
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: AppImage.network(url: bookEntity.cover ?? ''),
-                  ),
+                  gap: 6,
+                  borderRadius: 8,
+                  gapBorderRadius: 8, //
                 ),
                 Spacing.horizontal(16),
                 Column(
@@ -263,60 +252,86 @@ class Book {
           Spacing.vertical(8),
           tagline(context),
           Spacing.vertical(16),
-          Row(
-            children: [
-              Stack(
+          GestureDetector(
+            onTap: () {
+              context.push('${Routes.detailBook}/${bookEntity.id}');
+            },
+            child: Container(
+              color: AppColors.whiteMain,
+              child: Row(
                 children: [
-                  Container(
+                  Book.coverbook(
+                    cover: bookEntity.cover ?? '',
                     width: Get.width * .35,
                     height: Get.width * .5,
-                    decoration: BoxDecoration(
-                      color: AppColors.darkMain,
-                      borderRadius: BorderRadiusGeometry.circular(12), //
-                    ),
+                    gap: 12,
+                    gapBorderRadius: 8,
+                    borderRadius: 12, //
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(8),
-                      child: AppImage.network(
-                        url: bookEntity.cover ?? '', //
-                        width: Get.width * .35 - 8,
-                        height: Get.width * .5 - 8,
-                      ), //
+                  Spacing.horizontal(16),
+                  SizedBox(
+                    width: Get.width * .45,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(bookEntity.title ?? '', style: context.labelMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
+                        Spacing.vertical(16),
+                        Text(bookEntity.author ?? '', style: context.titleSmall, maxLines: 2, overflow: TextOverflow.ellipsis), //
+                        Spacing.vertical(16),
+                        iconstar(stars: [4, 5][Random().nextInt(2)]),
+                        Spacing.vertical(16),
+                        Text('${(bookEntity.downloadCount ?? 0).countSimplify()} Downloads', style: context.labelMedium, maxLines: 3, overflow: TextOverflow.ellipsis),
+                        Spacing.vertical(16),
+                        AppButton.primary(
+                          onPressed: () {
+                            context.push('${Routes.detailBook}/${bookEntity.id}');
+                          },
+                          title: 'DETAIL BOOK',
+                          context: context,
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-              Spacing.horizontal(16),
-              SizedBox(
-                width: Get.width * .45,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(bookEntity.title ?? '', style: context.labelMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
-                    Spacing.vertical(16),
-                    Text(bookEntity.author ?? '', style: context.titleSmall, maxLines: 2, overflow: TextOverflow.ellipsis), //
-                    Spacing.vertical(16),
-                    iconstar(stars: [4, 5][Random().nextInt(2)]),
-                    Spacing.vertical(16),
-                    Text('${(bookEntity.downloadCount ?? 0).countSimplify()} Downloads', style: context.labelMedium, maxLines: 3, overflow: TextOverflow.ellipsis),
-                    Spacing.vertical(16),
-                    AppButton.primary(
-                      onPressed: () {
-                        context.push('${Routes.detailBook}/${bookEntity.id}');
-                      },
-                      title: 'DETAIL BOOK',
-                      context: context,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
           //
         ],
       ),
+    );
+  }
+
+  static Widget coverbook({
+    required String? cover, //
+    required double width,
+    required double height,
+    required double gap,
+    required double gapBorderRadius,
+    required double borderRadius,
+  }) {
+    return Stack(
+      children: [
+        Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            color: AppColors.darkMain,
+            borderRadius: BorderRadiusGeometry.circular(borderRadius), //
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(gap / 2),
+          child: ClipRRect(
+            borderRadius: BorderRadiusGeometry.circular(gapBorderRadius),
+            child: AppImage.network(
+              url: cover ?? '', //
+              width: width - gap,
+              height: height - gap,
+            ), //
+          ),
+        ),
+      ],
     );
   }
 

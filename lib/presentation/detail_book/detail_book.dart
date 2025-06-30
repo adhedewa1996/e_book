@@ -14,6 +14,7 @@ import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/core/dependency_injection/services_locator.dart';
 import 'package:e_books/data/sources/recently_read.dart';
 import 'package:e_books/domain/entities/book.dart';
+import 'package:e_books/presentation/audio_book_mode/getx/audio_book_controller.dart';
 import 'package:e_books/presentation/detail_book/getx/detail_book_controller.dart';
 import 'package:e_books/presentation/favorites/hive/bookmark_favorite.dart';
 import 'package:e_books/routing/app_routes.dart';
@@ -21,9 +22,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-class DetailBook extends GetView<DetailBooksController> {
+class DetailBook extends StatefulWidget {
   const DetailBook({super.key});
 
+  @override
+  State<DetailBook> createState() => _DetailBookState();
+}
+
+class _DetailBookState extends State<DetailBook> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DetailBooksController>(
@@ -48,7 +54,7 @@ class DetailBook extends GetView<DetailBooksController> {
                     width: Get.width,
                     height: Get.height,
                     color: Colors.white,
-                    child: detailBook(context), //
+                    child: detailBook(context, controller), //
                   ),
                   Positioned(
                     top: 48,
@@ -90,7 +96,7 @@ class DetailBook extends GetView<DetailBooksController> {
     );
   }
 
-  Widget detailBook(BuildContext context) {
+  Widget detailBook(BuildContext context, DetailBooksController controller) {
     return controller.obx(
       (state) {
         final book = state as BookEntity;
@@ -157,7 +163,7 @@ class DetailBook extends GetView<DetailBooksController> {
         color: Colors.transparent,
         child: Row(
           children: [
-            iconFavorite(item: book!),
+            if (mounted) iconFavorite(item: book!),
             Flexible(
               child: Container(
                 height: 60,
@@ -181,10 +187,10 @@ class DetailBook extends GetView<DetailBooksController> {
                       child: AppButton.primary(
                         onPressed: () {
                           try {
-                            context.push(Routes.readingMode);
-                            sl<RecentlyReadServices>().put(book);
+                            context.push(Routes.readingMode, extra: book);
+                            sl<RecentlyReadServices>().put(book!);
                           } catch (e) {
-                            print('error $e');
+                            // print('error $e');
                           }
                         },
                         title: 'START READING',
@@ -249,17 +255,13 @@ class DetailBook extends GetView<DetailBooksController> {
                 offset: 100,
                 child: OpacityAnimation(
                   duration: Duration(seconds: 2),
-                  child: Container(
+                  child: Book.coverbook(
                     width: Get.width * .35,
                     height: Get.width * .5,
-                    decoration: BoxDecoration(
-                      color: AppColors.whiteMain, //
-                      borderRadius: BorderRadius.circular(8), //
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: AppImage.network(url: bookEntity.cover ?? ''),
-                    ),
+                    cover: bookEntity.cover ?? '',
+                    gap: 8,
+                    borderRadius: 8,
+                    gapBorderRadius: 8, //
                   ),
                 ),
               ),
@@ -353,45 +355,44 @@ class DetailBook extends GetView<DetailBooksController> {
   }
 
   Widget infocard(BuildContext context, BookEntity bookEntity) {
-    return Container(
-      height: 60,
-      margin: const EdgeInsets.symmetric(horizontal: 32),
-      decoration: BoxDecoration(
-        color: AppColors.whiteMain,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.greyNonActive,
-            blurRadius: 5,
-            offset: Offset(5, 5), //
-          ),
-        ],
-        borderRadius: BorderRadius.circular(64), //
-      ),
-      child: Row(
-        children: [
-          Spacing.horizontal(8),
-          Expanded(
-            child: AppButton.primary(
-              onPressed: () {},
-              title: 'LISTEN AUDIO BOOK',
-              context: context, //
-              icon: Icon(Icons.audiotrack_rounded, color: AppColors.whiteMain),
+    return GestureDetector(
+      onTap: () {
+        final audio = Get.find<AudioBookController>();
+        audio.setBook(bookEntity);
+        audio.smallmode(reInit: true);
+      },
+      child: Container(
+        height: 60,
+        margin: const EdgeInsets.symmetric(horizontal: 32),
+        decoration: BoxDecoration(
+          color: AppColors.whiteMain,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.greyNonActive,
+              blurRadius: 5,
+              offset: Offset(5, 5), //
             ),
+          ],
+          borderRadius: BorderRadius.circular(64), //
+        ),
+        child: Container(
+          height: 60,
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: AppColors.darkMain,
+            borderRadius: BorderRadius.circular(64), //
           ),
-          Spacing.horizontal(8),
-        ],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.audiotrack_rounded, color: AppColors.whiteMain),
+              Spacing.horizontal(8),
+              Text('LISTEN AUDIO BOOK', style: context.labelLarge?.toWhite),
+            ],
+          ),
+        ),
       ),
     );
-    // return Padding(
-    //   padding: const EdgeInsets.symmetric(horizontal: 32),
-    //   child: AppButton.primary(
-    //     onPressed: () {},
-    //     title: 'LISTEN AUDIO BOOK',
-    //     context: context, //
-    //     icon: Icon(Icons.audiotrack_rounded, color: AppColors.whiteMain),
-    //     color: AppColors.greenMain,
-    //   ),
-    // );
   }
 
   Widget box({Color? color, required Widget child}) {

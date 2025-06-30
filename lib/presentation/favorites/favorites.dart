@@ -10,11 +10,12 @@ import 'package:e_books/core/config/constants/data_type.dart';
 import 'package:e_books/core/config/constants/helper.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/data/repositories/favorite.dart';
+import 'package:e_books/presentation/favorites/getx/favorite_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class Favorites extends StatelessWidget {
+class Favorites extends GetView<FavoriteController> {
   const Favorites({
     super.key, //
     this.callback,
@@ -48,6 +49,7 @@ class Favorites extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16),
         color: AppColors.whiteMain,
         child: ListView(
+          controller: controller.scrollController,
           shrinkWrap: true,
           children: [
             Spacing.vertical(16), quote(context), Spacing.vertical(16), list(), Spacing.vertical(Get.height * .15), //

@@ -4,14 +4,20 @@ import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/core/config/assets/app_images.dart';
 import 'package:e_books/core/config/constants/dummy_data.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
+import 'package:e_books/domain/entities/book.dart';
 import 'package:e_books/domain/entities/story.dart';
+import 'package:e_books/presentation/audio_book_mode/getx/audio_book_controller.dart';
 import 'package:e_books/presentation/reading_mode/getx/reading_mode_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class ReadingMode extends GetView<ReadingModeController> {
-  const ReadingMode({super.key});
+  const ReadingMode({
+    super.key, //
+    required this.bookEntity,
+  });
+  final BookEntity bookEntity;
 
   @override
   Widget build(BuildContext context) {
@@ -212,11 +218,11 @@ class ReadingMode extends GetView<ReadingModeController> {
                     ),
                   ),
                   Align(
-                    alignment: Alignment.bottomRight,
+                    alignment: Alignment.bottomLeft,
                     child: Container(
                       width: 56,
                       height: 56,
-                      margin: EdgeInsets.only(right: 32, bottom: 120),
+                      margin: EdgeInsets.only(left: 32, bottom: 48),
                       decoration: BoxDecoration(
                         color: AppColors.whiteMain,
                         boxShadow: [
@@ -230,7 +236,9 @@ class ReadingMode extends GetView<ReadingModeController> {
                       ),
                       child: IconButton(
                         onPressed: () {
-                          // context.pop();
+                          final audio = Get.find<AudioBookController>();
+                          audio.setBook(bookEntity);
+                          audio.smallmode(reInit: true);
                         },
                         icon: Icon(Icons.play_circle_filled_rounded, size: 32), //
                       ),

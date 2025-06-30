@@ -26,7 +26,7 @@ class HomeController extends GetxController with StateMixin<dynamic> {
     update();
   }
 
-  void backTopTop() {
+  void backToTop() {
     scrollController?.animateTo(0, duration: Duration(seconds: 2), curve: Curves.linear);
   }
 

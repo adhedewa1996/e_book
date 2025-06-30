@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 part 'book.g.dart';
 
 @HiveType(typeId: 0)
-class BookEntity extends HiveObject {
+class BookEntity {
   @HiveField(0)
   final int? id;
   @HiveField(1)

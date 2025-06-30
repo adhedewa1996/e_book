@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import 'presentation/audio_book_mode/audio_book_mode.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -30,9 +32,14 @@ class ScreenUtils extends StatelessWidget {
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
@@ -48,11 +55,10 @@ class MyApp extends StatelessWidget {
               theme: AppTheme.lightTheme,
               routerConfig: router, //
             ),
-            Container(
-              width: 500,
-              height: 100,
-              color: AppColors.redDanger, //
-            ),
+            if (mounted)
+              AudioBookMode(
+                // routeContext: context, //
+              ),
           ],
         ),
       ),

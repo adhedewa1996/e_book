@@ -3,6 +3,7 @@ import 'package:e_books/commons/widgets/buttons.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/presentation/favorites/favorites.dart';
+import 'package:e_books/presentation/favorites/getx/favorite_controller.dart';
 import 'package:e_books/presentation/home/getx/home_controller.dart';
 import 'package:e_books/presentation/home/home.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +18,16 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
+  double? widthHelper;
 
   ScrollController? scrollController;
 
-  void setIndex(int value) {
+  void setIndex(int value) async {
     _currentIndex = value;
+    widthHelper = Get.width * .3;
+    setState(() {});
+    await Future.delayed(Duration(milliseconds: _currentIndex == 0 ? 2500 : 500));
+    widthHelper = null;
     setState(() {});
   }
 
@@ -45,11 +51,16 @@ class _DashboardState extends State<Dashboard> {
             ),
           ][_currentIndex],
           Obx(() {
+            if (widthHelper != null) {
+              return SizedBox();
+            }
             return AnimatedPositioned(
               duration: Duration(seconds: 1),
-              left: (_currentIndex == 0 && !Get.find<HomeController>().isCalled.value) ? 2 : Get.width * .3,
+              left: (_currentIndex == 0 && !Get.find<HomeController>().isCalled.value) ? 2 : widthHelper,
+              right: _currentIndex == 1 ? 16 : widthHelper,
               bottom: 2,
               child: TranslateAnimation(
+                offset: _currentIndex == 0 ? 40 : -40,
                 duration: Duration(seconds: 2),
                 offsetDirection: Axis.horizontal,
                 child: Container(
@@ -69,7 +80,11 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   child: IconButton(
                     onPressed: () {
-                      Get.find<HomeController>().backTopTop();
+                      if (_currentIndex == 0) {
+                        Get.find<HomeController>().backToTop();
+                      } else {
+                        Get.find<FavoriteController>().backToTop();
+                      }
                     },
                     icon: Icon(Icons.keyboard_arrow_up_rounded, color: AppColors.whiteMain), //
                   ),
@@ -81,7 +96,7 @@ class _DashboardState extends State<Dashboard> {
             return AnimatedPositioned(
               bottom: 32,
               left: (_currentIndex == 0 && !Get.find<HomeController>().isCalled.value) ? 80 : 16,
-              right: 16,
+              right: _currentIndex == 1 ? 80 : 16,
               duration: Duration(seconds: 1),
               child: bottomNav(), //
             );
@@ -110,7 +125,6 @@ class _DashboardState extends State<Dashboard> {
         ],
         borderRadius: BorderRadius.circular(64), //
       ),
-      // margin: const EdgeInsets.all(32),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -118,7 +132,7 @@ class _DashboardState extends State<Dashboard> {
           Expanded(
             child: AppButton.primary(
               onPressed: () {
-                setIndex(0);
+                if (_currentIndex != 0) setIndex(0);
               },
               isdisable: _currentIndex != 0,
               title: 'Home',
@@ -129,7 +143,7 @@ class _DashboardState extends State<Dashboard> {
           Expanded(
             child: AppButton.primary(
               onPressed: () {
-                setIndex(1);
+                if (_currentIndex != 1) setIndex(1);
               },
               isdisable: _currentIndex != 1,
               title: 'Bookshelf',

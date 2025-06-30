@@ -1,5 +1,6 @@
 import 'package:e_books/commons/extentions/media_query_ext.dart';
 import 'package:e_books/core/config/constants/data_type.dart';
+import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/data/model/search.dart';
 import 'package:e_books/presentation/search/getx/book/list_search_books.dart';
 import 'package:e_books/presentation/search/getx/search_controller.dart';
@@ -69,6 +70,27 @@ class SearchResult extends StatelessWidget {
                 ),
               ),
             ), //
+            floatingActionButton: Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: AppColors.darkMain,
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.whiteMain.withValues(alpha: 0.7),
+                    blurRadius: 2,
+                    offset: Offset(2, 2), //
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(100), //
+              ),
+              child: IconButton(
+                onPressed: () {
+                  controller.backToTop();
+                },
+                icon: Icon(Icons.keyboard_arrow_up_rounded, color: AppColors.whiteMain), //
+              ),
+            ),
           ),
         );
       },

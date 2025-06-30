@@ -4,6 +4,7 @@ import 'package:e_books/commons/widgets/shimmers.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/commons/widgets/state_check.dart';
 import 'package:e_books/core/config/constants/data_type.dart';
+import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/presentation/home/getx/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,6 +25,7 @@ class ListBook extends GetView<HomeController> {
       duration: Duration(seconds: 2),
       child: Container(
         width: Get.width,
+        color: AppColors.whiteMain,
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
