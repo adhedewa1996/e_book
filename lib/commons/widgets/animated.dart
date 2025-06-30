@@ -7,7 +7,7 @@ class TranslateAnimation extends StatelessWidget {
     this.child,
     this.offset = 40.0,
     this.curve = Curves.fastOutSlowIn,
-    this.offsetDirection = Axis.vertical,
+    this.offsetDirection = Axis.vertical, //
   });
 
   final Widget? child;
@@ -24,10 +24,8 @@ class TranslateAnimation extends StatelessWidget {
       tween: Tween(begin: 1.0, end: 0.0),
       builder: (context, double? value, child) {
         return Transform.translate(
-          offset: offsetDirection == Axis.horizontal
-              ? Offset(value! * offset!, 0)
-              : Offset(0, value! * offset!),
-          child: child,
+          offset: offsetDirection == Axis.horizontal ? Offset(value! * offset!, 0) : Offset(0, value! * offset!),
+          child: child, //
         );
       },
       child: child,
@@ -42,7 +40,7 @@ class OpacityAnimation extends StatelessWidget {
     this.child,
     this.curve = Curves.ease,
     this.begin = 0.0,
-    this.end = 1.0,
+    this.end = 1.0, //
   });
 
   final Widget? child;
@@ -72,7 +70,7 @@ class ScaleAnimation extends StatelessWidget {
     required this.child,
     this.curve = Curves.fastOutSlowIn,
     this.initScale = 0.0,
-    this.finalScale = 1.0,
+    this.finalScale = 1.0, //
   });
 
   final Widget child;
@@ -88,7 +86,7 @@ class ScaleAnimation extends StatelessWidget {
       curve: curve,
       tween: Tween(begin: initScale, end: finalScale),
       builder: (context, double value, child) {
-        return Transform.scale(scale: value, child: child);
+        return Transform.scale(scale: value, child: child); //
       },
       child: child,
     );
@@ -104,7 +102,7 @@ class TextAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return OpacityAnimation(
       duration: const Duration(milliseconds: 3000),
-      child: child,
+      child: child, //
     );
   }
 }

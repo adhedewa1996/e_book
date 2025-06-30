@@ -20,22 +20,19 @@ class AudioBookController extends GetxController with StateMixin<dynamic> {
 
   void setAudioPlay(bool value) {
     playAudio.value = value;
-    update();
   }
 
   void fullmode() async {
     if (!delay.value) {
       delay.value = true;
-      bottom.value = Get.height * .13;
+      bottom.value = Get.height * .14;
       left.value = Get.width * .1;
       right.value = Get.width * .1;
       height.value = 190;
       width.value = Get.width * .8;
       audioMode.value = 3;
-      update();
       await Future.delayed(Duration(milliseconds: 700));
       delay.value = false;
-      update();
     }
   }
 
@@ -45,38 +42,33 @@ class AudioBookController extends GetxController with StateMixin<dynamic> {
     }
     if (!delay.value) {
       delay.value = true;
-      bottom.value = Get.height * .13;
+      bottom.value = Get.height * .14;
       left.value = Get.width * .1;
       right.value = Get.width * .1;
       height.value = 132;
       width.value = Get.width * .8;
       audioMode.value = 2;
-      update();
       await Future.delayed(Duration(milliseconds: 700));
       delay.value = false;
-      update();
     }
   }
 
   void iconmode() async {
     if (!delay.value) {
       delay.value = true;
-      bottom.value = Get.height * .13;
-      left.value = 40;
+      bottom.value = Get.height * .14;
+      left.value = (Get.width * .425);
       right.value = null;
       height.value = 55;
       width.value = 55;
       audioMode.value = 1;
-      update();
       await Future.delayed(Duration(milliseconds: 700));
       delay.value = false;
-      update();
     }
   }
 
   void removeAudioMode() {
     audioMode.value = 0;
     setAudioPlay(false);
-    update();
   }
 }

@@ -103,7 +103,7 @@ class AppImageCache extends StatefulWidget {
 class _AppImageCacheState extends State<AppImageCache> {
   @override
   void dispose() {
-    CachedNetworkImage.evictFromCache(widget.url);
+    // CachedNetworkImage.evictFromCache(widget.url);
     super.dispose();
   }
 

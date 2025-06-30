@@ -38,6 +38,8 @@ dependencies:
   freezed_annotation: ^2.1.0
   animated_text_kit:
   mini_music_visualizer:
+  avatar_glow:
+  super_tooltip:
   # kiosk_mode: 
 
 dev_dependencies:

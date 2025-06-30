@@ -18,7 +18,7 @@ Future<void> main() async {
 
   DependencyInjection.init(); // DEPENDENCY INJECTION
 
-  await sl<HiveServices>().init();
+  await sl<HiveServices>().init(); // INIT LOCAL STORAGE
 
   runApp(ScreenUtils()); // RUN APP
 }
@@ -28,7 +28,12 @@ class ScreenUtils extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(designSize: const Size(393, 852), minTextAdapt: true, splitScreenMode: true, child: MyApp());
+    return ScreenUtilInit(
+      designSize: const Size(393, 852),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: MyApp(), //
+    );
   }
 }
 
@@ -55,10 +60,7 @@ class _MyAppState extends State<MyApp> {
               theme: AppTheme.lightTheme,
               routerConfig: router, //
             ),
-            if (mounted)
-              AudioBookMode(
-                // routeContext: context, //
-              ),
+            if (mounted) AudioBookMode(),
           ],
         ),
       ),

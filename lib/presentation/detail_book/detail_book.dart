@@ -273,7 +273,7 @@ class _DetailBookState extends State<DetailBook> {
                   duration: Duration(seconds: 2),
                   child: ReadProgress(
                     progress: Random().nextInt(100),
-                    width: Get.width * .6, //
+                    width: Get.width * .4, //
                     color: AppColors.greenMain,
                     backgroundColor: AppColors.whiteMain,
                   ),

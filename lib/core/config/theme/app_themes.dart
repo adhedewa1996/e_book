@@ -26,6 +26,7 @@ class AppTheme {
       // MEDIUM
       labelLarge: GoogleFonts.poppins(fontSize: 16.sp, fontWeight: FontWeight.w400, color: AppColors.textBlack),
       labelMedium: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w400, color: AppColors.textBlack),
+      labelSmall: GoogleFonts.poppins(fontSize: 10.sp, fontWeight: FontWeight.w400, color: AppColors.textBlack),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(

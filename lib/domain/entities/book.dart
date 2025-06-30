@@ -58,9 +58,9 @@ extension DetailBookHelper on DetailBook {
     return BookEntity(
       id: id,
       title: title,
-      author: authors?.first.name,
-      summary: summaries?.first,
-      cover: formats?.imageJpeg,
+      author: authors!.isEmpty ? '~' : authors?.first.name ?? '~',
+      summary: summaries!.isEmpty ? '~' : summaries?.first ?? '~',
+      cover: formats?.imageJpeg ?? '',
       isLiked: false,
       downloadCount: downloadCount, //
     );

@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:e_books/commons/extentions/media_query_ext.dart';
 import 'package:e_books/commons/widgets/animated.dart';
 import 'package:e_books/commons/widgets/book.dart';
@@ -15,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class Favorites extends GetView<FavoriteController> {
+class Favorites extends StatefulWidget {
   const Favorites({
     super.key, //
     this.callback,
@@ -23,6 +24,11 @@ class Favorites extends GetView<FavoriteController> {
 
   final Function()? callback;
 
+  @override
+  State<Favorites> createState() => _FavoritesState();
+}
+
+class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +55,7 @@ class Favorites extends GetView<FavoriteController> {
         padding: EdgeInsets.symmetric(horizontal: 16),
         color: AppColors.whiteMain,
         child: ListView(
-          controller: controller.scrollController,
+          controller: Get.find<FavoriteController>().scrollController,
           shrinkWrap: true,
           children: [
             Spacing.vertical(16), quote(context), Spacing.vertical(16), list(), Spacing.vertical(Get.height * .15), //
@@ -84,11 +90,21 @@ class Favorites extends GetView<FavoriteController> {
             Container(
               padding: EdgeInsets.all(24),
               child: Center(
-                child: Text(
-                  Helper.randomQuote(),
-                  style: context.bodyLarge?.toWhite, //
-                  textAlign: TextAlign.center,
-                ), //
+                child: AnimatedTextKit(
+                  isRepeatingAnimation: true,
+                  pause: Duration(seconds: 1),
+                  repeatForever: true,
+                  onNext: (p0, p1) {
+                    setState(() {});
+                  },
+                  animatedTexts: [
+                    TyperAnimatedText(
+                      Helper.randomQuote(),
+                      textStyle: context.bodyLarge?.toWhite,
+                      textAlign: TextAlign.center, //
+                    ),
+                  ],
+                ),
               ), //,
             ),
           ],
@@ -113,7 +129,7 @@ class Favorites extends GetView<FavoriteController> {
                   child: AppButton.primary(
                     onPressed: () {
                       // setIndex(1);
-                      callback?.call();
+                      widget.callback?.call();
                     },
                     isdisable: false,
                     title: 'Add to Bookshelf',
@@ -127,6 +143,7 @@ class Favorites extends GetView<FavoriteController> {
         return SizedBox(
           width: Get.width,
           child: ListView(
+            padding: EdgeInsets.only(top: 16),
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             children: [

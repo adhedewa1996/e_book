@@ -55,7 +55,12 @@ class AppButton {
                   Spacing.horizontal(8), //
                 ],
               ),
-            Text(title, style: context.labelLarge?.copyWith(color: isdisable ? AppColors.darkMain : AppColors.whiteMain)),
+            Text(
+              title,
+              style: context.labelLarge?.copyWith(
+                color: isdisable ? AppColors.darkMain : AppColors.whiteMain, //
+              ),
+            ),
           ],
         ),
       ),

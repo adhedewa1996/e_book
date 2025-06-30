@@ -1,4 +1,5 @@
 import 'package:e_books/commons/extentions/media_query_ext.dart';
+import 'package:e_books/commons/widgets/comment.dart';
 import 'package:e_books/commons/widgets/images.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/core/config/assets/app_images.dart';
@@ -279,19 +280,50 @@ class ReadingMode extends GetView<ReadingModeController> {
                 Spacing.vertical(32),
                 Text(
                   chapter.title,
-                  style: context.titleMedium?.copyWith(height: 1.75, fontSize: 20),
+                  style: context.titleMedium?.copyWith(height: 1.75),
                   textAlign: TextAlign.justify, //
                 ),
                 Spacing.vertical(16),
-                for (String content in chapter.content)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Text(
-                      content,
-                      style: context.labelMedium?.copyWith(height: 2, fontSize: 16),
-                      textAlign: TextAlign.justify, //
-                    ),
+                for (int i = 0; i < chapter.contents.length; i++)
+                  Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 36),
+                        padding: EdgeInsets.only(bottom: 36),
+                        child: Stack(
+                          children: [
+                            Transform.translate(
+                              offset: Offset(0, 36),
+                              child: Text(
+                                chapter.contents[i].text,
+                                style: context.labelMedium?.copyWith(height: 2),
+                                textAlign: TextAlign.justify, //
+                              ),
+                            ),
+                            if (chapter.contents[i].reviews.isNotEmpty)
+                              Positioned(
+                                top: 0,
+                                right: 2,
+                                child: CommentToolTip(
+                                  reviews: chapter.contents[i].reviews, //
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ), //
+                Text(
+                  'Reader Reactions \n${chapter.title}',
+                  style: context.labelMedium?.copyWith(height: 1.75).toBold,
+                  textAlign: TextAlign.center, //
+                ),
+                Spacing.vertical(32),
+                Comment.reviews(
+                  reviews: chapter.reviews,
+                  context: context, //
+                  width: Get.width * .4 - 4,
+                ),
               ],
             ),
           Spacing.vertical(Get.height * .1),

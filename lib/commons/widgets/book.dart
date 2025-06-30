@@ -16,70 +16,6 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class Book {
-  // static Widget book({
-  //   required BookEntity bookEntity,
-  //   required BuildContext context,
-  //   EdgeInsetsGeometry? margin, //
-  // }) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       context.push('${Routes.detailBook}/${bookEntity.id}');
-  //     },
-  //     child: Container(
-  //       width: Get.width * .45,
-  //       margin: margin,
-  //       decoration: BoxDecoration(
-  //         color: AppColors.whiteMain,
-  //         boxShadow: [
-  //           BoxShadow(
-  //             color: AppColors.greyNonActive,
-  //             blurRadius: 5,
-  //             offset: Offset(5, 5), //
-  //           ),
-  //         ],
-  //         borderRadius: BorderRadius.circular(8), //
-  //       ),
-  //       child: Column(
-  //         children: [
-  //           Container(
-  //             width: Get.width * .325,
-  //             height: Get.width * .4,
-  //             margin: margin,
-  //             decoration: BoxDecoration(
-  //               // color: AppColors.greenMain,
-  //               borderRadius: BorderRadius.circular(8), //
-  //             ),
-  //             child: ClipRRect(
-  //               borderRadius: BorderRadius.circular(8),
-  //               child: AppImage.network(url: bookEntity.cover ?? ''),
-  //             ),
-  //           ),
-  //           // Spacing.horizontal(16),
-  //           Container(
-  //             margin: EdgeInsets.symmetric(horizontal: 20),
-  //             child: Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 SizedBox(
-  //                   width: Get.width * .4,
-  //                   child: Text(bookEntity.title ?? '', style: context.labelMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
-  //                 ),
-  //                 Spacing.vertical(4),
-  //                 SizedBox(
-  //                   width: Get.width * .4,
-  //                   child: Text(bookEntity.author ?? '', style: context.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
-  //                 ),
-  //                 Spacing.vertical(8),
-  //                 ReadProgress(progress: Random().nextInt(100), width: Get.width * .45),
-  //               ],
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
   static Widget smallbook({
     required BuildContext context,
     required BookEntity bookEntity,
@@ -111,7 +47,7 @@ class Book {
               children: [
                 Book.coverbook(
                   cover: bookEntity.cover ?? '',
-                  width: Get.width * .225,
+                  width: Get.width * .195,
                   height: Get.width * .3,
                   gap: 6,
                   borderRadius: 8,
@@ -122,12 +58,12 @@ class Book {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: Get.width * .5,
+                      width: Get.width * .545,
                       child: Text(bookEntity.title ?? '', style: context.labelMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
                     ),
                     Spacing.vertical(4),
                     SizedBox(
-                      width: Get.width * .5,
+                      width: Get.width * .545,
                       child: Text(bookEntity.author ?? '', style: context.titleSmall, maxLines: 2, overflow: TextOverflow.ellipsis),
                     ),
                     Spacing.vertical(8),
@@ -263,14 +199,14 @@ class Book {
                   Book.coverbook(
                     cover: bookEntity.cover ?? '',
                     width: Get.width * .35,
-                    height: Get.width * .5,
+                    height: Get.width * .55,
                     gap: 12,
                     gapBorderRadius: 8,
                     borderRadius: 12, //
                   ),
                   Spacing.horizontal(16),
                   SizedBox(
-                    width: Get.width * .45,
+                    width: Get.width * .475,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -346,14 +282,14 @@ class Book {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: mainAxisAlignment,
             children: [
-              for (int i = 0; i < 5; i++) Icon(Icons.star, color: AppColors.greyNonActive, size: 20), //
+              for (int i = 0; i < 5; i++) Icon(Icons.star, color: AppColors.greyNonActive, size: 16), //
             ],
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: mainAxisAlignment,
             children: [
-              for (int i = 0; i < (stars ?? 0); i++) Icon(Icons.star, color: AppColors.greenMain, size: 20), //
+              for (int i = 0; i < (stars ?? 0); i++) Icon(Icons.star, color: AppColors.greenMain, size: 16), //
             ],
           ),
         ],
@@ -373,6 +309,28 @@ class Book {
           TyperAnimatedText('Discover top-rated eBooks tailored to your reading goals.', textStyle: context.labelMedium), //
           TyperAnimatedText('Premium eBooks. Multiple categories. Just what you’re looking for.', textStyle: context.labelMedium), //
           TyperAnimatedText("Find your next favorite read. We've got eBooks in every flavor", textStyle: context.labelMedium), //
+        ],
+      ),
+    );
+  }
+
+  static Widget recommendedBook(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(minHeight: 40),
+      child: AnimatedTextKit(
+        isRepeatingAnimation: true,
+        pause: Duration(seconds: 3),
+        animatedTexts: [
+          TyperAnimatedText('This top E-Book for you. We have many types for your needs.', textStyle: context.labelMedium),
+          TyperAnimatedText('Explore the best eBooks made for your interests and needs.', textStyle: context.labelMedium),
+          TyperAnimatedText('Discover top-rated eBooks tailored to your reading goals.', textStyle: context.labelMedium),
+          TyperAnimatedText('Premium eBooks. Multiple categories. Just what you’re looking for.', textStyle: context.labelMedium),
+          TyperAnimatedText('Find your next favorite read. We\'ve got eBooks in every flavor.', textStyle: context.labelMedium),
+          TyperAnimatedText('Handpicked books just for you.', textStyle: context.labelMedium),
+          TyperAnimatedText('Your next favorite read starts here.', textStyle: context.labelMedium),
+          TyperAnimatedText('Top picks, tailored to your taste.', textStyle: context.labelMedium),
+          TyperAnimatedText('Curated stories for curious minds.', textStyle: context.labelMedium),
+          TyperAnimatedText('Because good books should find you.', textStyle: context.labelMedium),
         ],
       ),
     );
@@ -408,8 +366,10 @@ class _MyWidgetState extends State<ReadProgress> {
 
   Future<void> setWidth() async {
     await Future.delayed(Duration(seconds: 1));
-    initWitdh = widget.progress ?? 0;
-    setState(() {});
+    if (mounted) {
+      initWitdh = widget.progress ?? 0;
+      setState(() {});
+    }
   }
 
   @override

@@ -18,9 +18,11 @@ extension SizeHelper on BuildContext {
   TextStyle? get bodyMedium => theme.textTheme.bodyMedium;
   TextStyle? get labelLarge => theme.textTheme.labelLarge;
   TextStyle? get labelMedium => theme.textTheme.labelMedium;
+  TextStyle? get labelSmall => theme.textTheme.labelSmall;
 }
 
 extension TextStyleHelper on TextStyle {
+  TextStyle? get toBold => copyWith(fontWeight: FontWeight.bold);
   TextStyle? get toBlack => copyWith(color: Colors.black);
   TextStyle? get toWhite => copyWith(color: AppColors.whiteMain);
   TextStyle? get toSecondary => copyWith(color: AppColors.textBlackSecondary);

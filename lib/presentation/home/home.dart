@@ -1,4 +1,5 @@
 import 'package:e_books/commons/extentions/media_query_ext.dart';
+import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/images.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/commons/widgets/textfield.dart';
@@ -86,7 +87,13 @@ class Home extends StatelessWidget {
                     Spacing.vertical(32),
                     ListBook(
                       bookDetailType: BookDetailType.star,
-                      header: Text('Recommended Books', style: context.bodyLarge),
+                      header: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Recommended Books', style: context.bodyLarge), Spacing.vertical(8),
+                          Book.recommendedBook(context), //
+                        ],
+                      ),
                     ),
                   ], //
                 ),
