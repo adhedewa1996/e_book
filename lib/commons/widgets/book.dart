@@ -6,6 +6,7 @@ import 'package:e_books/commons/extentions/string_ext.dart';
 import 'package:e_books/commons/widgets/animated.dart';
 import 'package:e_books/commons/widgets/buttons.dart';
 import 'package:e_books/commons/widgets/images.dart';
+import 'package:e_books/commons/widgets/shadow_box.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/core/config/constants/data_type.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
@@ -32,13 +33,7 @@ class Book {
           Container(
             decoration: BoxDecoration(
               color: AppColors.whiteMain,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.greyNonActive,
-                  blurRadius: 5,
-                  offset: Offset(5, 5), //
-                ),
-              ],
+              boxShadow: ShadowBox.normal(),
               borderRadius: BorderRadius.circular(8), //
             ),
             padding: EdgeInsets.only(top: 16, left: 16, bottom: 16, right: 8),
@@ -186,7 +181,7 @@ class Book {
         children: [
           Text('Top E-Book Reading', style: context.titleLarge),
           Spacing.vertical(8),
-          tagline(context),
+          RepaintBoundary(child: tagline(context)),
           Spacing.vertical(16),
           GestureDetector(
             onTap: () {
@@ -389,7 +384,7 @@ class _MyWidgetState extends State<ReadProgress> {
             duration: Duration(seconds: 5),
             curve: Curves.fastOutSlowIn,
             width: widget.width * ((initWitdh) / 100),
-            height: 10,
+            height: 6,
             decoration: BoxDecoration(
               color: widget.color ?? AppColors.darkMain,
               borderRadius: BorderRadius.circular(8), //

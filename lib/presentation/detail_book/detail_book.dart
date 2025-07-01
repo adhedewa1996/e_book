@@ -7,12 +7,13 @@ import 'package:e_books/commons/widgets/animated.dart';
 import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/buttons.dart';
 import 'package:e_books/commons/widgets/images.dart';
+import 'package:e_books/commons/widgets/shadow_box.dart';
 import 'package:e_books/commons/widgets/shimmers.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/commons/widgets/state_check.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/core/dependency_injection/services_locator.dart';
-import 'package:e_books/data/sources/recently_read.dart';
+import 'package:e_books/data/sources/local/recently_read.dart';
 import 'package:e_books/domain/entities/book.dart';
 import 'package:e_books/presentation/audio_book_mode/getx/audio_book_controller.dart';
 import 'package:e_books/presentation/detail_book/getx/detail_book_controller.dart';
@@ -22,77 +23,69 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-class DetailBook extends StatefulWidget {
+class DetailBook extends GetView<DetailBooksController> {
   const DetailBook({super.key});
 
   @override
-  State<DetailBook> createState() => _DetailBookState();
-}
-
-class _DetailBookState extends State<DetailBook> {
-  @override
   Widget build(BuildContext context) {
-    return GetBuilder<DetailBooksController>(
-      builder: (controller) {
-        return SafeArea(
-          top: false,
-          bottom: false,
-          child: Scaffold(
-            appBar: null,
-            resizeToAvoidBottomInset: true,
-            backgroundColor: Colors.transparent,
-            extendBodyBehindAppBar: true,
-            extendBody: true,
-            body: PopScope(
-              canPop: true,
-              onPopInvokedWithResult: (didPop, result) {
-                Get.delete<DetailBooksController>();
-              },
-              child: Stack(
-                children: [
-                  Container(
-                    width: Get.width,
-                    height: Get.height,
-                    color: Colors.white,
-                    child: detailBook(context, controller), //
+    return SafeArea(
+      top: false,
+      bottom: false,
+      child: Scaffold(
+        appBar: null,
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        body: PopScope(
+          canPop: true,
+          onPopInvokedWithResult: (didPop, result) {
+            Get.delete<DetailBooksController>();
+          },
+          child: Stack(
+            children: [
+              Container(
+                width: Get.width,
+                height: Get.height,
+                color: Colors.white,
+                child: detailBook(context, controller), //
+              ),
+              Positioned(
+                top: 48,
+                left: 32,
+                child: Container(
+                  width: 56,
+                  height: 56,
+                  margin: const EdgeInsets.only(right: 12, bottom: 32),
+                  decoration: BoxDecoration(
+                    color: AppColors.whiteMain,
+                    boxShadow: ShadowBox.normal(),
+                    borderRadius: BorderRadius.circular(64), //
                   ),
-                  Positioned(
-                    top: 48,
-                    left: 32,
-                    child: Container(
-                      width: 56,
-                      height: 56,
-                      margin: const EdgeInsets.only(right: 12, bottom: 32),
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteMain,
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.greyNonActive,
-                            blurRadius: 2,
-                            offset: Offset(2, 2), //
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(64), //
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          context.pop();
-                          Get.delete<DetailBooksController>();
-                        },
-                        icon: Icon(
-                          Icons.close_rounded,
-                          size: 28, //
-                        ),
-                      ),
+                  child: IconButton(
+                    onPressed: () {
+                      context.pop();
+                      Get.delete<DetailBooksController>();
+                    },
+                    icon: Icon(
+                      Icons.close_rounded,
+                      size: 28, //
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-            bottomNavigationBar: controller.status.isSuccess ? bottomNav(context, controller.book) : null,
+            ],
           ),
-        );
-      },
+        ),
+        bottomNavigationBar: controller.obx(
+          (state) {
+            return bottomNav(context, controller.book.value);
+          },
+          onLoading: SizedBox(),
+          onError: (e) => SizedBox(),
+          onEmpty: SizedBox(),
+        ),
+      ),
     );
   }
 
@@ -155,7 +148,7 @@ class _DetailBookState extends State<DetailBook> {
     );
   }
 
-  Widget bottomNav(BuildContext context, BookEntity? book) {
+  Widget bottomNav(BuildContext context, BookEntity book) {
     return TranslateAnimation(
       offset: (Get.height * .1),
       duration: const Duration(seconds: 3),
@@ -163,7 +156,7 @@ class _DetailBookState extends State<DetailBook> {
         color: Colors.transparent,
         child: Row(
           children: [
-            if (mounted) iconFavorite(item: book!),
+            iconFavorite(item: book),
             Flexible(
               child: Container(
                 height: 60,
@@ -171,13 +164,7 @@ class _DetailBookState extends State<DetailBook> {
                 margin: const EdgeInsets.only(right: 18, bottom: 32),
                 decoration: BoxDecoration(
                   color: AppColors.whiteMain,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.greyNonActive,
-                      blurRadius: 5,
-                      offset: Offset(5, 5), //
-                    ),
-                  ],
+                  boxShadow: ShadowBox.normal(),
                   borderRadius: BorderRadius.circular(64), //
                 ),
                 child: Row(
@@ -186,12 +173,8 @@ class _DetailBookState extends State<DetailBook> {
                     Expanded(
                       child: AppButton.primary(
                         onPressed: () {
-                          try {
-                            context.push(Routes.readingMode, extra: book);
-                            sl<RecentlyReadServices>().put(book!);
-                          } catch (e) {
-                            // print('error $e');
-                          }
+                          context.push(Routes.readingMode, extra: book);
+                          sl<RecentlyReadServices>().put(book);
                         },
                         title: 'START READING',
                         context: context, //
@@ -211,7 +194,6 @@ class _DetailBookState extends State<DetailBook> {
   Widget cover(BuildContext context, BookEntity bookEntity) {
     return Container(
       width: Get.width,
-      // height: Get.width * 1.175,
       padding: EdgeInsets.symmetric(vertical: 60),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -297,7 +279,6 @@ class _DetailBookState extends State<DetailBook> {
           borderRadius: BorderRadius.circular(16),
         ),
         padding: EdgeInsets.only(
-          // top: Get.height * .08,
           right: 32,
           left: 32,
           bottom: Get.height * .2, //
@@ -366,13 +347,7 @@ class _DetailBookState extends State<DetailBook> {
         margin: const EdgeInsets.symmetric(horizontal: 32),
         decoration: BoxDecoration(
           color: AppColors.whiteMain,
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.greyNonActive,
-              blurRadius: 5,
-              offset: Offset(5, 5), //
-            ),
-          ],
+          boxShadow: ShadowBox.normal(),
           borderRadius: BorderRadius.circular(64), //
         ),
         child: Container(

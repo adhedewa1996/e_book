@@ -1,7 +1,11 @@
 import 'package:e_books/commons/widgets/animated.dart';
 import 'package:e_books/commons/widgets/buttons.dart';
+import 'package:e_books/commons/widgets/images.dart';
+import 'package:e_books/commons/widgets/shadow_box.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
+import 'package:e_books/core/config/assets/app_images.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
+import 'package:e_books/presentation/dashboard/getx/dashboard_controller.dart';
 import 'package:e_books/presentation/favorites/favorites.dart';
 import 'package:e_books/presentation/favorites/getx/favorite_controller.dart';
 import 'package:e_books/presentation/home/getx/home_controller.dart';
@@ -9,59 +13,61 @@ import 'package:e_books/presentation/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Dashboard extends StatefulWidget {
+class Dashboard extends GetView<DashboardController> {
   const Dashboard({super.key});
-
-  @override
-  State<Dashboard> createState() => _DashboardState();
-}
-
-class _DashboardState extends State<Dashboard> {
-  int _currentIndex = 0;
-  double? widthHelper;
-
-  ScrollController? scrollController;
-
-  void setIndex(int value) async {
-    _currentIndex = value;
-    widthHelper = Get.width * .3;
-    setState(() {});
-    await Future.delayed(Duration(milliseconds: _currentIndex == 0 ? 2500 : 500));
-    widthHelper = null;
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    scrollController = ScrollController();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Icon(Icons.apps_rounded, color: AppColors.darkMain, size: 36),
+        ),
+        actions: [
+          Icon(Icons.notifications_rounded, color: AppColors.darkMain, size: 36),
+          Spacing.horizontal(8),
+          ClipRRect(
+            borderRadius: BorderRadiusGeometry.circular(100),
+            child: AppImage.assets(
+              name: AppImages.userProfile,
+              width: 42,
+              height: 42, //
+            ),
+          ),
+          Spacing.horizontal(16),
+        ],
+      ),
       body: Stack(
         children: [
-          [
-            Home(),
-            Favorites(
-              callback: () {
-                setIndex(0);
-              },
+          DefaultTabController(
+            length: 2,
+            animationDuration: Duration(seconds: 3),
+            child: TabBarView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: controller.controller,
+              children: [
+                Home(),
+                Favorites(
+                  callback: () {
+                    controller.setIndex(0);
+                  },
+                ),
+              ],
             ),
-          ][_currentIndex],
+          ),
           Obx(() {
-            if (widthHelper != null) {
+            if (controller.widthHelper.value != null) {
               return SizedBox();
             }
             return AnimatedPositioned(
               duration: Duration(seconds: 1),
-              left: (_currentIndex == 0 && !Get.find<HomeController>().isCalled.value) ? 2 : widthHelper,
-              right: _currentIndex == 1 ? 16 : widthHelper,
+              left: (controller.currentIndex.value == 0 && !Get.find<HomeController>().isCalled.value) ? 2 : controller.widthHelper.value,
+              right: controller.currentIndex.value == 1 ? 16 : controller.widthHelper.value,
               bottom: 2,
               child: TranslateAnimation(
-                offset: _currentIndex == 0 ? 40 : -40,
-                duration: Duration(seconds: 2),
+                offset: controller.currentIndex.value == 0 ? 40 : -40,
+                duration: Duration(seconds: 1),
                 offsetDirection: Axis.horizontal,
                 child: Container(
                   width: 56,
@@ -69,18 +75,12 @@ class _DashboardState extends State<Dashboard> {
                   margin: EdgeInsets.only(left: 16, bottom: 32),
                   decoration: BoxDecoration(
                     color: AppColors.darkMain,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.whiteMain.withValues(alpha: 0.7),
-                        blurRadius: 2,
-                        offset: Offset(2, 2), //
-                      ),
-                    ],
+                    boxShadow: ShadowBox.normal(color: AppColors.whiteMain.withValues(alpha: 0.7)),
                     borderRadius: BorderRadius.circular(100), //
                   ),
                   child: IconButton(
                     onPressed: () {
-                      if (_currentIndex == 0) {
+                      if (controller.currentIndex.value == 0) {
                         Get.find<HomeController>().backToTop();
                       } else {
                         Get.find<FavoriteController>().backToTop();
@@ -95,10 +95,10 @@ class _DashboardState extends State<Dashboard> {
           Obx(() {
             return AnimatedPositioned(
               bottom: 32,
-              left: (_currentIndex == 0 && !Get.find<HomeController>().isCalled.value) ? 80 : 16,
-              right: _currentIndex == 1 ? 80 : 16,
-              duration: Duration(seconds: 1),
-              child: bottomNav(), //
+              left: (controller.currentIndex.value == 0 && !Get.find<HomeController>().isCalled.value) ? 80 : 12,
+              right: controller.currentIndex.value == 1 ? 80 : 16,
+              duration: Duration(milliseconds: 500),
+              child: bottomNav(context), //
             );
           }),
         ],
@@ -109,20 +109,14 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  Widget bottomNav() {
+  Widget bottomNav(BuildContext context) {
     return AnimatedContainer(
       duration: Duration(microseconds: 100),
       curve: Curves.fastOutSlowIn,
       padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
       decoration: BoxDecoration(
         color: AppColors.whiteMain,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.greyNonActive,
-            blurRadius: 5,
-            offset: Offset(5, 5), //
-          ),
-        ],
+        boxShadow: ShadowBox.normal(),
         borderRadius: BorderRadius.circular(64), //
       ),
       child: Row(
@@ -132,9 +126,9 @@ class _DashboardState extends State<Dashboard> {
           Expanded(
             child: AppButton.primary(
               onPressed: () {
-                if (_currentIndex != 0) setIndex(0);
+                if (controller.currentIndex.value != 0) controller.setIndex(0);
               },
-              isdisable: _currentIndex != 0,
+              isdisable: controller.currentIndex.value != 0,
               title: 'Home',
               context: context, //
             ),
@@ -143,9 +137,9 @@ class _DashboardState extends State<Dashboard> {
           Expanded(
             child: AppButton.primary(
               onPressed: () {
-                if (_currentIndex != 1) setIndex(1);
+                if (controller.currentIndex.value != 1) controller.setIndex(1);
               },
-              isdisable: _currentIndex != 1,
+              isdisable: controller.currentIndex.value != 1,
               title: 'Bookshelf',
               context: context, //
             ),

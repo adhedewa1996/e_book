@@ -2,6 +2,7 @@ import 'package:e_books/data/model/search.dart';
 import 'package:e_books/domain/entities/book.dart';
 import 'package:e_books/presentation/audio_book_mode/getx/audio_book_binding.dart';
 import 'package:e_books/presentation/dashboard/dashboard.dart';
+import 'package:e_books/presentation/dashboard/getx/dashboard_binding.dart';
 import 'package:e_books/presentation/detail_book/detail_book.dart';
 import 'package:e_books/presentation/detail_book/getx/detail_book_binding.dart';
 import 'package:e_books/presentation/favorites/favorites.dart';
@@ -76,6 +77,7 @@ GoRouter router = GoRouter(
     if (path == Routes.dashboard) {
       HomeBinding().dependencies();
       FavoriteBinding().dependencies();
+      DashboardBinding().dependencies();
     }
     if (path == Routes.readingMode) {
       ReadingModeBinding().dependencies();

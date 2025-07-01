@@ -1,14 +1,14 @@
 import 'dart:convert';
 
+import 'package:e_books/data/model/get_book/detail_book.dart';
 import 'package:flutter/material.dart';
-import 'result.dart';
 
 @immutable
 class GetBook {
   final int? count;
   final String? next;
   final dynamic previous;
-  final List<Result>? results;
+  final List<DetailBook>? results;
 
   const GetBook({this.count, this.next, this.previous, this.results});
 
@@ -21,17 +21,10 @@ class GetBook {
     count: data['count'] as int?,
     next: data['next'] as String?,
     previous: data['previous'] as dynamic,
-    results: (data['results'] as List<dynamic>?)
-        ?.map((e) => Result.fromMap(e as Map<String, dynamic>))
-        .toList(),
+    results: (data['results'] as List<dynamic>?)?.map((e) => DetailBook.fromMap(e as Map<String, dynamic>)).toList(),
   );
 
-  Map<String, dynamic> toMap() => {
-    'count': count,
-    'next': next,
-    'previous': previous,
-    'results': results?.map((e) => e.toMap()).toList(),
-  };
+  Map<String, dynamic> toMap() => {'count': count, 'next': next, 'previous': previous, 'results': results?.map((e) => e.toMap()).toList()};
 
   /// `dart:convert`
   ///
@@ -45,17 +38,7 @@ class GetBook {
   /// Converts [GetBook] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  GetBook copyWith({
-    int? count,
-    String? next,
-    dynamic previous,
-    List<Result>? results,
-  }) {
-    return GetBook(
-      count: count ?? this.count,
-      next: next ?? this.next,
-      previous: previous ?? this.previous,
-      results: results ?? this.results,
-    );
+  GetBook copyWith({int? count, String? next, dynamic previous, List<DetailBook>? results}) {
+    return GetBook(count: count ?? this.count, next: next ?? this.next, previous: previous ?? this.previous, results: results ?? this.results);
   }
 }

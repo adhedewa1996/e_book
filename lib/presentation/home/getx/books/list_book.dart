@@ -58,12 +58,14 @@ class ListBook extends GetView<HomeController> {
                     duration: Duration(milliseconds: 1000 + (index * 10)),
                     offsetDirection: Axis.horizontal,
                     offset: Get.width * .4,
-                    child: Book.smallbook(
-                      bookEntity: item,
-                      context: context,
-                      bookDetailType: bookDetailType,
-                      showDownloads: true,
-                      margin: EdgeInsets.only(bottom: 16), //
+                    child: RepaintBoundary(
+                      child: Book.smallbook(
+                        bookEntity: item,
+                        context: context,
+                        bookDetailType: bookDetailType,
+                        showDownloads: true,
+                        margin: EdgeInsets.only(bottom: 16), //
+                      ),
                     ),
                   );
                 },
@@ -72,17 +74,21 @@ class ListBook extends GetView<HomeController> {
                 },
               ),
               //
-              if (controller.isNoMore.value) StateCheck.noLoadMore(),
-              if (controller.isLoadmore.value)
-                Column(
-                  children: [
-                    Spacing.vertical(16), //
-                    AppShimmers.image(height: Get.height * .15, width: Get.width),
-                    Spacing.vertical(16), //
-                    AppShimmers.image(height: Get.height * .15, width: Get.width),
-                    Spacing.vertical(16), //
-                  ],
-                ),
+              Obx(() {
+                if (controller.isNoMore.value) return StateCheck.noLoadMore();
+                if (controller.isLoadmore.value) {
+                  return Column(
+                    children: [
+                      Spacing.vertical(16), //
+                      AppShimmers.image(height: Get.height * .15, width: Get.width),
+                      Spacing.vertical(16), //
+                      AppShimmers.image(height: Get.height * .15, width: Get.width),
+                      Spacing.vertical(16), //
+                    ],
+                  );
+                }
+                return SizedBox();
+              }),
             ],
           ),
         );

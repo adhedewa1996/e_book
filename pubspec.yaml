@@ -27,6 +27,7 @@ dependencies:
   get_it:
   dio:
   dartz:
+  equatable: 
   logger:
   cached_network_image: ^3.3.1
   shimmer: ^3.0.0
@@ -40,6 +41,7 @@ dependencies:
   mini_music_visualizer:
   avatar_glow:
   super_tooltip:
+  # connectivity_plus: 2.0.0
   # kiosk_mode: 
 
 dev_dependencies:
@@ -47,8 +49,9 @@ dev_dependencies:
     sdk: flutter
   freezed: ^2.5.2
   flutter_lints: ^5.0.0
-  build_runner: ^2.1.0
+  build_runner: ^2.5.4
   json_serializable: 
+  mockito:
   
 flutter:
   assets:

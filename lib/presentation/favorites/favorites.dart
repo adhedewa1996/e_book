@@ -4,61 +4,44 @@ import 'package:e_books/commons/widgets/animated.dart';
 import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/buttons.dart';
 import 'package:e_books/commons/widgets/images.dart';
+import 'package:e_books/commons/widgets/shadow_box.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/commons/widgets/state_check.dart';
-import 'package:e_books/core/config/assets/app_images.dart';
 import 'package:e_books/core/config/constants/data_type.dart';
 import 'package:e_books/core/config/constants/helper.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
-import 'package:e_books/data/repositories/favorite.dart';
+import 'package:e_books/data/repositories/local/favorite.dart';
 import 'package:e_books/presentation/favorites/getx/favorite_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class Favorites extends StatefulWidget {
+class Favorites extends GetView<FavoriteController> {
   const Favorites({
     super.key, //
     this.callback,
   });
 
   final Function()? callback;
-
-  @override
-  State<Favorites> createState() => _FavoritesState();
-}
-
-class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('MY BOOKSHELF', style: context.titleMedium), //
-        titleSpacing: 16,
-        actions: [
-          Icon(Icons.notifications_rounded, color: AppColors.darkMain, size: 36),
-          Spacing.horizontal(8),
-          ClipRRect(
-            borderRadius: BorderRadiusGeometry.circular(100),
-            child: AppImage.assets(
-              name: AppImages.userProfile,
-              width: 42,
-              height: 42, //
-            ),
-          ),
-          Spacing.horizontal(16),
-        ],
-      ),
       body: Container(
         width: Get.width,
         height: Get.height,
         padding: EdgeInsets.symmetric(horizontal: 16),
         color: AppColors.whiteMain,
         child: ListView(
-          controller: Get.find<FavoriteController>().scrollController,
+          controller: controller.scrollController.value,
           shrinkWrap: true,
           children: [
-            Spacing.vertical(16), quote(context), Spacing.vertical(16), list(), Spacing.vertical(Get.height * .15), //
+            Spacing.vertical(16),
+            quote(context),
+            Spacing.vertical(16),
+            list(),
+            Spacing.vertical(
+              Get.height * .15, //
+            ), //
           ], //
         ),
       ),
@@ -69,47 +52,43 @@ class _FavoritesState extends State<Favorites> {
     return TranslateAnimation(
       duration: Duration(seconds: 2),
       offset: -(Get.height * .4),
-      child: Container(
-        constraints: BoxConstraints(maxHeight: 225),
-        width: Get.width, //
-        margin: EdgeInsets.symmetric(horizontal: 8),
-        decoration: BoxDecoration(
-          color: Helper.randomColor(),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.greyNonActive,
-              blurRadius: 5,
-              offset: Offset(5, 5), //
-            ),
-          ],
-          borderRadius: BorderRadius.circular(8), //
-        ),
-        child: Stack(
-          children: [
-            AppImage.randomImageCoverVertical(context),
-            Container(
-              padding: EdgeInsets.all(24),
-              child: Center(
-                child: AnimatedTextKit(
-                  isRepeatingAnimation: true,
-                  pause: Duration(seconds: 1),
-                  repeatForever: true,
-                  onNext: (p0, p1) {
-                    setState(() {});
-                  },
-                  animatedTexts: [
-                    TyperAnimatedText(
-                      Helper.randomQuote(),
-                      textStyle: context.bodyLarge?.toWhite,
-                      textAlign: TextAlign.center, //
-                    ),
-                  ],
-                ),
-              ), //,
-            ),
-          ],
-        ),
-      ),
+      child: Obx(() {
+        return Container(
+          constraints: BoxConstraints(maxHeight: 225),
+          width: Get.width, //
+          margin: EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            color: Helper.randomColor(),
+            boxShadow: ShadowBox.normal(),
+            borderRadius: BorderRadius.circular(8), //
+          ),
+          child: Stack(
+            children: [
+              RepaintBoundary(child: AppImage.randomImageCoverVertical(context)),
+              Container(
+                padding: EdgeInsets.all(24),
+                child: Center(
+                  child: AnimatedTextKit(
+                    isRepeatingAnimation: true,
+                    pause: Duration(seconds: controller.refreshQuote.value ? 1 : 1),
+                    repeatForever: true,
+                    onNext: (p0, p1) {
+                      controller.onRefresh();
+                    },
+                    animatedTexts: [
+                      TyperAnimatedText(
+                        Helper.randomQuote(),
+                        textStyle: context.bodyLarge?.toWhite,
+                        textAlign: TextAlign.center, //
+                      ),
+                    ],
+                  ),
+                ), //,
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
@@ -117,7 +96,7 @@ class _FavoritesState extends State<Favorites> {
     return ValueListenableBuilder(
       valueListenable: FavoriteRepositoryImpl().getBooks().listenable(),
       builder: (context, value, child) {
-        var books = value.values.toList();
+        var books = value.values.toList().reversed.toList();
         if (books.isEmpty) {
           return Column(
             children: [
@@ -128,8 +107,7 @@ class _FavoritesState extends State<Favorites> {
                   width: Get.width * .5,
                   child: AppButton.primary(
                     onPressed: () {
-                      // setIndex(1);
-                      widget.callback?.call();
+                      callback?.call();
                     },
                     isdisable: false,
                     title: 'Add to Bookshelf',

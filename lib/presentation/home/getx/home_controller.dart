@@ -10,11 +10,10 @@ class HomeController extends GetxController with StateMixin<dynamic> {
   final isCalled = false.obs;
   final isNoMore = false.obs;
   final nextPage = 1.obs;
-  ScrollController? scrollController;
+  final scrollController = ScrollController().obs;
 
   @override
   void onInit() {
-    scrollController = ScrollController();
     getData(page: '$nextPage');
     super.onInit();
   }
@@ -23,22 +22,19 @@ class HomeController extends GetxController with StateMixin<dynamic> {
     nextPage.value = 1;
     isLoadmore.value = false;
     getData(page: '${nextPage.value}');
-    update();
   }
 
   void backToTop() {
-    scrollController?.animateTo(0, duration: Duration(seconds: 2), curve: Curves.linear);
+    scrollController.value.animateTo(0, duration: Duration(seconds: 2), curve: Curves.linear);
   }
 
   Future<void> handleLoadmore() async {
     if (isNoMore.value) return;
     if (isCalled.value || isLoadmore.value) return;
     isLoadmore.value = true;
-    update();
     await getData(page: '${nextPage.value}', loadmore: true);
     isLoadmore.value = false;
     isCalled.value = false;
-    update();
   }
 
   Future<void> getData({required String page, bool loadmore = false}) async {
@@ -48,7 +44,6 @@ class HomeController extends GetxController with StateMixin<dynamic> {
     } else {
       isLoadmore.value = true;
     }
-    update();
     final returnedData = await sl<GetBooksUseCase>().call(params: page);
     returnedData.fold(
       (error) {
@@ -62,7 +57,7 @@ class HomeController extends GetxController with StateMixin<dynamic> {
         if (loadmore) {
           isLoadmore.value = false;
           isCalled.value = false;
-          final bookAndPageEntity = data as BookAndPageEntity;
+          final bookAndPageEntity = data;
           listBooks.addAll(bookAndPageEntity.bookEntity);
           if (bookAndPageEntity.page == '0') {
             isNoMore.value = true;
@@ -72,7 +67,7 @@ class HomeController extends GetxController with StateMixin<dynamic> {
           change(data, status: RxStatus.loadingMore());
         } else {
           isCalled.value = false;
-          final bookAndPageEntity = data as BookAndPageEntity;
+          final bookAndPageEntity = data;
           listBooks.value = bookAndPageEntity.bookEntity;
           if (bookAndPageEntity.page == '0') {
             isNoMore.value = true;

@@ -7,7 +7,7 @@ class DetailBooksController extends GetxController with StateMixin<dynamic> {
   final String id;
   DetailBooksController({required this.id});
 
-  late BookEntity? book;
+  final book = BookEntity().obs;
 
   @override
   void onInit() {
@@ -23,10 +23,9 @@ class DetailBooksController extends GetxController with StateMixin<dynamic> {
         change(error, status: RxStatus.error());
       },
       (data) {
-        book = data as BookEntity;
+        book.value = data as BookEntity;
         change(data, status: RxStatus.success());
       },
     );
-    update();
   }
 }

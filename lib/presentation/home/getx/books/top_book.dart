@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:e_books/commons/widgets/animated.dart';
 import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/shimmers.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
@@ -21,9 +19,7 @@ class TopBook extends GetView<HomeController> {
     return controller.obx(
       (state) {
         final book = controller.listBooks[Random().nextInt(controller.listBooks.length - 1)];
-        return TranslateAnimation(
-          duration: Duration(seconds: 2),
-          offset: Get.height * .3,
+        return RepaintBoundary(
           child: SizedBox(
             width: Get.width,
             child: Book.topbook(bookEntity: book, context: context),

@@ -14,31 +14,28 @@ class SearchBookController extends GetxController with StateMixin<dynamic> {
   final isCalled = false.obs;
   final isNoMore = false.obs;
   final nextPage = 1.obs;
-  ScrollController? scrollController;
+  final scrollController = ScrollController().obs;
 
   @override
   void onInit() {
-    scrollController = ScrollController();
     getData(search: search);
     super.onInit();
   }
 
   void backToTop() {
-    scrollController?.animateTo(0, duration: Duration(seconds: 2), curve: Curves.linear);
+    scrollController.value.animateTo(0, duration: Duration(seconds: 2), curve: Curves.linear);
   }
 
   Future<void> handleLoadmore() async {
     if (isNoMore.value) return;
     if (isCalled.value || isLoadmore.value) return;
     isLoadmore.value = true;
-    update();
     await getData(
       search: SearchModel(page: '$nextPage', keyword: search.keyword),
       loadmore: true,
     );
     isLoadmore.value = false;
     isCalled.value = false;
-    update();
   }
 
   Future<void> getData({required SearchModel search, bool loadmore = false}) async {
@@ -48,7 +45,6 @@ class SearchBookController extends GetxController with StateMixin<dynamic> {
     } else {
       isLoadmore.value = true;
     }
-    update();
     final returnedData = await sl<SearchBooksUseCase>().call(params: search);
     returnedData.fold(
       (error) {

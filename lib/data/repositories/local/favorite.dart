@@ -1,3 +1,4 @@
+import 'package:e_books/core/config/constants/data_type.dart';
 import 'package:e_books/domain/entities/book.dart';
 import 'package:e_books/domain/repositories/favorite.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -6,21 +7,21 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   FavoriteRepositoryImpl();
 
   @override
-  Box<BookEntity> getBooks() {
-    Box<BookEntity> favorite = Hive.box('favorite');
-    return favorite;
+  Future<void> add(BookEntity book) async {
+    Box<BookEntity> favorite = Hive.box(ConstantDataType.favorite);
+    await favorite.add(book);
   }
 
   @override
   Future<void> remove(BookEntity book) async {
-    Box<BookEntity> favorite = Hive.box('favorite');
+    Box<BookEntity> favorite = Hive.box(ConstantDataType.favorite);
     final index = favorite.values.toList().indexWhere((element) => book.id == element.id);
     await favorite.deleteAt(index);
   }
 
   @override
-  Future<void> add(BookEntity book) async {
-    Box<BookEntity> favorite = Hive.box('favorite');
-    await favorite.add(book);
+  Box<BookEntity> getBooks() {
+    Box<BookEntity> favorite = Hive.box(ConstantDataType.favorite);
+    return favorite;
   }
 }

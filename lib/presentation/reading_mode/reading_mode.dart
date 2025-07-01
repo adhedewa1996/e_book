@@ -1,6 +1,7 @@
 import 'package:e_books/commons/extentions/media_query_ext.dart';
 import 'package:e_books/commons/widgets/comment.dart';
 import 'package:e_books/commons/widgets/images.dart';
+import 'package:e_books/commons/widgets/shadow_box.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/core/config/assets/app_images.dart';
 import 'package:e_books/core/config/constants/dummy_data.dart';
@@ -22,235 +23,207 @@ class ReadingMode extends GetView<ReadingModeController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ReadingModeController>(
-      builder: (controller) {
-        return PopScope(
-          canPop: true,
-          onPopInvokedWithResult: (didPop, result) {
-            Get.delete<ReadingModeController>();
-          },
-          child: Scaffold(
-            body: Container(
-              width: Get.width,
-              height: Get.height,
-              color: AppColors.whiteMain,
-              //
-              child: Stack(
-                children: [
-                  IntrinsicHeight(
-                    child: OverflowBox(
-                      maxWidth: Get.width,
-                      maxHeight: Get.height,
-                      child: Stack(
-                        children: [
-                          Obx(() {
-                            return Positioned(
-                              top: -controller.offset * 0.5,
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    width: Get.width,
-                                    child: AppImage.assets(
-                                      name: AppImages.medievalBackground,
-                                      fit: BoxFit.fitWidth, //
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: Get.width,
-                                    child: AppImage.assets(
-                                      name: AppImages.medievalBackground,
-                                      fit: BoxFit.fitWidth, //
-                                    ),
-                                  ),
-                                ],
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {
+        Get.delete<ReadingModeController>();
+      },
+      child: Scaffold(
+        body: Container(
+          width: Get.width,
+          height: Get.height,
+          color: AppColors.whiteMain,
+          //
+          child: Stack(
+            children: [
+              IntrinsicHeight(
+                child: OverflowBox(
+                  maxWidth: Get.width,
+                  maxHeight: Get.height,
+                  child: Stack(
+                    children: [
+                      Obx(() {
+                        return Positioned(
+                          top: -controller.offset * 0.5,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                width: Get.width,
+                                child: AppImage.assets(
+                                  name: AppImages.medievalBackground,
+                                  fit: BoxFit.fitWidth, //
+                                ),
                               ),
-                            );
-                          }),
-                          Container(
-                            width: Get.width,
-                            height: Get.height,
-                            // color: AppColors.whiteMain.withValues(alpha: .95), //
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white.withValues(alpha: 0.2), // bottom - fully transparent
-                                  Colors.white.withValues(alpha: 0.3), // bottom - fully transparent
-                                  Colors.white, // top - fully opaque
-                                  Colors.white, // top - fully opaque
-                                  Colors.white, // top - fully opaque
-                                  Colors.white, // top - fully opaque
-                                  Colors.white, // top - fully opaque
-                                ],
+                              SizedBox(
+                                width: Get.width,
+                                child: AppImage.assets(
+                                  name: AppImages.medievalBackground,
+                                  fit: BoxFit.fitWidth, //
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  story(storyEntity: DummyData.story, context: context),
-                  Positioned(
-                    top: 0,
-                    child: Container(
-                      height: 100, // or any height you want
-                      width: Get.width,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.white, // top - fully opaque
-                            Colors.white, // top - fully opaque
-                            Colors.white, // top - fully opaque
-                            Colors.white, // top - fully opaque
-                            Colors.white.withValues(alpha: 0.8), // bottom - fully transparent
-                            Colors.white.withValues(alpha: 0.6), // bottom - fully transparent
-                            Colors.white.withValues(alpha: 0.4), // bottom - fully transparent
-                            Colors.white.withValues(alpha: 0.2), // bottom - fully transparent
-                            Colors.white.withValues(alpha: 0.0), // bottom - fully transparent
-                          ],
+                        );
+                      }),
+                      Container(
+                        width: Get.width,
+                        height: Get.height,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.white.withValues(alpha: 0.2),
+                              Colors.white.withValues(alpha: 0.3),
+                              Colors.white,
+                              Colors.white,
+                              Colors.white,
+                              Colors.white,
+                              Colors.white, //
+                            ],
+                          ),
                         ),
                       ),
+                    ],
+                  ),
+                ),
+              ),
+              story(storyEntity: DummyData.story, context: context),
+              Positioned(
+                top: 0,
+                child: Container(
+                  height: 100, // or any height you want
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white,
+                        Colors.white,
+                        Colors.white,
+                        Colors.white,
+                        Colors.white.withValues(alpha: 0.8),
+                        Colors.white.withValues(alpha: 0.6),
+                        Colors.white.withValues(alpha: 0.4),
+                        Colors.white.withValues(alpha: 0.2),
+                        Colors.white.withValues(alpha: 0.0), //
+                      ],
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    child: Container(
-                      height: 100, // or any height you want
-                      width: Get.width,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.white.withValues(alpha: 0.0), // bottom - fully transparent
-                            Colors.white.withValues(alpha: 0.3), // bottom - fully transparent
-                            Colors.white.withValues(alpha: 0.7), // bottom - fully transparent
-                            Colors.white, // top - fully opaque
-                            Colors.white, // top - fully opaque
-                            Colors.white, // top - fully opaque
-                          ],
-                        ),
-                      ),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  height: 100,
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white.withValues(alpha: 0.0), Colors.white.withValues(alpha: 0.3), Colors.white.withValues(alpha: 0.7), Colors.white, Colors.white, Colors.white, //
+                      ],
                     ),
                   ),
-                  Align(
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: Get.width,
+                  height: 6,
+                  margin: EdgeInsets.only(bottom: 32, left: 100, right: 100),
+                  decoration: BoxDecoration(
+                    color: AppColors.greyTeritary,
+                    borderRadius: BorderRadius.circular(100), //
+                  ),
+                ),
+              ),
+              Obx(() {
+                if (controller.progress > 0.01) {
+                  return Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      width: Get.width,
+                      width: (controller.progress * (Get.width - 200)),
                       height: 6,
                       margin: EdgeInsets.only(bottom: 32, left: 100, right: 100),
                       decoration: BoxDecoration(
-                        color: AppColors.greyTeritary,
+                        color: AppColors.darkMain,
                         borderRadius: BorderRadius.circular(100), //
                       ),
                     ),
+                  );
+                }
+                return SizedBox();
+              }),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  width: 56,
+                  height: 56,
+                  margin: EdgeInsets.only(left: 32, top: 48),
+                  decoration: BoxDecoration(
+                    color: AppColors.whiteMain,
+                    boxShadow: ShadowBox.normal(),
+                    borderRadius: BorderRadius.circular(100), //
                   ),
-                  Obx(() {
-                    if (controller.progress > 0.01) {
-                      return Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          width: (controller.progress * (Get.width - 200)),
-                          height: 6,
-                          margin: EdgeInsets.only(bottom: 32, left: 100, right: 100),
-                          decoration: BoxDecoration(
-                            color: AppColors.darkMain,
-                            borderRadius: BorderRadius.circular(100), //
-                          ),
-                        ),
-                      );
-                    }
-                    return SizedBox();
-                  }),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Container(
-                      width: 56,
-                      height: 56,
-                      margin: EdgeInsets.only(left: 32, top: 48),
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteMain,
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.greyNonActive,
-                            blurRadius: 5,
-                            offset: Offset(5, 5), //
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(100), //
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          Get.delete<ReadingModeController>();
-                          context.pop();
-                        },
-                        icon: Icon(Icons.close_rounded), //
-                      ),
-                    ),
+                  child: IconButton(
+                    onPressed: () {
+                      Get.delete<ReadingModeController>();
+                      context.pop();
+                    },
+                    icon: Icon(Icons.close_rounded), //
                   ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
-                      width: 56,
-                      height: 56,
-                      margin: EdgeInsets.only(right: 32, bottom: 48),
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteMain,
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.greyNonActive,
-                            blurRadius: 5,
-                            offset: Offset(5, 5), //
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(100), //
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          controller.scrollController?.animateTo(0, duration: Duration(seconds: 2), curve: Curves.easeIn).then((a) {
-                            controller.progress.value = 0;
-                          });
-                        },
-                        icon: Icon(Icons.keyboard_arrow_up_rounded), //
-                      ),
-                    ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Container(
+                  width: 56,
+                  height: 56,
+                  margin: EdgeInsets.only(right: 32, bottom: 48),
+                  decoration: BoxDecoration(
+                    color: AppColors.whiteMain,
+                    boxShadow: ShadowBox.normal(),
+                    borderRadius: BorderRadius.circular(100), //
                   ),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
-                      width: 56,
-                      height: 56,
-                      margin: EdgeInsets.only(left: 32, bottom: 48),
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteMain,
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.greyNonActive,
-                            blurRadius: 5,
-                            offset: Offset(5, 5), //
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(100), //
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          final audio = Get.find<AudioBookController>();
-                          audio.setBook(bookEntity);
-                          audio.smallmode(reInit: true);
-                        },
-                        icon: Icon(Icons.play_circle_filled_rounded, size: 32), //
-                      ),
-                    ),
+                  child: IconButton(
+                    onPressed: () {
+                      controller.scrollController?.animateTo(0, duration: Duration(seconds: 2), curve: Curves.easeIn).then((a) {
+                        controller.progress.value = 0;
+                      });
+                    },
+                    icon: Icon(Icons.keyboard_arrow_up_rounded), //
                   ),
-                ],
-              ), //
-            ), //
-          ),
-        );
-      },
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  width: 56,
+                  height: 56,
+                  margin: EdgeInsets.only(left: 32, bottom: 48),
+                  decoration: BoxDecoration(
+                    color: AppColors.whiteMain,
+                    boxShadow: ShadowBox.normal(),
+                    borderRadius: BorderRadius.circular(100), //
+                  ),
+                  child: IconButton(
+                    onPressed: () {
+                      final audio = Get.find<AudioBookController>();
+                      audio.setBook(bookEntity);
+                      audio.smallmode(reInit: true);
+                    },
+                    icon: Icon(Icons.play_circle_filled_rounded, size: 32), //
+                  ),
+                ),
+              ),
+            ],
+          ), //
+        ), //
+      ),
     );
   }
 

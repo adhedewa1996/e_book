@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FavoriteController extends GetxController {
-  ScrollController? scrollController;
+  final scrollController = ScrollController().obs;
+  final refreshQuote = true.obs;
 
-  @override
-  void onInit() {
-    scrollController = ScrollController();
-    super.onInit();
+  void onRefresh() {
+    refreshQuote.value = !refreshQuote.value;
   }
 
   void backToTop() {
-    scrollController?.animateTo(0, duration: Duration(seconds: 2), curve: Curves.linear);
+    scrollController.value.animateTo(0, duration: Duration(seconds: 2), curve: Curves.linear);
   }
 }

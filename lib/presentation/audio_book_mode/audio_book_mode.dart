@@ -6,11 +6,12 @@ import 'package:e_books/commons/extentions/media_query_ext.dart';
 import 'package:e_books/commons/widgets/animated.dart';
 import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/images.dart';
+import 'package:e_books/commons/widgets/shadow_box.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/core/config/assets/app_vectors.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/core/dependency_injection/services_locator.dart';
-import 'package:e_books/data/sources/recently_read.dart';
+import 'package:e_books/data/sources/local/recently_read.dart';
 import 'package:e_books/domain/entities/book.dart';
 import 'package:e_books/presentation/audio_book_mode/getx/audio_book_controller.dart';
 import 'package:e_books/routing/app_routes.dart';
@@ -22,10 +23,7 @@ import 'package:mini_music_visualizer/mini_music_visualizer.dart';
 class AudioBookMode extends GetView<AudioBookController> {
   const AudioBookMode({
     super.key, //
-    // required this.routeContext,
   });
-
-  // final BuildContext routeContext;
 
   @override
   Widget build(BuildContext context) {
@@ -33,102 +31,98 @@ class AudioBookMode extends GetView<AudioBookController> {
       if (controller.audioMode.value == 0) {
         return SizedBox();
       }
-      return Stack(
-        children: [
-          Positioned(
-            bottom: controller.bottom.value,
-            left: controller.left.value,
-            right: controller.right.value,
-            child: TranslateAnimation(
-              duration: Duration(seconds: 1),
-              offset: Get.height * .3,
-              child: AvatarGlow(
-                startDelay: const Duration(milliseconds: 1000),
-                glowColor: AppColors.greenMain,
-                glowShape: BoxShape.circle,
-                curve: Curves.fastOutSlowIn,
-                glowRadiusFactor: controller.audioMode.value == 1 ? .5 : 0,
-                child: Container(
-                  constraints: BoxConstraints(minWidth: 55, minHeight: 55),
-                  width: controller.width.value,
-                  height: controller.height.value,
-                  decoration: BoxDecoration(
-                    color: AppColors.darkMain, //
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.whiteMain.withValues(alpha: .9),
-                        blurRadius: 5,
-                        offset: Offset(5, 5), //
+      return RepaintBoundary(
+        child: Stack(
+          children: [
+            Positioned(
+              bottom: controller.bottom.value,
+              left: controller.left.value,
+              right: controller.right.value,
+              child: TranslateAnimation(
+                duration: Duration(seconds: 1),
+                offset: Get.height * .3,
+                child: AvatarGlow(
+                  startDelay: const Duration(milliseconds: 1000),
+                  glowColor: AppColors.greenMain,
+                  glowShape: BoxShape.circle,
+                  curve: Curves.fastOutSlowIn,
+                  glowRadiusFactor: controller.audioMode.value == 1 ? .5 : 0,
+                  child: Container(
+                    constraints: BoxConstraints(minWidth: 55, minHeight: 55),
+                    width: controller.width.value,
+                    height: controller.height.value,
+                    decoration: BoxDecoration(
+                      color: AppColors.darkMain, //
+                      boxShadow: ShadowBox.normal(color: AppColors.whiteMain.withValues(alpha: .9)),
+                      borderRadius: BorderRadius.circular(controller.audioMode.value == 1 ? 100 : 8), //
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadiusGeometry.circular(controller.audioMode.value == 1 ? 100 : 8),
+                      child: AppImage.svg(
+                        name: AppVectors.waveBig2,
+                        fit: BoxFit.cover,
+                        width: Get.width,
+                        height: Get.height, //
                       ),
-                    ],
-                    borderRadius: BorderRadius.circular(controller.audioMode.value == 1 ? 100 : 8), //
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(controller.audioMode.value == 1 ? 100 : 8),
-                    child: AppImage.svg(
-                      name: AppVectors.waveBig2,
-                      fit: BoxFit.cover,
-                      width: Get.width,
-                      height: Get.height, //
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: controller.bottom.value,
-            left: controller.left.value,
-            right: controller.right.value,
-            child: TranslateAnimation(
-              duration: Duration(seconds: 1),
-              offset: Get.height * .3,
-              child: Stack(
-                children: [
-                  Container(
-                    constraints: BoxConstraints(minWidth: 55, minHeight: 55),
-                    width: controller.width.value,
-                    height: controller.height.value,
-                    decoration: BoxDecoration(
-                      color: AppColors.darkMain.withValues(alpha: 0.35), //
-                      borderRadius: BorderRadius.circular(controller.audioMode.value == 1 ? 100 : 8), //
-                    ),
-                    //
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        if (controller.audioMode.value == 3) fullmode(book: controller.bookEntity, context: context),
-                        if (controller.audioMode.value == 2) smallmode(book: controller.bookEntity, context: context),
-                        if (controller.audioMode.value == 1) iconmode(book: controller.bookEntity, context: context, controller: controller),
-                        if (controller.audioMode.value > 1)
-                          buttons(
-                            controller: controller,
-                            context: context, //
-                          ),
-                      ],
-                    ),
-                  ),
-                  if (controller.audioMode.value > 1)
-                    Positioned(
-                      top: 4,
-                      right: 4,
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        child: box(
-                          callback: () {
-                            controller.removeAudioMode();
-                          },
-                          context: context,
-                          icon: Icons.close_outlined,
-                          usePadding: true,
-                        ),
+            Positioned(
+              bottom: controller.bottom.value,
+              left: controller.left.value,
+              right: controller.right.value,
+              child: TranslateAnimation(
+                duration: Duration(seconds: 1),
+                offset: Get.height * .3,
+                child: Stack(
+                  children: [
+                    Container(
+                      constraints: BoxConstraints(minWidth: 55, minHeight: 55),
+                      width: controller.width.value,
+                      height: controller.height.value,
+                      decoration: BoxDecoration(
+                        color: AppColors.darkMain.withValues(alpha: 0.35), //
+                        borderRadius: BorderRadius.circular(controller.audioMode.value == 1 ? 100 : 8), //
+                      ),
+                      //
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          if (controller.audioMode.value == 3) fullmode(book: controller.bookEntity, context: context),
+                          if (controller.audioMode.value == 2) smallmode(book: controller.bookEntity, context: context),
+                          if (controller.audioMode.value == 1) iconmode(book: controller.bookEntity, context: context, controller: controller),
+                          if (controller.audioMode.value > 1)
+                            buttons(
+                              controller: controller,
+                              context: context, //
+                            ),
+                        ],
                       ),
                     ),
-                ],
+                    if (controller.audioMode.value > 1)
+                      Positioned(
+                        top: 4,
+                        right: 4,
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          child: box(
+                            callback: () {
+                              controller.removeAudioMode();
+                            },
+                            context: context,
+                            icon: Icons.close_outlined,
+                            usePadding: true,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     });
   }

@@ -36,7 +36,7 @@ class StateCheck {
         Spacing.vertical(64), //
         AppImage.svg(name: AppVectors.iconCancel, width: 32),
         Spacing.vertical(16), //
-        Text('Some Error Occure!\n $error'),
+        Text('Hmm… that didn’t work. Let’s try that again.\n $error', textAlign: TextAlign.center),
         Spacing.vertical(64), //
       ],
     );

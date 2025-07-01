@@ -1,5 +1,5 @@
-import 'package:e_books/data/sources/favorite.dart';
-import 'package:e_books/data/sources/recently_read.dart';
+import 'package:e_books/data/sources/local/favorite.dart';
+import 'package:e_books/data/sources/local/recently_read.dart';
 import 'package:e_books/domain/entities/book.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';

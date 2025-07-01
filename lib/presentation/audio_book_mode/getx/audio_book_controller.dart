@@ -31,7 +31,6 @@ class AudioBookController extends GetxController with StateMixin<dynamic> {
       height.value = 190;
       width.value = Get.width * .8;
       audioMode.value = 3;
-      await Future.delayed(Duration(milliseconds: 700));
       delay.value = false;
     }
   }
@@ -48,7 +47,6 @@ class AudioBookController extends GetxController with StateMixin<dynamic> {
       height.value = 132;
       width.value = Get.width * .8;
       audioMode.value = 2;
-      await Future.delayed(Duration(milliseconds: 700));
       delay.value = false;
     }
   }
@@ -62,7 +60,6 @@ class AudioBookController extends GetxController with StateMixin<dynamic> {
       height.value = 55;
       width.value = 55;
       audioMode.value = 1;
-      await Future.delayed(Duration(milliseconds: 700));
       delay.value = false;
     }
   }

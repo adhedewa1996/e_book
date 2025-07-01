@@ -1,9 +1,8 @@
 import 'dart:convert';
 
+import 'package:e_books/data/model/get_book/author.dart';
+import 'package:e_books/data/model/get_book/formats.dart';
 import 'package:flutter/material.dart';
-
-import 'author.dart';
-import 'formats.dart';
 
 @immutable
 class DetailBook {

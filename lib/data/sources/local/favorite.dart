@@ -17,12 +17,6 @@ class FavoriteServicesImpl extends FavoriteServices {
   }
 
   @override
-  Future<Box<BookEntity>> getBooks() async {
-    final list = sl<FavoriteRepository>().getBooks();
-    return list;
-  }
-
-  @override
   Future<void> add(BookEntity book) async {
     await sl<FavoriteRepository>().add(book);
   }
@@ -30,5 +24,11 @@ class FavoriteServicesImpl extends FavoriteServices {
   @override
   Future<void> remove(BookEntity book) async {
     await sl<FavoriteRepository>().remove(book);
+  }
+
+  @override
+  Future<Box<BookEntity>> getBooks() async {
+    final list = sl<FavoriteRepository>().getBooks();
+    return list;
   }
 }

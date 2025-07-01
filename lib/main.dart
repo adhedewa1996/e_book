@@ -1,7 +1,8 @@
+// import 'package:e_books/commons/widgets/app_connection.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/core/config/theme/app_themes.dart';
 import 'package:e_books/core/dependency_injection/services_locator.dart';
-import 'package:e_books/data/sources/hive.dart';
+import 'package:e_books/data/sources/local/_hive.dart';
 import 'package:e_books/routing/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +21,8 @@ Future<void> main() async {
 
   await sl<HiveServices>().init(); // INIT LOCAL STORAGE
 
+  // AppConnection.init();
+
   runApp(ScreenUtils()); // RUN APP
 }
 
@@ -37,20 +40,15 @@ class ScreenUtils extends StatelessWidget {
   }
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1)),
       child: GetMaterialApp(
-        title: 'E-BOOKS',
+        title: 'E-BOOKS APPS',
         debugShowCheckedModeBanner: false,
         home: Stack(
           children: [
@@ -60,7 +58,7 @@ class _MyAppState extends State<MyApp> {
               theme: AppTheme.lightTheme,
               routerConfig: router, //
             ),
-            if (mounted) AudioBookMode(),
+            AudioBookMode(),
           ],
         ),
       ),

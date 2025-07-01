@@ -2,6 +2,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:e_books/commons/extentions/media_query_ext.dart';
 import 'package:e_books/commons/widgets/book.dart';
 import 'package:e_books/commons/widgets/images.dart';
+import 'package:e_books/commons/widgets/shadow_box.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/core/config/assets/app_images.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
@@ -33,13 +34,7 @@ class Comment {
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: AppColors.whiteMain,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.greyNonActive,
-                    blurRadius: 5,
-                    offset: Offset(5, 5), //
-                  ),
-                ],
+                boxShadow: ShadowBox.normal(),
                 borderRadius: BorderRadius.circular(8), //
               ),
               child: Column(
@@ -82,6 +77,12 @@ class _CommentToolTipState extends State<CommentToolTip> {
 
   void makeTooltip() {
     _controller.showTooltip();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override

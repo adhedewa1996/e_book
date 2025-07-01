@@ -4,6 +4,7 @@ import 'package:e_books/commons/extentions/media_query_ext.dart';
 import 'package:e_books/commons/extentions/string_ext.dart';
 import 'package:e_books/commons/widgets/animated.dart';
 import 'package:e_books/commons/widgets/book.dart';
+import 'package:e_books/commons/widgets/shadow_box.dart';
 import 'package:e_books/commons/widgets/spacing.dart';
 import 'package:e_books/commons/widgets/textfield.dart';
 import 'package:e_books/core/config/constants/dummy_data.dart';
@@ -43,7 +44,7 @@ class Search extends StatelessWidget {
             children: [
               Text('Find Awesome Book', style: context.bodyLarge),
               Spacing.vertical(4),
-              Book.tagline(context),
+              RepaintBoundary(child: Book.tagline(context)),
               Spacing.vertical(4),
               AppTextField(
                 context: context,
@@ -59,7 +60,7 @@ class Search extends StatelessWidget {
               Spacing.vertical(32),
               Wrap(
                 children: [
-                  for (int i = 0; i < DummyData.popularBookTopics.length; i++) box(DummyData.popularBookTopics[i], context, i), //
+                  for (int i = 0; i < DummyData.popularBookTopics.length; i++) RepaintBoundary(child: box(DummyData.popularBookTopics[i], context, i)), //
                 ],
               ),
               //
@@ -84,13 +85,7 @@ class Search extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 28, right: 20),
             decoration: BoxDecoration(
               color: AppColors.whiteMain,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.greyNonActive,
-                  blurRadius: 5,
-                  offset: Offset(5, 5), //
-                ),
-              ],
+              boxShadow: ShadowBox.normal(),
               borderRadius: BorderRadius.circular(8), //
             ),
             child: Stack(
