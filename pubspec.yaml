@@ -41,7 +41,7 @@ dependencies:
   mini_music_visualizer:
   avatar_glow:
   super_tooltip:
-  # connectivity_plus: 2.0.0
+  connectivity_plus: ^6.1.4
   # kiosk_mode: 
 
 dev_dependencies:

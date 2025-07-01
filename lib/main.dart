@@ -1,4 +1,5 @@
 // import 'package:e_books/commons/widgets/app_connection.dart';
+import 'package:e_books/commons/widgets/app_connection.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/core/config/theme/app_themes.dart';
 import 'package:e_books/core/dependency_injection/services_locator.dart';
@@ -21,7 +22,7 @@ Future<void> main() async {
 
   await sl<HiveServices>().init(); // INIT LOCAL STORAGE
 
-  // AppConnection.init();
+  AppConnection.init();
 
   runApp(ScreenUtils()); // RUN APP
 }

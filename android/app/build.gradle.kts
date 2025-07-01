@@ -6,7 +6,8 @@ plugins {
 }
 
 android {
-    namespace = "com.example.e_books"
+    namespace = "com.example.ebooks"
+//    namespace = "com.example.application"
     compileSdk = flutter.compileSdkVersion
     // ndkVersion = flutter.ndkVersion
     ndkVersion = "27.0.12077973"
