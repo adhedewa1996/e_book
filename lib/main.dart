@@ -1,11 +1,11 @@
 // import 'package:e_books/commons/widgets/app_connection.dart';
-import 'package:e_books/commons/widgets/app_connection.dart';
 import 'package:e_books/core/config/theme/app_colors.dart';
 import 'package:e_books/core/config/theme/app_themes.dart';
 import 'package:e_books/core/dependency_injection/services_locator.dart';
 import 'package:e_books/data/sources/local/_hive.dart';
 import 'package:e_books/routing/route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +22,10 @@ Future<void> main() async {
 
   await sl<HiveServices>().init(); // INIT LOCAL STORAGE
 
-  AppConnection.init();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp, //
+  ]);
 
   runApp(ScreenUtils()); // RUN APP
 }

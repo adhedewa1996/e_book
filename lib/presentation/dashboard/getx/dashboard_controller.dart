@@ -9,12 +9,7 @@ class DashboardController extends GetxController with StateMixin<dynamic>, GetSi
   @override
   void onInit() {
     controller = TabController(length: 2, vsync: this);
-    controller?.addListener(listener);
     super.onInit();
-  }
-
-  void listener() {
-    setIndex(controller?.index ?? 0);
   }
 
   void setIndex(int value) async {

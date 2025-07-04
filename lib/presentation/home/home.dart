@@ -21,59 +21,58 @@ class Home extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return Scaffold(
-        body: RefreshIndicator(
-          onRefresh: () async {
-            controller.onRefresh();
+      return RefreshIndicator(
+        onRefresh: () async {
+          controller.onRefresh();
+        },
+        displacement: Get.height * .1,
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification notification) {
+            if ((controller.scrollController.value.position.pixels) > ((controller.scrollController.value.position.maxScrollExtent) * .9)) {
+              Get.find<HomeController>().handleLoadmore();
+            }
+            return false;
           },
-          child: NotificationListener<ScrollNotification>(
-            onNotification: (ScrollNotification notification) {
-              if ((controller.scrollController.value.position.pixels) > ((controller.scrollController.value.position.maxScrollExtent) * .98)) {
-                Get.find<HomeController>().handleLoadmore();
-              }
-              return false;
-            },
-            child: Container(
-              width: Get.width,
-              height: Get.height,
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              color: AppColors.whiteMain,
-              child: ListView(
-                controller: controller.scrollController.value,
-                physics: ClampingScrollPhysics(),
-                shrinkWrap: true,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: GestureDetector(
-                      onTap: () {
-                        context.push(Routes.search);
-                      },
-                      child: AppTextField(
-                        context: context,
-                        hint: 'Search',
-                        enabled: false,
-                        controller: TextEditingController(), //
-                      ),
+          child: Container(
+            width: Get.width,
+            height: Get.height,
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            color: AppColors.whiteMain,
+            child: ListView(
+              controller: controller.scrollController.value,
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: GestureDetector(
+                    onTap: () {
+                      context.push(Routes.search);
+                    },
+                    child: AppTextField(
+                      context: context,
+                      hint: 'Search',
+                      enabled: false,
+                      controller: TextEditingController(), //
                     ),
                   ),
-                  Spacing.vertical(8),
-                  TopBook(),
-                  Spacing.vertical(8),
-                  RepaintBoundary(child: ContinueReading()),
-                  Spacing.vertical(32),
-                  ListBook(
-                    bookDetailType: BookDetailType.star,
-                    header: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Recommended Books', style: context.bodyLarge), Spacing.vertical(8),
-                        RepaintBoundary(child: Book.recommendedBook(context)), //
-                      ],
-                    ),
+                ),
+                Spacing.vertical(8),
+                TopBook(),
+                Spacing.vertical(8),
+                RepaintBoundary(child: ContinueReading()),
+                Spacing.vertical(32),
+                ListBook(
+                  bookDetailType: BookDetailType.star,
+                  header: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Recommended Books', style: context.bodyLarge), Spacing.vertical(8),
+                      RepaintBoundary(child: Book.recommendedBook(context)), //
+                    ],
                   ),
-                ], //
-              ),
+                ),
+              ], //
             ),
           ),
         ),

@@ -240,6 +240,7 @@ class Book {
     required double gap,
     required double gapBorderRadius,
     required double borderRadius,
+    BoxFit? fit, //
   }) {
     return Stack(
       children: [
@@ -259,6 +260,7 @@ class Book {
               url: cover ?? '', //
               width: width - gap,
               height: height - gap,
+              fit: fit,
             ), //
           ),
         ),

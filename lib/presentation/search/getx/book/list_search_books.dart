@@ -101,7 +101,11 @@ class ListSearchBook extends GetView<SearchBookController> {
           AppShimmers.image(height: Get.height * .15, width: Get.width), //
         ],
       ),
-      onError: (error) => StateCheck.error(error: error),
+      onError: (error) => SizedBox(
+        width: Get.width,
+        height: Get.height,
+        child: StateCheck.error(error: error), //
+      ),
       onEmpty: StateCheck.empty(),
     );
   }

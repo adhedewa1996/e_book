@@ -37,8 +37,18 @@ class Favorites extends GetView<FavoriteController> {
           children: [
             Spacing.vertical(16),
             quote(context),
-            Spacing.vertical(16),
-            list(),
+            Spacing.vertical(32),
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('My Books', style: context.bodyLarge),
+                  Spacing.vertical(8),
+                  list(),
+                ],
+              ),
+            ),
             Spacing.vertical(
               Get.height * .15, //
             ), //
@@ -98,24 +108,28 @@ class Favorites extends GetView<FavoriteController> {
       builder: (context, value, child) {
         var books = value.values.toList().reversed.toList();
         if (books.isEmpty) {
-          return Column(
-            children: [
-              StateCheck.empty(),
-              Transform.translate(
-                offset: Offset(0, -48),
-                child: SizedBox(
-                  width: Get.width * .5,
-                  child: AppButton.primary(
-                    onPressed: () {
-                      callback?.call();
-                    },
-                    isdisable: false,
-                    title: 'Add to Bookshelf',
-                    context: context, //
+          return SizedBox(
+            width: Get.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                StateCheck.empty(),
+                Transform.translate(
+                  offset: Offset(0, -48),
+                  child: SizedBox(
+                    width: Get.width * .5,
+                    child: AppButton.primary(
+                      onPressed: () {
+                        callback?.call();
+                      },
+                      isdisable: false,
+                      title: 'Add to Bookshelf',
+                      context: context, //
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }
         return SizedBox(

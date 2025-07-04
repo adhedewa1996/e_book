@@ -22,6 +22,10 @@ class SearchBookController extends GetxController with StateMixin<dynamic> {
     super.onInit();
   }
 
+  void onRefresh() {
+    getData(search: search);
+  }
+
   void backToTop() {
     scrollController.value.animateTo(0, duration: Duration(seconds: 2), curve: Curves.linear);
   }

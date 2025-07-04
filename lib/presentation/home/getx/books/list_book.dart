@@ -30,7 +30,7 @@ class ListBook extends GetView<HomeController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            header, Spacing.vertical(16), books(), //
+            header, books(), //
           ],
         ), //
       ),
@@ -42,7 +42,7 @@ class ListBook extends GetView<HomeController> {
       (state) {
         final data = controller.listBooks;
         return Container(
-          padding: EdgeInsets.only(top: 24),
+          padding: EdgeInsets.only(top: 16),
           width: Get.width,
           child: ListView(
             shrinkWrap: true,

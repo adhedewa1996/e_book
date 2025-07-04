@@ -308,6 +308,7 @@ class AudioBookMode extends GetView<AudioBookController> {
               gap: 4,
               gapBorderRadius: controller.audioMode.value == 1 ? 100 : 4,
               borderRadius: controller.audioMode.value == 1 ? 100 : 4, //
+              fit: BoxFit.cover,
             ),
             Container(
               width: 45,

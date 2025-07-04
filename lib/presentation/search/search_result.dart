@@ -44,14 +44,17 @@ class SearchResult extends GetView<SearchBookController> {
             ),
             title: Text("Search Result", style: context.titleMedium),
           ),
-          body: NotificationListener<ScrollNotification>(
-            onNotification: (ScrollNotification notification) {
-              if ((controller.scrollController.value.position.pixels) > ((controller.scrollController.value.position.maxScrollExtent) * .98)) {
-                Get.find<SearchBookController>().handleLoadmore();
-              }
-              return false;
+          body: RefreshIndicator(
+            onRefresh: () async {
+              controller.onRefresh();
             },
-            child: SafeArea(
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (ScrollNotification notification) {
+                if ((controller.scrollController.value.position.pixels) > ((controller.scrollController.value.position.maxScrollExtent) * .98)) {
+                  Get.find<SearchBookController>().handleLoadmore();
+                }
+                return false;
+              },
               child: ListView(
                 controller: controller.scrollController.value,
                 padding: EdgeInsets.symmetric(horizontal: 8),

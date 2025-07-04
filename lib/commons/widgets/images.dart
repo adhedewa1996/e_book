@@ -19,11 +19,13 @@ class AppImage {
     required String url,
     double? width,
     double? height, //
+    BoxFit? fit, //
   }) {
     return AppImageCache(
       url,
       width: width,
       height: height, //
+      fit: fit,
     );
   }
 
